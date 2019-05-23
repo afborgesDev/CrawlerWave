@@ -7,7 +7,7 @@ namespace CrabsWave.Core
 {
     public partial class Crawler : ICrawler
     {
-        private readonly ILogger<Crawler> Logger;
+        private readonly ILogger<ICrawler> Logger;
         private string[] Capabilities;
         private bool Verbose;
 
@@ -21,7 +21,6 @@ namespace CrabsWave.Core
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
                 }
 
                 disposedValue = true;
@@ -41,7 +40,7 @@ namespace CrabsWave.Core
         /// Creates a new instance of Crawler buiding the behaviors to Webdriver and for the crawler, also init the driver with all checks
         /// </summary>
         /// <param name="logger">Dependency  injection for ILogger</param>
-        public Crawler(ILogger<Crawler> logger) => Logger = logger;
+        public Crawler(ILogger<ICrawler> logger) => Logger = logger;
         #endregion
 
         public void Initializate(Behavior behavior)

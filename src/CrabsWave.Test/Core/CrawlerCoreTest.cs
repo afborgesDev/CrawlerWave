@@ -1,5 +1,4 @@
 ﻿using CrabsWave.Core;
-using CrabsWave.Core.Configurations;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -13,7 +12,7 @@ namespace CrabsWave.Test.Core
         public void ShouldCreateWithDefaultParameters()
         {
             var loggerMoq = new Mock<ILogger<Crawler>>();
-            var sut = new Crawler(new Behavior(), loggerMoq.Object);
+            var sut = new Crawler(loggerMoq.Object);
 
             sut.Should().NotBeNull();
             loggerMoq.VerifyLog(LogLevel.Information, "Crawler created, starting to configure", Times.Once());

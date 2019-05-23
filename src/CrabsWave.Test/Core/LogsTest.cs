@@ -13,7 +13,8 @@ namespace CrabsWave.Test.Core
         public void ShouldWriteLogInformation()
         {
             var loggerMoq = new Mock<ILogger<Crawler>>();
-            var sut = new Crawler(new CrabsWave.Core.Configurations.Behavior() { Verbose = true }, loggerMoq.Object);
+            var sut = new Crawler(loggerMoq.Object);
+            sut.Initializate(new CrabsWave.Core.Configurations.Behavior() { Verbose = true });
 
             sut.LoginformationAsync(ExampleMessage);
             loggerMoq.VerifyLog(LogLevel.Information, ExampleMessage, Times.Once());
@@ -23,7 +24,8 @@ namespace CrabsWave.Test.Core
         public void ShouldntWriteLogInformation()
         {
             var loggerMoq = new Mock<ILogger<Crawler>>();
-            var sut = new Crawler(new CrabsWave.Core.Configurations.Behavior() { Verbose = false }, loggerMoq.Object);
+            var sut = new Crawler(loggerMoq.Object);
+            sut.Initializate(new CrabsWave.Core.Configurations.Behavior() { Verbose = false });
 
             sut.LoginformationAsync(ExampleMessage);
             loggerMoq.VerifyLog(LogLevel.Information, ExampleMessage, Times.Never());

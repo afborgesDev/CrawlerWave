@@ -5,7 +5,6 @@ namespace CrabsWave.Core.Configurations
 {
     public static class BehaviorBuilder
     {
-
         public static string[] Build(Behavior behavior)
         {
             if (behavior == null) behavior = new Behavior();
