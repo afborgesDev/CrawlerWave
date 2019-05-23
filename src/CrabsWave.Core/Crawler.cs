@@ -43,7 +43,7 @@ namespace CrabsWave.Core
         public Crawler(ILogger<ICrawler> logger) => Logger = logger;
         #endregion
 
-        public void Initializate(Behavior behavior)
+        public ICrawler Initializate(Behavior behavior)
         {
             Capabilities = BehaviorBuilder.Build(behavior);
             Verbose = behavior.Verbose;
@@ -52,6 +52,10 @@ namespace CrabsWave.Core
             //Initializate driver
             //For now just initilizate sigle
             //after initializate for grid
+
+            return this;
         }
+
+        
     }
 }
