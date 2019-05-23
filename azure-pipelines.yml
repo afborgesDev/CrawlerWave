@@ -15,13 +15,16 @@ variables:
 
 steps:
 - task: DotNetCoreCLI@2
+  displayName: restore  
   inputs:
     command: restore
     projects: '*.sln'
+    
 
 - task: DotNetCoreCLI@2
+  displayName: tests
   inputs:
     command: test
-    projects: './src/*.Test/*.csproj'
+    projects: '**/*.Test/*.csproj'
 #- script: dotnet build --configuration $(buildConfiguration)
 #  displayName: 'dotnet build $(buildConfiguration)'
