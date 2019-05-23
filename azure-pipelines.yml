@@ -16,8 +16,7 @@ variables:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'test'
-    projects: './src/CrabsWave.Test/'
-    testRunTitle: 'dotnet test'
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+    command: restore
+    projects: '*.sln'    
+#- script: dotnet build --configuration $(buildConfiguration)
+#  displayName: 'dotnet build $(buildConfiguration)'
