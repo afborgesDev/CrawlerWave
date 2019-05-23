@@ -13,6 +13,7 @@ namespace CrabsWave.Test.Core
         {
             var loggerMoq = new Mock<ILogger<Crawler>>();
             var sut = new Crawler(loggerMoq.Object);
+            sut.Initializate(new CrabsWave.Core.Configurations.Behavior() { Verbose = true });
 
             sut.Should().NotBeNull();
             loggerMoq.VerifyLog(LogLevel.Information, "Crawler created, starting to configure", Times.Once());

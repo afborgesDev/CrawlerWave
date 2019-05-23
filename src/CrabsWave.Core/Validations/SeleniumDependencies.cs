@@ -8,7 +8,7 @@ namespace CrabsWave.Core.Validations
     {
         public static bool CheckLocalWebDriverAvialability()
         {
-
+            return true;
         }
     }
     

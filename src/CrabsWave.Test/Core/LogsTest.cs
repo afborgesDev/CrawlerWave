@@ -16,7 +16,7 @@ namespace CrabsWave.Test.Core
             var sut = new Crawler(loggerMoq.Object);
             sut.Initializate(new CrabsWave.Core.Configurations.Behavior() { Verbose = true });
 
-            sut.LoginformationAsync(ExampleMessage);
+            sut.Loginformation(ExampleMessage);
             loggerMoq.VerifyLog(LogLevel.Information, ExampleMessage, Times.Once());
         }
 
@@ -27,7 +27,7 @@ namespace CrabsWave.Test.Core
             var sut = new Crawler(loggerMoq.Object);
             sut.Initializate(new CrabsWave.Core.Configurations.Behavior() { Verbose = false });
 
-            sut.LoginformationAsync(ExampleMessage);
+            sut.Loginformation(ExampleMessage);
             loggerMoq.VerifyLog(LogLevel.Information, ExampleMessage, Times.Never());
         }
     }

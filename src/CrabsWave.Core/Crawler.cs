@@ -45,6 +45,7 @@ namespace CrabsWave.Core
 
         public ICrawler Initializate(Behavior behavior)
         {
+            Logger.LogInformation("Crawler created, starting to configure");
             Capabilities = BehaviorBuilder.Build(behavior);
             Verbose = behavior.Verbose;
 
