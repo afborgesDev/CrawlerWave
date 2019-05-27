@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using CrabsWave.Core.Configurations;
+using CrabsWave.Core.Validations;
 using Microsoft.Extensions.Logging;
 
 namespace CrabsWave.Core
@@ -49,11 +50,19 @@ namespace CrabsWave.Core
             Capabilities = BehaviorBuilder.Build(behavior);
             Verbose = behavior.Verbose;
 
-            //Check driver dependencys
+            Loginformation("Checking Webdriver dependencies");
+            if (!SeleniumDependencies.CheckLocalWebDriverAvialability())
+            {
+                Logger.LogCritical("Could not initilization, missing webdriver");
+                return this;
+            }
+
+
             //Initializate driver
             //For now just initilizate sigle
             //after initializate for grid
 
+            Logger.LogInformation("Successful crab initilization");
             return this;
         }
 

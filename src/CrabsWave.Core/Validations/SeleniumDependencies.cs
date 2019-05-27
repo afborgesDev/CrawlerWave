@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CrabsWave.Utils.IO;
 
 namespace CrabsWave.Core.Validations
 {
     public static class SeleniumDependencies
     {
+        private const string WebDriverName = "chromedriver";
+
         public static bool CheckLocalWebDriverAvialability()
         {
-            return true;
+            var HasOnEnv = CheckWebDriverOnEnviroment();
+            var HasWithApp = FolderUtils.SafeCheckFileExist(WebDriverName);
+
+            return HasOnEnv || HasWithApp;
         }
+
+        private static bool CheckWebDriverOnEnviroment() => EnvironmentVariablesUtil.CheckSplitedVariableValueExist("Path", WebDriverName, ';');
     }
-    
 }

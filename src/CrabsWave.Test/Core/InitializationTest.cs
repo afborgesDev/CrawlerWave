@@ -1,6 +1,5 @@
 ﻿using CrabsWave.Core;
 using CrabsWave.Core.Configurations;
-using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
@@ -17,6 +16,7 @@ namespace CrabsWave.Test.Core
             var sut = new Crawler(loggerMoq.Object);
             sut.Initializate(new Behavior() { Verbose = true });
 
+
             loggerMoq.VerifyLog(LogLevel.Information, "Successful crab initilization", Times.Once());
         }
 
@@ -27,7 +27,7 @@ namespace CrabsWave.Test.Core
             var sut = new Crawler(loggerMoq.Object);
             sut.Initializate(new Behavior() { Verbose = true });
 
-            loggerMoq.VerifyLog(LogLevel.Error, "Could not initilization, missing webdriver", Times.Once());
+            loggerMoq.VerifyLog(LogLevel.Critical, "Could not initilization, missing webdriver", Times.Once());
         }
     }
 }
