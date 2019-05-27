@@ -15,14 +15,16 @@ variables:
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: restore  
+  displayName: Restoring
+  continueOnError: false
   inputs:
     command: restore
     projects: '*.sln'
     
 
 - task: DotNetCoreCLI@2
-  displayName: tests
+  displayName: Testing
+  continueOnError: false
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
