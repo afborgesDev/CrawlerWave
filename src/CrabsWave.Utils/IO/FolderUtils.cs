@@ -12,14 +12,10 @@ namespace CrabsWave.Utils.IO
             if (string.IsNullOrWhiteSpace(directory))
                 directory = GetAbsolutePath();
 
-            var extension = string.Empty;
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                extension = ".exe";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !fileName.Contains(".exe"))
+                fileName += ".exe";
 
-            if (fileName.IndexOf(extension) >= 0)
-                return File.Exists($"{directory}{Path.DirectorySeparatorChar}{fileName}");
-
-            return File.Exists($"{directory}{Path.DirectorySeparatorChar}{fileName}{extension}");
+            return File.Exists($"{directory}{Path.DirectorySeparatorChar}{fileName}");
         }
     }
 }
