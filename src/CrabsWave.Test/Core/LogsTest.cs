@@ -9,7 +9,6 @@ namespace CrabsWave.Test.Core
     {
         private const string ExampleMessage = "Example Message";
 
-
         [Fact]
         public void ShouldntWriteLogInformation()
         {
