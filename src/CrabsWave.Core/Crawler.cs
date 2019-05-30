@@ -3,6 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using CrabsWave.Core.Configurations;
 using CrabsWave.Core.Validations;
 using Microsoft.Extensions.Logging;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 
 namespace CrabsWave.Core
 {
@@ -11,6 +13,9 @@ namespace CrabsWave.Core
         private readonly ILogger<ICrawler> Logger;
         private string[] Capabilities;
         private bool Verbose;
+        private IWebDriver Driver = null;
+        private ChromeDriverService Service = null;
+        public bool Ready { get; set; }
 
         #region IDisposable Support
         private bool disposedValue = false;
@@ -49,6 +54,7 @@ namespace CrabsWave.Core
             Logger.LogInformation("Crawler created, starting to configure");
             Capabilities = BehaviorBuilder.Build(behavior);
             Verbose = behavior.Verbose;
+            Ready = false;
 
             Loginformation("Checking Webdriver dependencies");
             if (!SeleniumDependencies.CheckLocalWebDriverAvialability())
@@ -57,16 +63,23 @@ namespace CrabsWave.Core
                 return this;
             }
 
+            if (!CreateDriver())
+            {
+                Logger.LogError("Could not create the driver");
+                return this;
+            }
 
-
-            //Initializate driver
-            //For now just initilizate sigle
-            //after initializate for grid
-
+            Ready = true;
+            Loginformation("The Crawler is ready to use.");
             Logger.LogInformation("Successful crab initilization");
             return this;
         }
 
-        
+        private bool CreateDriver()
+        {
+            Loginformation("Initializing the Driver and service");
+            (Driver, Service) = Initialization.Create(Capabilities);
+            return Driver != null && Service != null;
+        }
     }
 }
