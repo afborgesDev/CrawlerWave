@@ -12,7 +12,6 @@ namespace CrabsWave.Core.Configurations
 
         public static (IWebDriver driver, ChromeDriverService service) Create(string[] capabilities)
         {
-
             IWebDriver Driver = null;
             ChromeDriverService Service = null;
             ChromeOptions Options = null;
@@ -25,7 +24,7 @@ namespace CrabsWave.Core.Configurations
 
                     Service = NewService();
                     Driver = new ChromeDriver(Service, Options);
-                    
+
                     return (Driver, Service);
                 }
                 catch

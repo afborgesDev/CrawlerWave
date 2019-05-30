@@ -27,6 +27,11 @@ namespace CrabsWave.Core
             {
                 if (disposing)
                 {
+                    Driver?.Dispose();
+                    Driver = null;
+
+                    Service?.Dispose();
+                    Service = null;
                 }
 
                 disposedValue = true;
