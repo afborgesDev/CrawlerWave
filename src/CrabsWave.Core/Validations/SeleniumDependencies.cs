@@ -9,7 +9,7 @@ namespace CrabsWave.Core.Validations
         public static bool CheckLocalWebDriverAvialability()
         {
             var HasOnEnv = CheckWebDriverOnEnviroment();
-            var HasWithApp = FolderUtils.SafeCheckFileExist(WebDriverName);
+            var HasWithApp = FolderUtils.SafeCheckExecutableExists(WebDriverName);
 
             return HasOnEnv || HasWithApp;
         }

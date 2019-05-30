@@ -7,7 +7,7 @@ namespace CrabsWave.Utils.IO
     {
         public static string GetAbsolutePath() => Directory.GetCurrentDirectory();
 
-        public static bool SafeCheckFileExist(string fileName, string directory = "")
+        public static bool SafeCheckExecutableExists(string fileName, string directory = "")
         {
             if (string.IsNullOrWhiteSpace(directory))
                 directory = GetAbsolutePath();
@@ -19,3 +19,4 @@ namespace CrabsWave.Utils.IO
         }
     }
 }
+s
