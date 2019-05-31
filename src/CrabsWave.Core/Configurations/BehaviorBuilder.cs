@@ -1,18 +1,12 @@
 ﻿using System.Collections.Generic;
 using CrabsWave.Core.resources;
+using System.Linq;
 
 namespace CrabsWave.Core.Configurations
 {
     public static class BehaviorBuilder
     {
-        public static string[] Build(Behavior behavior)
-        {
-            if (behavior == null) behavior = new Behavior();
-
-            var ActiveOptions = new List<string>();
-            ActiveOptions.AddRange(GetBooleanPropertiesAttribues(behavior));
-            return ActiveOptions.ToArray();
-        }
+        public static string[] Build(Behavior behavior) => GetBooleanPropertiesAttribues(behavior ?? new Behavior()).ToArray();
 
         private static IEnumerable<string> GetBooleanPropertiesAttribues(Behavior behavior)
         {
