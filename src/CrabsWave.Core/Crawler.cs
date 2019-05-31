@@ -8,7 +8,7 @@ using OpenQA.Selenium.Chrome;
 
 namespace CrabsWave.Core
 {
-    public partial class Crawler : ICrawler
+    public class Crawler : ICrawler
     {
         private readonly ILogger<ICrawler> Logger;
         private string[] Capabilities;
@@ -78,6 +78,12 @@ namespace CrabsWave.Core
             Loginformation("The Crawler is ready to use.");
             Logger.LogInformation("Successful crab initilization");
             return this;
+        }
+
+        public void Loginformation(string message)
+        {
+            if (Verbose)
+                Logger.LogInformation(message);
         }
 
         private bool CreateDriver()
