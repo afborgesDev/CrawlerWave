@@ -7,18 +7,56 @@ namespace CrabsWave.Test.Utils
 {
     public class EnvironmentVariablesTest
     {
-        [Fact]
-        public void ShouldSetVariable()
+
+        [Theory]
+        [InlineData("MyOnValue", "MyOnValue")]
+        [InlineData("", null)]
+        [InlineData(null, null)]
+        public void ShouldSetVariable(string value, string expectedValue)
         {
-            const string VariableName = "MyOnVariable";
-            const string VariableValue = "MyOnVariableValue";
+            var VariableName = $"MyOnVariable-{new Random().Next(10, 100)}";
+            EnvironmentVariablesUtil.SetVariableValue(VariableName, value);
 
-            EnvironmentVariablesUtil.SetVariableValue(VariableName, VariableValue);
+            var settedValue = Environment.GetEnvironmentVariable(VariableName);
+            settedValue.Should().BeEquivalentTo(expectedValue);
+        }
 
-            var value = Environment.GetEnvironmentVariable(VariableName);
+        [Fact]
+        public void ShouldGetVariable()
+        {
+            var VariableName = $"MyOnVariable-{new Random().Next(10, 100)}";
+            const string SimpleValue = "MyOnVariableValue";
+            EnvironmentVariablesUtil.SetVariableValue(VariableName, SimpleValue);
 
-            value.Should().NotBeNullOrEmpty();
-            value.Should().BeEquivalentTo(VariableValue);
+            var value = EnvironmentVariablesUtil.GetVariableValue(VariableName);
+            value.Should().NotBeNullOrWhiteSpace();
+            value.Should().BeEquivalentTo(SimpleValue);
+        }
+
+        [Theory]
+        [InlineData("1;2;3;4", new string[] { "1", "2", "3", "4"})]
+        [InlineData("", default)]
+        public void ShouldGetValueSplited(string value, string[] expectedReturn)
+        {
+            var VariableName = $"MyOnVariable-{new Random().Next(10, 100)}";
+            EnvironmentVariablesUtil.SetVariableValue(VariableName, value);
+
+            var splited = EnvironmentVariablesUtil.GetVariableValueSplited(VariableName, ';');
+            splited.Should().BeEquivalentTo(expectedReturn);
+        }
+
+        [Theory]
+        [InlineData("1;2;3;4", "2", ';', true)]
+        [InlineData("1;2;3;4", "9", ';', false)]
+        [InlineData("1;2;3;4", "2", ',', true)]
+        [InlineData("1;2;3;4", "2", ' ', true)]
+        [InlineData("", "2", ';', false)]
+        public void ShouldCheckSplitedVariableValueExist(string value, string valueToCheck, char splitChar, bool expetectedValue)
+        {
+            var VariableName = $"MyOnVariable-{new Random().Next(10, 100)}";
+            EnvironmentVariablesUtil.SetVariableValue(VariableName, value);
+            var exists = EnvironmentVariablesUtil.CheckSplitedVariableValueExist(VariableName, valueToCheck, splitChar);
+            exists.Should().Be(expetectedValue);
         }
     }
 }
