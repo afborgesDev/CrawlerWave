@@ -7,7 +7,6 @@ namespace CrabsWave.Test.Utils
 {
     public class EnvironmentVariablesTest
     {
-
         [Theory]
         [InlineData("MyOnValue", "MyOnValue")]
         [InlineData("", null)]

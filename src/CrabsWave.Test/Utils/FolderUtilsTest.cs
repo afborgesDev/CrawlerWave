@@ -24,7 +24,6 @@ namespace CrabsWave.Test.Utils
             fileExists.Should().Be(shoudExists);
         }
 
-
         public static IEnumerable<object[]> GetExecutableCombinations() => new List<object[]>() {
             new object[]{ "", "", false },
             new object[]{ ".exe", "", false},

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using CrabsWave.Core.Configurations;
+using CrabsWave.Core.Navegation;
 using CrabsWave.Core.Validations;
 using Microsoft.Extensions.Logging;
 using OpenQA.Selenium;
@@ -15,6 +16,8 @@ namespace CrabsWave.Core
         private bool Verbose;
         private IWebDriver Driver = null;
         private ChromeDriverService Service = null;
+        private ICrawlerNavigation CrawlerNavigation { get; set; }
+
         public bool Ready { get; set; }
 
         #region IDisposable Support
@@ -77,6 +80,8 @@ namespace CrabsWave.Core
             Ready = true;
             Loginformation("The Crawler is ready to use.");
             Logger.LogInformation("Successful crab initilization");
+
+            CrawlerNavigation = new CrawlerNavigation(this, Driver);
             return this;
         }
 
@@ -85,6 +90,8 @@ namespace CrabsWave.Core
             if (Verbose)
                 Logger.LogInformation(message);
         }
+
+        public ICrawlerNavigation Navigation() => CrawlerNavigation;
 
         private bool CreateDriver()
         {
