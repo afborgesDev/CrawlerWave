@@ -60,7 +60,19 @@ namespace CrabsWave.Core.Navegation
 
         public ICrawler SwitchToFrame(string frameName) => throw new NotImplementedException();
 
-        public ICrawler SwitchToFrame(IWebElement webElement) => throw new NotImplementedException();
+        public ICrawler SwitchToFrame(IWebElement webElement)
+        {
+            if (webElement == null) return crawler;
+            try
+            {
+                driver.SwitchTo().Frame(webElement);
+            }
+            catch (Exception e)
+            {
+                //Should Log this
+            }
+            return crawler;
+        }
 
         private (bool, string) DoNavigateToUrl(string url)
         {
