@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using CrabsWave.Core.Configurations;
+using CrabsWave.Core.LogsReports;
 using CrabsWave.Core.Navegation;
 using CrabsWave.Core.Validations;
 using Microsoft.Extensions.Logging;
@@ -16,12 +17,19 @@ namespace CrabsWave.Core
         private bool Verbose;
         private IWebDriver Driver = null;
         private ChromeDriverService Service = null;
+        public bool Ready { get; set; }
         private ICrawlerNavigation CrawlerNavigation { get; set; }
 
-        public bool Ready { get; set; }
-
         #region IDisposable Support
+
         private bool disposedValue = false;
+
+        [ExcludeFromCodeCoverage]
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         [ExcludeFromCodeCoverage]
         protected virtual void Dispose(bool disposing)
@@ -41,30 +49,28 @@ namespace CrabsWave.Core
             }
         }
 
-        [ExcludeFromCodeCoverage]
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        #endregion
+        #endregion IDisposable Support
 
         #region Constructors
+
         /// <summary>
-        /// Creates a new instance of Crawler buiding the behaviors to Webdriver and for the crawler, also init the driver with all checks
+        /// Creates a new instance of Crawler buiding the behaviors to Webdriver and for the crawler,
+        /// also init the driver with all checks
         /// </summary>
-        /// <param name="logger">Dependency  injection for ILogger</param>
+        /// <param name="logger">Dependency injection for ILogger</param>
         public Crawler(ILogger<ICrawler> logger) => Logger = logger;
-        #endregion
+
+        #endregion Constructors
 
         public ICrawler Initializate(Behavior behavior)
         {
-            Logger.LogInformation("Crawler created, starting to configure");
+            LogManager.Initializate(Logger, behavior.Verbose);
+            LogManager.ForceLogInformation("Crawler created, starting to configure");
             Capabilities = BehaviorBuilder.Build(behavior);
             Verbose = behavior.Verbose;
             Ready = false;
 
-            Loginformation("Checking Webdriver dependencies");
+            LogManager.LogInformation("Checking Webdriver dependencies");
             if (!SeleniumDependencies.CheckLocalWebDriverAvialability())
             {
                 Logger.LogCritical("Could not initilization, missing webdriver");
@@ -78,24 +84,18 @@ namespace CrabsWave.Core
             }
 
             Ready = true;
-            Loginformation("The Crawler is ready to use.");
+            LogManager.LogInformation("The Crawler is ready to use.");
             Logger.LogInformation("Successful crab initilization");
 
             CrawlerNavigation = new CrawlerNavigation(this, Driver);
             return this;
         }
 
-        public void Loginformation(string message)
-        {
-            if (Verbose)
-                Logger.LogInformation(message);
-        }
-
         public ICrawlerNavigation Navigation() => CrawlerNavigation;
 
         private bool CreateDriver()
         {
-            Loginformation("Initializing the Driver and service");
+            LogManager.LogInformation("Initializing the Driver and service");
             (Driver, Service) = Initialization.Create(Capabilities);
             return Driver != null && Service != null;
         }

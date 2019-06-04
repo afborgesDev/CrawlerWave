@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Threading;
 using CrabsWave.Core.Base;
+using CrabsWave.Core.LogsReports;
 using OpenQA.Selenium;
 
 namespace CrabsWave.Core.Navegation
@@ -69,7 +70,7 @@ namespace CrabsWave.Core.Navegation
             }
             catch (Exception e)
             {
-                //Should Log this
+                LogManager.LogError("Could not swith to frame", e);
             }
             return crawler;
         }
@@ -81,7 +82,7 @@ namespace CrabsWave.Core.Navegation
                 driver.Navigate().GoToUrl(url);
                 driver.SwitchTo().Window(driver.CurrentWindowHandle);
                 return (driver.Url.Equals(url), string.Empty);
-            }
+            }// TODO: log this out
             catch (WebDriverTimeoutException e) { return (false, $"Could not navigate to url. TimeOut {e.Message}"); }
             catch (WebDriverException e) { return (false, $"Could not navigate to url. Internal error {e.Message}"); }
             catch (Exception e) { return (false, $"Could not navigate to url. Unkonwn error {e.Message}"); }
