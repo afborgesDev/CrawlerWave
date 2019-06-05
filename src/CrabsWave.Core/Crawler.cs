@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using CrabsWave.Core.Configurations;
+using CrabsWave.Core.Functionalities.Elements;
+using CrabsWave.Core.Functionalities.Navegation;
 using CrabsWave.Core.LogsReports;
-using CrabsWave.Core.Navegation;
 using CrabsWave.Core.Validations;
 using Microsoft.Extensions.Logging;
 using OpenQA.Selenium;
@@ -14,11 +15,11 @@ namespace CrabsWave.Core
     {
         private readonly ILogger<ICrawler> Logger;
         private string[] Capabilities;
-        private bool Verbose;
-        private IWebDriver Driver = null;
-        private ChromeDriverService Service = null;
+        private IWebDriver Driver;
+        private ChromeDriverService Service;
         public bool Ready { get; set; }
         private ICrawlerNavigation CrawlerNavigation { get; set; }
+        private ICrawlerElements CrawlerElements { get; set; }
 
         #region IDisposable Support
 
@@ -67,7 +68,6 @@ namespace CrabsWave.Core
             LogManager.Initializate(Logger, behavior.Verbose);
             LogManager.ForceLogInformation("Crawler created, starting to configure");
             Capabilities = BehaviorBuilder.Build(behavior);
-            Verbose = behavior.Verbose;
             Ready = false;
 
             LogManager.LogInformation("Checking Webdriver dependencies");
@@ -88,10 +88,12 @@ namespace CrabsWave.Core
             Logger.LogInformation("Successful crab initilization");
 
             CrawlerNavigation = new CrawlerNavigation(this, Driver);
+            CrawlerElements = new CrawlerElements(this, Driver);
             return this;
         }
 
         public ICrawlerNavigation Navigation() => CrawlerNavigation;
+        public ICrawlerElements Elements() => CrawlerElements;
 
         private bool CreateDriver()
         {

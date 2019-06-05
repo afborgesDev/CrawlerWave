@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenQA.Selenium;
 
-namespace CrabsWave.Core.Base
+namespace CrabsWave.Core.Functionalities.Base
 {
     public class BaseForFunctionalityClasses
     {

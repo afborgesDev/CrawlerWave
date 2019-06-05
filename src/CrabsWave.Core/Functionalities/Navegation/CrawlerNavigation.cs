@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading;
-using CrabsWave.Core.Base;
+using CrabsWave.Core.Functionalities.Base;
 using CrabsWave.Core.LogsReports;
 using OpenQA.Selenium;
 
-namespace CrabsWave.Core.Navegation
+namespace CrabsWave.Core.Functionalities.Navegation
 {
     public class CrawlerNavigation : BaseForFunctionalityClasses, ICrawlerNavigation
     {
@@ -82,10 +82,25 @@ namespace CrabsWave.Core.Navegation
                 driver.Navigate().GoToUrl(url);
                 driver.SwitchTo().Window(driver.CurrentWindowHandle);
                 return (driver.Url.Equals(url), string.Empty);
-            }// TODO: log this out
-            catch (WebDriverTimeoutException e) { return (false, $"Could not navigate to url. TimeOut {e.Message}"); }
-            catch (WebDriverException e) { return (false, $"Could not navigate to url. Internal error {e.Message}"); }
-            catch (Exception e) { return (false, $"Could not navigate to url. Unkonwn error {e.Message}"); }
+            }
+            catch (WebDriverTimeoutException e)
+            {
+                var message = $"Could not navigate to url. TimeOut {e.Message}";
+                LogManager.LogError(message);
+                return (false, message);
+            }
+            catch (WebDriverException e)
+            {
+                var message = $"Could not navigate to url. Internal error {e.Message}";
+                LogManager.LogError(message);
+                return (false, message);
+            }
+            catch (Exception e)
+            {
+                var message = $"Could not navigate to url. Unkonwn error {e.Message}";
+                LogManager.LogError(message);
+                return (false, message);
+            }
         }
 
         private void SetDefaultWindowSize() => driver.Manage().Window.Size = new Size(1680, 1050);

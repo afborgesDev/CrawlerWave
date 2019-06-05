@@ -1,4 +1,5 @@
 ﻿using System;
+using CrabsWave.Core.ErrorHandler;
 using Microsoft.Extensions.Logging;
 
 namespace CrabsWave.Core.LogsReports
@@ -41,7 +42,7 @@ namespace CrabsWave.Core.LogsReports
         private static void CheckLoggerAvaliable()
         {
             if (Logger == null)
-                throw new System.ApplicationException("Should initilizate the logger");
+                throw new CrawlerBaseException("Should initilizate the logger");
         }
     }
 }

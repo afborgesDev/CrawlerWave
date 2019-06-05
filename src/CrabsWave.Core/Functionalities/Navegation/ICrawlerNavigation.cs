@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace CrabsWave.Core.Navegation
+namespace CrabsWave.Core.Functionalities.Navegation
 {
     public interface ICrawlerNavigation
     {
