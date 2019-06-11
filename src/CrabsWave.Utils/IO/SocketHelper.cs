@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 using System.Threading;
 
 namespace CrabsWave.Utils.IO
@@ -30,6 +31,16 @@ namespace CrabsWave.Utils.IO
         }
 
         public static int[] GetSocketPortsInUse() => IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpConnections().Select(s => s.LocalEndPoint.Port).ToArray();
-        public static int GetRandomPortToTry() => int.Parse(new Random(DateTime.Now.Millisecond).Next().ToString().Substring(0, 4));
+        public static int GetRandomPortToTry() => GetRandomPort();
+
+        public static int GetRandomPort()
+        {
+            var provider = new RNGCryptoServiceProvider();
+            var byteArrayNumber = new byte[4];
+            provider.GetBytes(byteArrayNumber);
+            var number = BitConverter.ToInt32(byteArrayNumber, 0);
+            if (number < 0) number *= -1;
+            return int.Parse(number.ToString().Substring(0, 4));
+        }
     }
 }
