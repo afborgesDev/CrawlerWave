@@ -28,5 +28,13 @@ steps:
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
+
+- task: SonarQubePrepare@4
+  inputs:
+    scannerMode: 'MSBuild'
+    projectKey: 'e2af3999048a9ad743ab0f1efed3030e4dee506b'
+    projectName: 'Crawler Wave'
+
+- task: SonarQubeAnalyze@4    
 #- script: dotnet build --configuration $(buildConfiguration)
 #  displayName: 'dotnet build $(buildConfiguration)'
