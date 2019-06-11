@@ -21,6 +21,17 @@ steps:
     command: restore
     projects: '*.sln'
     
+- task: SonarCloudPrepare@1
+  displayName: Configuring SonarCloud
+  inputs:
+    SonarCloud: 'SonarCluodConnection'
+    organization: 'afborgesdev-github'
+    scannerMode: 'MSBuild'
+    projectKey: 'afborgesDev_CrawlerWave'
+    projectName: 'Crawler Wave'
+
+- task: SonarCloudAnalyze@1
+  displayName: Runing SonarCloudAnalyze
 
 - task: DotNetCoreCLI@2
   displayName: Testing
@@ -28,6 +39,11 @@ steps:
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
+
+- task: SonarCloudPublish@1
+  displayName: Pushing SonarCloudAnalyze
+  inputs:
+    pollingTimeoutSec: '300'
 
 #- script: dotnet build --configuration $(buildConfiguration)
 #  displayName: 'dotnet build $(buildConfiguration)'
