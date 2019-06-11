@@ -128,7 +128,7 @@ namespace CrabsWave.Core.Functionalities.Interactions
             return crawler;
         }
 
-        public ICrawler ByXPathUsingScript(string identify) => throw new NotImplementedException();
+        public ICrawler ByXPathUsingScript(string identify) 
 
         public ICrawler ClickAlert(bool acept)
         {
