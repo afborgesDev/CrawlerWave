@@ -2,7 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using CrabsWave.Core.Configurations;
 using CrabsWave.Core.Functionalities.Elements;
+using CrabsWave.Core.Functionalities.Interactions;
 using CrabsWave.Core.Functionalities.Navegation;
+using CrabsWave.Core.Functionalities.Scripts;
 using CrabsWave.Core.LogsReports;
 using CrabsWave.Core.Validations;
 using Microsoft.Extensions.Logging;
@@ -20,6 +22,8 @@ namespace CrabsWave.Core
         public bool Ready { get; set; }
         private ICrawlerNavigation CrawlerNavigation { get; set; }
         private ICrawlerElements CrawlerElements { get; set; }
+        private ICrawlerClick CrawlerClick { get; set; }
+        private ICrawlerScripts CrawlerScripts { get; set; }
 
         #region IDisposable Support
 
@@ -89,11 +93,15 @@ namespace CrabsWave.Core
 
             CrawlerNavigation = new CrawlerNavigation(this, Driver);
             CrawlerElements = new CrawlerElements(this, Driver);
+            CrawlerClick = new CrawlerClick(this, Driver);
+            CrawlerScripts = new CrawlerScripts(this, Driver);
             return this;
         }
 
         public ICrawlerNavigation Navigation() => CrawlerNavigation;
         public ICrawlerElements Elements() => CrawlerElements;
+        public ICrawlerClick Click() => CrawlerClick;
+        public ICrawlerScripts Scripts() => CrawlerScripts;
 
         private bool CreateDriver()
         {
