@@ -30,6 +30,11 @@ steps:
     projectKey: 'afborgesDev_CrawlerWave'
     projectName: 'Crawler Wave'
 
+- task: DotNetCoreCLI@2
+  displayName: Building
+  inputs:
+    command: 'build'
+
 - task: SonarCloudAnalyze@1
   displayName: Runing SonarCloudAnalyze
 
