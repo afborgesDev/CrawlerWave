@@ -55,7 +55,7 @@ namespace CrabsWave.Core.Configurations
         {
             var service = ChromeDriverService.CreateDefaultService(FolderUtils.GetAbsolutePath());
             service.HideCommandPromptWindow = true;
-            service.Port = SocketHelper.GetNewSocketPort();
+            //service.Port = SocketHelper.GetNewSocketPort();
             return service;
         }
     }
