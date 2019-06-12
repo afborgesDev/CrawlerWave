@@ -39,8 +39,10 @@ steps:
   displayName: Testing
   continueOnError: false
   inputs:
-    command: test --no-restore -c Debug /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+    command: 'test'
     projects: '**/*.Test/*.csproj'
+    arguments: '--no-restore -c Debug /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+    testRunTitle: 'Testing'
 
 - task: SonarCloudAnalyze@1
   displayName: Runing SonarCloudAnalyze
