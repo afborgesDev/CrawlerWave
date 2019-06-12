@@ -39,7 +39,7 @@ steps:
   displayName: Testing
   continueOnError: false
   inputs:
-    command: test --no-restore -c Debug $UNIT_TEST_PROJ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+    command: test --no-restore -c Debug /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
     projects: '**/*.Test/*.csproj'
 
 - task: SonarCloudAnalyze@1
