@@ -1,4 +1,6 @@
-﻿using CrabsWave.Core.resources;
+﻿using System.Linq;
+using System.Reflection;
+using CrabsWave.Core.resources;
 
 namespace CrabsWave.Core.Configurations
 {
@@ -33,5 +35,13 @@ namespace CrabsWave.Core.Configurations
         public string Proxy { get; set; }
 
         public bool Verbose { get; set; } = true;
+
+        public PropertyInfo[] GetPropertyWithCapabilitieOption() => GetType().GetProperties()
+                                                                             .Where(x =>
+                                                                             {
+                                                                                 if (x.PropertyType == typeof(bool) && (bool)x.GetValue(this)) return true;
+                                                                                 if (x.PropertyType == typeof(string) && !string.IsNullOrEmpty((string)x.GetValue(this))) return true;
+                                                                                 return false;
+                                                                             }).ToArray();
     }
 }

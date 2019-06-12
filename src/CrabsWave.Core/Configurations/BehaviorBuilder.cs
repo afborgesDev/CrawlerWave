@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using CrabsWave.Core.resources;
 using System.Linq;
+using CrabsWave.Core.resources;
 
 namespace CrabsWave.Core.Configurations
 {
@@ -10,11 +10,8 @@ namespace CrabsWave.Core.Configurations
 
         private static IEnumerable<string> GetBooleanPropertiesAttribues(Behavior behavior)
         {
-            foreach (var prop in behavior.GetType().GetProperties())
+            foreach (var prop in behavior.GetPropertyWithCapabilitieOption())
             {
-                if (prop.PropertyType == typeof(bool) && !(bool)prop.GetValue(behavior)) continue;
-                if (prop.PropertyType == typeof(string) && string.IsNullOrEmpty((string)prop.GetValue(behavior))) continue;
-
                 foreach (var attribute in prop.GetCustomAttributes(typeof(CapabilitieOptionAttribute), false))
                 {
                     if (attribute is CapabilitieOptionAttribute capabilitie)
