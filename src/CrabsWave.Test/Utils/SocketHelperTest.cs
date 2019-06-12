@@ -10,7 +10,7 @@ namespace CrabsWave.Test.Utils
         public void ShouldGetIntPortWithFourNumbers()
         {
             var port = SocketHelper.GetRandomPortToTry();
-            port.Should().BeInRange(1000, 9999);
+            port.Should().BeInRange(1000, 99999);
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace CrabsWave.Test.Utils
         {
             var portsInUse = SocketHelper.GetSocketPortsInUse();
             var newPort = SocketHelper.GetNewSocketPort();
-            newPort.Should().BeInRange(1000, 9999);
+            newPort.Should().BeInRange(1000, 99999);
             portsInUse.Should().NotContain(newPort);
         }
     }
