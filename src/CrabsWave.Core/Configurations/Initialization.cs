@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+using CrabsWave.Core.LogsReports;
+using CrabsWave.Core.Validations;
 using CrabsWave.Utils.IO;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -27,8 +29,9 @@ namespace CrabsWave.Core.Configurations
 
                     return (Driver, Service);
                 }
-                catch
+                catch (Exception e)
                 {
+                    LogManager.LogError("Could not create service or driver", e);
                     Service?.Dispose();
                     Driver?.Dispose();
                     Thread.Sleep(TimeSpan.FromSeconds(3));
@@ -50,7 +53,7 @@ namespace CrabsWave.Core.Configurations
 
         private static ChromeDriverService NewService()
         {
-            var service = ChromeDriverService.CreateDefaultService();
+            var service = ChromeDriverService.CreateDefaultService(FolderUtils.GetAbsolutePath());
             service.HideCommandPromptWindow = true;
             service.Port = SocketHelper.GetNewSocketPort();
             return service;

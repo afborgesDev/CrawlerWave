@@ -14,6 +14,8 @@ namespace CrabsWave.Core.Validations
             return HasOnEnv || HasWithApp;
         }
 
+        public static string GetWebDriverPathAvaliable() => FolderUtils.GetCurrentPathWithDriverFileName(WebDriverName);
+
         private static bool CheckWebDriverOnEnviroment() => EnvironmentVariablesUtil.CheckSplitedVariableValueExist("Path", WebDriverName, ';');
     }
 }

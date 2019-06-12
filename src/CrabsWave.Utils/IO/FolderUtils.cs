@@ -10,12 +10,19 @@ namespace CrabsWave.Utils.IO
         public static bool SafeCheckExecutableExists(string fileName, string directory = "")
         {
             if (string.IsNullOrWhiteSpace(directory))
-                directory = GetAbsolutePath();
+                return File.Exists(GetCurrentPathWithDriverFileName(fileName));
 
+            return File.Exists($"{directory}{Path.DirectorySeparatorChar}{GetFileNameFromOs(fileName)}");
+        }
+
+        public static string GetCurrentPathWithDriverFileName(string fileName) => $"{GetAbsolutePath()}{Path.DirectorySeparatorChar}{GetFileNameFromOs(fileName)}";
+
+        public static string GetFileNameFromOs(string fileName)
+        {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !fileName.Contains(".exe"))
                 fileName += ".exe";
 
-            return File.Exists($"{directory}{Path.DirectorySeparatorChar}{fileName}");
+            return fileName;
         }
     }
 }
