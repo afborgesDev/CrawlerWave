@@ -19,6 +19,11 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'afborgesDev_CrawlerWave'
     projectName: 'Crawler Wave'
+    extraProperties: |
+      sonar.exclusions=**/obj/**,**/*.dll
+      sonar.branch.name=$(Build.SourceBranchName)
+      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/TestResults/Coverage/coverage.opencover.xml
+      sonar.cs.vstest.reportsPaths=$(Build.SourcesDirectory)/TestResults/Report/*.trx
 
 - task: DotNetCoreCLI@2
   displayName: Building
@@ -33,7 +38,7 @@ steps:
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
-    arguments: '-c $(buildConfiguration) --no-restore --logger trx /p:CollectCoverage=true "/p:CoverletOutputFormat=\"cobertura,opencover\"" /d:sonar.cs.vscoveragexml.reportsPaths=src/CrabsWave.Test/'
+    arguments: '-c $(buildConfiguration) --no-restore --logger trx /p:CollectCoverage=true "/p:CoverletOutputFormat=\"cobertura,opencover\""'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publishing coverage results'
@@ -48,6 +53,14 @@ steps:
     TargetFolder: '$(Build.SourcesDirectory)/TestResults/Coverage/'
     OverWrite: true
   displayName: 'Copy coverage to TestResults'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'src/CrabsWave.Test/'
+    Contents: '*.trx'
+    TargetFolder: '$(Build.SourcesDirectory)/TestResults/Report/'
+    OverWrite: true
+  displayName: 'Copy tests report'
 
 - task: SonarCloudAnalyze@1
   displayName: Runing SonarCloudAnalyze
