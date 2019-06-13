@@ -22,22 +22,36 @@ steps:
   displayName: Building
   continueOnError: false
   inputs:
-    command: 'build'
+    command: 'build --configuration $(buildConfiguration)'
+
+- script: mkdir $(Build.SourcesDirectory)/results
 
 - task: DotNetCoreCLI@2
-  displayName: Testing
+  displayName: 'Runing tests'
   continueOnError: false
   inputs:
-    command: 'test'
+    command: test
     projects: '**/*.Test/*.csproj'
-    arguments: '--no-restore -c Debug --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-    testRunTitle: 'Testing'
+    arguments: '--no-restore -c $(buildConfiguration) --logger trx trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura -r $(Build.SourcesDirectory)/results'
+
+- script: ls $(Build.SourcesDirectory)/results
+  displayName: 'Testing results'
+
+
+# - task: DotNetCoreCLI@2
+#   displayName: Testing
+#   continueOnError: false
+#   inputs:
+#     command: 'test'
+#     projects: '**/*.Test/*.csproj'
+#     arguments: '--no-restore -c Debug --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+#     testRunTitle: 'Testing'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publishing coverage results'
   inputs:
     codeCoverageTool: 'cobertura'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml'
+    summaryFileLocation: '$(Build.SourcesDirectory)/results/coverage.cobertura.xml'
 
 - task: SonarCloudAnalyze@1
   displayName: Runing SonarCloudAnalyze
