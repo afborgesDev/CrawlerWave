@@ -17,6 +17,10 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new Behavior());
                 sut.Ready.Should().BeTrue();
+                sut.Navigation().Should().NotBeNull();
+                sut.Elements().Should().NotBeNull();
+                sut.Click().Should().NotBeNull();
+                sut.Scripts().Should().NotBeNull();
             }
         }
     }
