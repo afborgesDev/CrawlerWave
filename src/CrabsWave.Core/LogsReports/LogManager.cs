@@ -6,10 +6,10 @@ namespace CrabsWave.Core.LogsReports
 {
     public static class LogManager
     {
-        private static ILogger<ICrawler> Logger { get; set; }
+        private static ILogger<Crawler> Logger { get; set; }
         private static bool Verbose { get; set; }
 
-        public static void Initializate(ILogger<ICrawler> logger, bool verbose)
+        public static void Initializate(ILogger<Crawler> logger, bool verbose)
         {
             Logger = logger;
             Verbose = verbose;

@@ -9,11 +9,11 @@ namespace CrabsWave.Core.Functionalities.Navegation
 {
     public class CrawlerNavigation : BaseForFunctionalityClasses, ICrawlerNavigation
     {
-        public CrawlerNavigation(ICrawler crawler, IWebDriver driver) : base(crawler, driver)
+        public CrawlerNavigation(Crawler crawler, IWebDriver driver) : base(crawler, driver)
         {
         }
 
-        public ICrawler GoToUrl(string url, out string errorMessage)
+        public Crawler GoToUrl(string url, out string errorMessage)
         {
             const int MaxAttemptsAtFive = 5;
             var TwoSecondsToWait = TimeSpan.FromSeconds(2);
@@ -47,21 +47,21 @@ namespace CrabsWave.Core.Functionalities.Navegation
             return crawler;
         }
 
-        public ICrawler NavigateBack() => Execute(() => driver.Navigate().Back());
+        public Crawler NavigateBack() => Execute(() => driver.Navigate().Back());
 
-        public ICrawler GetCurrentUrl(out string url)
+        public Crawler GetCurrentUrl(out string url)
         {
             url = driver.Url;
             return crawler;
         }
 
-        public ICrawler RefreshPage() => Execute(() => driver.Navigate().Refresh());
+        public Crawler RefreshPage() => Execute(() => driver.Navigate().Refresh());
 
-        public ICrawler SwitchToWindow(string windowName) => Execute(() => SwitchTo(windowName));
+        public Crawler SwitchToWindow(string windowName) => Execute(() => SwitchTo(windowName));
 
-        public ICrawler SwitchToFrame(string frameName) => throw new NotImplementedException();
+        public Crawler SwitchToFrame(string frameName) => throw new NotImplementedException();
 
-        public ICrawler SwitchToFrame(IWebElement webElement)
+        public Crawler SwitchToFrame(IWebElement webElement)
         {
             if (webElement == null) return crawler;
             try

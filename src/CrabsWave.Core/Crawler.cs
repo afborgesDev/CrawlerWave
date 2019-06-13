@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using CrabsWave.Core.Configurations;
-using CrabsWave.Core.Functionalities.Elements;
-using CrabsWave.Core.Functionalities.Interactions;
-using CrabsWave.Core.Functionalities.Navegation;
-using CrabsWave.Core.Functionalities.Scripts;
 using CrabsWave.Core.LogsReports;
 using CrabsWave.Core.Validations;
 using Microsoft.Extensions.Logging;
@@ -13,17 +9,13 @@ using OpenQA.Selenium.Chrome;
 
 namespace CrabsWave.Core
 {
-    public class Crawler : ICrawler
+    public class Crawler : IDisposable
     {
-        private readonly ILogger<ICrawler> Logger;
+        private readonly ILogger<Crawler> Logger;
         private string[] Capabilities;
-        private IWebDriver Driver;
+        internal IWebDriver Driver;
         private ChromeDriverService Service;
         public bool Ready { get; set; }
-        private ICrawlerNavigation CrawlerNavigation { get; set; }
-        private ICrawlerElements CrawlerElements { get; set; }
-        private ICrawlerClick CrawlerClick { get; set; }
-        private ICrawlerScripts CrawlerScripts { get; set; }
 
         #region IDisposable Support
 
@@ -63,11 +55,11 @@ namespace CrabsWave.Core
         /// also init the driver with all checks
         /// </summary>
         /// <param name="logger">Dependency injection for ILogger</param>
-        public Crawler(ILogger<ICrawler> logger) => Logger = logger;
+        public Crawler(ILogger<Crawler> logger) => Logger = logger;
 
         #endregion Constructors
 
-        public ICrawler Initializate(Behavior behavior)
+        public Crawler Initializate(Behavior behavior)
         {
             LogManager.Initializate(Logger, behavior.Verbose);
             LogManager.ForceLogInformation("Crawler created, starting to configure");
@@ -91,17 +83,8 @@ namespace CrabsWave.Core
             LogManager.LogInformation("The Crawler is ready to use.");
             Logger.LogInformation("Successful crab initilization");
 
-            CrawlerNavigation = new CrawlerNavigation(this, Driver);
-            CrawlerElements = new CrawlerElements(this, Driver);
-            CrawlerClick = new CrawlerClick(this, Driver);
-            CrawlerScripts = new CrawlerScripts(this, Driver);
             return this;
         }
-
-        public ICrawlerNavigation Navigation() => CrawlerNavigation;
-        public ICrawlerElements Elements() => CrawlerElements;
-        public ICrawlerClick Click() => CrawlerClick;
-        public ICrawlerScripts Scripts() => CrawlerScripts;
 
         private bool CreateDriver()
         {

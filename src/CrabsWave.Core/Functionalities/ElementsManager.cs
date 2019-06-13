@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using CrabsWave.Core.LogsReports;
-using CrabsWave.Core.resources;
+using CrabsWave.Core.Resources;
 using OpenQA.Selenium;
 
-namespace CrabsWave.Core.Functionalities.Elements
+namespace CrabsWave.Core.Functionalities
 {
     internal static class ElementsManager
     {
@@ -50,7 +50,6 @@ namespace CrabsWave.Core.Functionalities.Elements
             var element = CreateElementBy(elementIdentify, elementsType);
             IWebElement foundElement;
             for (var i = 1; i <= attemps; i++)
-            {
                 try
                 {
                     foundElement = driver.FindElement(element);
@@ -61,7 +60,6 @@ namespace CrabsWave.Core.Functionalities.Elements
                 {
                     LogManager.LogError($"Could not get the element using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
                 }
-            }
             return null;
         }
 
@@ -73,7 +71,6 @@ namespace CrabsWave.Core.Functionalities.Elements
             var element = CreateElementBy(elementIdentify, elementsType);
             ReadOnlyCollection<IWebElement> elements;
             for (var i = 1; 1 <= attemps; i++)
-            {
                 try
                 {
                     elements = driver.FindElements(element);
@@ -84,7 +81,6 @@ namespace CrabsWave.Core.Functionalities.Elements
                 {
                     LogManager.LogError($"Could not get the elements using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
                 }
-            }
             return default;
         }
     }

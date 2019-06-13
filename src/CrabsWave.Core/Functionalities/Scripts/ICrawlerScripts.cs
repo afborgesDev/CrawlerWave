@@ -2,8 +2,8 @@
 {
     public interface ICrawlerScripts
     {
-        ICrawler ExecuteScript(string script);
-        ICrawler ExecuteScript(string script, params object[] args);
-        ICrawler ExecuteAndTakeResult(string script, out string result);
+        Crawler ExecuteScript(string script);
+        Crawler ExecuteScript(string script, params object[] args);
+        Crawler ExecuteAndTakeResult(string script, out string result);
     }
 }

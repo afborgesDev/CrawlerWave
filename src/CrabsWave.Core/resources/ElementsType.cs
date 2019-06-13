@@ -1,4 +1,4 @@
-﻿namespace CrabsWave.Core.resources
+﻿namespace CrabsWave.Core.Resources
 {
     /// <summary>
     /// Represents the type of elements that the crawler can search on a loaded webpage

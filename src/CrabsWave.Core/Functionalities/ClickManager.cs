@@ -1,8 +1,7 @@
-﻿using CrabsWave.Core.Functionalities.Elements;
-using CrabsWave.Core.resources;
+﻿using CrabsWave.Core.Resources;
 using OpenQA.Selenium;
 
-namespace CrabsWave.Core.Functionalities.Interactions
+namespace CrabsWave.Core.Functionalities
 {
     internal static class ClickManager
     {

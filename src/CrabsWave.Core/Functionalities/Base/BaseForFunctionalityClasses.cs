@@ -5,16 +5,16 @@ namespace CrabsWave.Core.Functionalities.Base
 {
     public class BaseForFunctionalityClasses
     {
-        protected readonly ICrawler crawler;
+        protected readonly Crawler crawler;
         protected readonly IWebDriver driver;
 
-        public BaseForFunctionalityClasses(ICrawler crawler, IWebDriver driver)
+        public BaseForFunctionalityClasses(Crawler crawler, IWebDriver driver)
         {
             this.crawler = crawler;
             this.driver = driver;
         }
 
-        protected ICrawler Execute(Action methodToExecute)
+        protected Crawler Execute(Action methodToExecute)
         {
             methodToExecute?.Invoke();
             return crawler;

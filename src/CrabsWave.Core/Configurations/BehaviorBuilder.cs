@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CrabsWave.Core.resources;
+using CrabsWave.Core.Resources;
 
 namespace CrabsWave.Core.Configurations
 {

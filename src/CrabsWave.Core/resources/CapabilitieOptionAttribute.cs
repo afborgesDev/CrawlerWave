@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CrabsWave.Core.resources
+namespace CrabsWave.Core.Resources
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class CapabilitieOptionAttribute : Attribute

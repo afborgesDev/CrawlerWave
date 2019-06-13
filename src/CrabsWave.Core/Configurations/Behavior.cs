@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
-using CrabsWave.Core.resources;
+using CrabsWave.Core.Resources;
 
 namespace CrabsWave.Core.Configurations
 {

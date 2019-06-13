@@ -8,11 +8,12 @@ namespace CrabsWave.Test.Core.CrawlerTests
 {
     public class CrawlerNavigationTest
     {
-        const string urlBase = "https://www.google.com.br";
+        private const string urlBase = "https://www.google.com.br";
+
         [Fact]
         public void ShouldNavigateToUrl()
         {
-            var logmoq = new Mock<ILogger<ICrawler>>();
+            var logmoq = new Mock<ILogger<Crawler>>();
             using (var sut = new Crawler(logmoq.Object))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior());
@@ -29,7 +30,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldNavigateBack()
         {
-            var logmoq = new Mock<ILogger<ICrawler>>();
+            var logmoq = new Mock<ILogger<Crawler>>();
             using (var sut = new Crawler(logmoq.Object))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior());

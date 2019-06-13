@@ -12,15 +12,11 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldInitializateCrawler()
         {
-            var logmoq = new Mock<ILogger<ICrawler>>();
+            var logmoq = new Mock<ILogger<Crawler>>();
             using (var sut = new Crawler(logmoq.Object))
             {
                 sut.Initializate(new Behavior());
                 sut.Ready.Should().BeTrue();
-                sut.Navigation().Should().NotBeNull();
-                sut.Elements().Should().NotBeNull();
-                sut.Click().Should().NotBeNull();
-                sut.Scripts().Should().NotBeNull();
             }
         }
     }

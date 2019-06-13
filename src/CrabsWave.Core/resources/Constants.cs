@@ -1,4 +1,4 @@
-﻿namespace CrabsWave.Core.resources
+﻿namespace CrabsWave.Core.Resources
 {
     public static class Constants
     {

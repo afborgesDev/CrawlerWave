@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CrabsWave.Core.Configurations;
-using CrabsWave.Core.resources;
+using CrabsWave.Core.Resources;
 using FluentAssertions;
 using Xunit;
 
