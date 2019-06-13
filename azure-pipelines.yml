@@ -31,13 +31,13 @@ steps:
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
-    arguments: '-c $(buildConfiguration) --no-restore --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    arguments: '-c $(buildConfiguration) --no-restore --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publishing coverage results'
   inputs:
     codeCoverageTool: 'cobertura'
-    summaryFileLocation: '**/*.Test/coverage.cobertura.xml'
+    summaryFileLocation: '**/*.Test/coverage.opencover.xml'
 
 - task: CopyFiles@2
   inputs:
