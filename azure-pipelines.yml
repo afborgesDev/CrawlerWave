@@ -22,7 +22,7 @@ steps:
     extraProperties: |
       sonar.exclusions=**/obj/**,**/*.dll
       sonar.branch.name=$(Build.SourceBranchName)
-      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/TestResults/Coverage/coverage.opencover.xml
+      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/TestResults/Coverage/$(openCoverFileName)
       sonar.cs.vstest.reportsPaths=$(Build.SourcesDirectory)/TestResults/Report/*.trx
 
 - task: DotNetCoreCLI@2
@@ -52,7 +52,7 @@ steps:
     Contents: '$(openCoverFileName)'
     TargetFolder: '$(Build.SourcesDirectory)/TestResults/Coverage/'
     OverWrite: true
-  displayName: 'Copy coverage to TestResults'
+  displayName: 'copying coverage results'
 
 - task: CopyFiles@2
   inputs:
@@ -60,7 +60,7 @@ steps:
     Contents: '*.trx'
     TargetFolder: '$(Build.SourcesDirectory)/TestResults/Report/'
     OverWrite: true
-  displayName: 'Copy tests report'
+  displayName: 'copying tests report'
 
 - task: SonarCloudAnalyze@1
   displayName: Runing SonarCloudAnalyze
