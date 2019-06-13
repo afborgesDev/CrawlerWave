@@ -6,7 +6,8 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  codeCoverageFileName: 'coverage.opencover.xml'
+  openCoverFileName: 'coverage.opencover.xml'
+  coberturaFileName: 'coverage.cobertura.xml'
 
 steps:
     
@@ -32,18 +33,18 @@ steps:
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
-    arguments: '-c $(buildConfiguration) --no-restore --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+    arguments: '-c $(buildConfiguration) --no-restore --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=\"cobertura,opencover\"'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publishing coverage results'
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: '**/*.Test/$(codeCoverageFileName)'
+    summaryFileLocation: '**/*.Test/$(coberturaFileName)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: 'src/CrabsWave.Test/'
-    Contents: '$(codeCoverageFileName)'
+    Contents: '$(openCoverFileName)'
     TargetFolder: '$(Build.SourcesDirectory)/TestResults/Coverage/'
     OverWrite: true
   displayName: 'Copy coverage to TestResults'
