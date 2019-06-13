@@ -1,9 +1,3 @@
-# ASP.NET Core
-
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
 - master
 
@@ -14,12 +8,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: DotNetCoreCLI@2
-  displayName: Restoring
-  continueOnError: false
-  inputs:
-    command: restore
-    projects: '*.sln'
     
 - task: SonarCloudPrepare@1
   displayName: Configuring SonarCloud
@@ -30,11 +18,14 @@ steps:
     projectKey: 'afborgesDev_CrawlerWave'
     projectName: 'Crawler Wave'
 
-
 - task: DotNetCoreCLI@2
   displayName: Building
+  continueOnError: false
   inputs:
     command: 'build'
+
+- task: SonarCloudAnalyze@1
+  displayName: Runing SonarCloudAnalyze
 
 - task: DotNetCoreCLI@2
   displayName: Testing
@@ -45,13 +36,7 @@ steps:
     arguments: '--no-restore -c Debug --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
     testRunTitle: 'Testing'
 
-- task: SonarCloudAnalyze@1
-  displayName: Runing SonarCloudAnalyze
-  
 - task: SonarCloudPublish@1
   displayName: Pushing SonarCloudAnalyze
   inputs:
     pollingTimeoutSec: '300'
-
-#- script: dotnet build --configuration $(buildConfiguration)
-#  displayName: 'dotnet build $(buildConfiguration)'
