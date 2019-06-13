@@ -6,6 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  codeCoverageFileName: 'coverage.opencover.xml'
 
 steps:
     
@@ -36,13 +37,13 @@ steps:
 - task: PublishCodeCoverageResults@1
   displayName: 'Publishing coverage results'
   inputs:
-    codeCoverageTool: 'cobertura'
-    summaryFileLocation: '**/*.Test/coverage.opencover.xml'
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '**/*.Test/$(codeCoverageFileName)'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: 'src/CrabsWave.Test/'
-    Contents: 'coverage.cobertura.xml'
+    Contents: '$(codeCoverageFileName)'
     TargetFolder: '$(Build.SourcesDirectory)/TestResults/Coverage/'
     OverWrite: true
   displayName: 'Copy coverage to TestResults'
