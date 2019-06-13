@@ -36,7 +36,7 @@ steps:
   displayName: 'Publishing coverage results'
   inputs:
     codeCoverageTool: 'cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/results/coverage.cobertura.xml'
+    summaryFileLocation: '**/*.Test/coverage.cobertura.xml'
 
 - task: SonarCloudAnalyze@1
   displayName: Runing SonarCloudAnalyze
