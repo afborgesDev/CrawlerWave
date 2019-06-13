@@ -24,17 +24,23 @@ steps:
   inputs:
     command: 'build'
 
-- task: SonarCloudAnalyze@1
-  displayName: Runing SonarCloudAnalyze
-
 - task: DotNetCoreCLI@2
   displayName: Testing
   continueOnError: false
   inputs:
     command: 'test'
     projects: '**/*.Test/*.csproj'
-    arguments: '--no-restore -c Debug --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+    arguments: '--no-restore -c Debug --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
     testRunTitle: 'Testing'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publishing coverage results'
+  inputs:
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml'
+
+- task: SonarCloudAnalyze@1
+  displayName: Runing SonarCloudAnalyze
 
 - task: SonarCloudPublish@1
   displayName: Pushing SonarCloudAnalyze
