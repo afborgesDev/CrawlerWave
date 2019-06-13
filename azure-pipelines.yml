@@ -32,7 +32,7 @@ steps:
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
-    arguments: '--no-restore -c $(buildConfiguration) --logger trx trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura -r $(Build.SourcesDirectory)/results'
+    arguments: '--no-restore -c $(buildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura -r $(Build.SourcesDirectory)/results'
 
 - script: ls $(Build.SourcesDirectory)/results
   displayName: 'Testing results'
