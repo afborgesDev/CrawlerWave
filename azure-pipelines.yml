@@ -39,7 +39,12 @@ steps:
     codeCoverageTool: 'cobertura'
     summaryFileLocation: '**/*.Test/coverage.cobertura.xml'
 
-- script: cp **/*.Test/coverage.cobertura.xml $(Build.SourcesDirectory)/TestResults/Coverage/coverage.cobertura.xml
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '**/*.Test/'
+    Contents: 'coverage.cobertura.xml'
+    TargetFolder: '$(Build.SourcesDirectory)/TestResults/Coverage/'
+    OverWrite: true
   displayName: 'Copy coverage to TestResults'
 
 - task: SonarCloudAnalyze@1
