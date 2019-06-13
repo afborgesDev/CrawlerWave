@@ -22,7 +22,7 @@ steps:
   displayName: Building
   continueOnError: false
   inputs:
-    command: 'build -c $(buildConfiguration)'
+    command: 'build'
 
 - script: mkdir $(Build.SourcesDirectory)/results
 
