@@ -24,28 +24,13 @@ steps:
   inputs:
     command: 'build'
 
-- script: mkdir $(Build.SourcesDirectory)/results
-
 - task: DotNetCoreCLI@2
   displayName: 'Runing tests'
   continueOnError: false
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
-    arguments: '--no-restore -r $(Build.SourcesDirectory)/results -c $(buildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-
-- script: ls $(Build.SourcesDirectory)/results
-  displayName: 'Testing results'
-
-
-# - task: DotNetCoreCLI@2
-#   displayName: Testing
-#   continueOnError: false
-#   inputs:
-#     command: 'test'
-#     projects: '**/*.Test/*.csproj'
-#     arguments: '--no-restore -c Debug --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
-#     testRunTitle: 'Testing'
+    arguments: '--no-restore --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publishing coverage results'
