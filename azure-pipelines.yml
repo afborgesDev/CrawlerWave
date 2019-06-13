@@ -22,7 +22,7 @@ steps:
   displayName: Building
   continueOnError: false
   inputs:
-    command: 'build --configuration $(buildConfiguration)'
+    command: 'build -c $(buildConfiguration)'
 
 - script: mkdir $(Build.SourcesDirectory)/results
 
@@ -32,7 +32,7 @@ steps:
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
-    arguments: '--no-restore -c $(buildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura -r $(Build.SourcesDirectory)/results'
+    arguments: '--no-restore -r $(Build.SourcesDirectory)/results -c $(buildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
 
 - script: ls $(Build.SourcesDirectory)/results
   displayName: 'Testing results'
