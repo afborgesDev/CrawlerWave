@@ -33,7 +33,7 @@ steps:
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
-    arguments: '-c $(buildConfiguration) --no-restore --logger trx /p:CollectCoverage=true "/p:CoverletOutputFormat=\"cobertura,opencover\""'
+    arguments: '-c $(buildConfiguration) --no-restore --logger trx /p:CollectCoverage=true "/p:CoverletOutputFormat=\"cobertura,opencover\"" /d:sonar.cs.vscoveragexml.reportsPaths=src/CrabsWave.Test/'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publishing coverage results'
