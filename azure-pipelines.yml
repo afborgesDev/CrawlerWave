@@ -41,7 +41,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'CrabsWave.Test/'
+    SourceFolder: 'src/CrabsWave.Test/'
     Contents: 'coverage.cobertura.xml'
     TargetFolder: '$(Build.SourcesDirectory)/TestResults/Coverage/'
     OverWrite: true
