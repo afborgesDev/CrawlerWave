@@ -31,13 +31,16 @@ steps:
   inputs:
     command: test
     projects: '**/*.Test/*.csproj'
-    arguments: '--no-restore --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    arguments: '-c $(buildConfiguration) --no-restore --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publishing coverage results'
   inputs:
     codeCoverageTool: 'cobertura'
     summaryFileLocation: '**/*.Test/coverage.cobertura.xml'
+
+- script: cp **/*.Test/coverage.cobertura.xml $(Build.SourcesDirectory)/TestResults/Coverage/coverage.cobertura.xml
+  displayName: 'Copy coverage to TestResults'
 
 - task: SonarCloudAnalyze@1
   displayName: Runing SonarCloudAnalyze
