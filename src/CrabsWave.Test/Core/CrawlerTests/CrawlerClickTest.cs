@@ -99,7 +99,51 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
                 logmoq.VerifyNearLog(LogLevel.Error, "Could not", timesToCheck);
             }
+        }
 
+        [Theory]
+        [MemberData(nameof(GetElementsToClick))]
+        public void ShouldClickFirst(string url, string identify, ElementsType type, bool shouldFail)
+        {
+            var logmoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logmoq.Object))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl(url, out _);
+
+                switch (type)
+                {
+                    case ElementsType.Id:
+                        sut.ClickFirstById(identify);
+                        break;
+                    case ElementsType.Name:
+                        sut.ClickFirstByName(identify);
+                        break;
+                    case ElementsType.TagName:
+                        sut.ClickFirstByTagName(identify);
+                        break;
+                    case ElementsType.ClassName:
+                        sut.ClickFirstByClassName(identify);
+                        break;
+                    case ElementsType.CssSelector:
+                        sut.ClickFirstByCssSelector(identify);
+                        break;
+                    case ElementsType.LinkText:
+                        sut.ClickFirstByLinkText(identify);
+                        break;
+                    case ElementsType.PartialLinkText:
+                        sut.ClickFirstByPartialLinkText(identify);
+                        break;
+                    default:
+                        sut.ClickFirstByXPath(identify);
+                        break;
+                }
+
+                var timesToCheck = Times.Never();
+                if (shouldFail) timesToCheck = Times.AtLeastOnce();
+
+                logmoq.VerifyNearLog(LogLevel.Error, "Could not", timesToCheck);
+            }
         }
 
         public static IEnumerable<object[]> GetElementsToClick() => new List<object[]> {
