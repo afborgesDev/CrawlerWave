@@ -36,7 +36,6 @@ namespace CrabsWave.Core.Functionalities
                 case ElementsType.PartialLinkText:
                     return By.PartialLinkText(identify);
 
-                case ElementsType.XPath:
                 default:
                     return By.XPath(identify);
             }
@@ -50,6 +49,7 @@ namespace CrabsWave.Core.Functionalities
             var element = CreateElementBy(elementIdentify, elementsType);
             IWebElement foundElement;
             for (var i = 1; i <= attemps; i++)
+            {
                 try
                 {
                     foundElement = driver.FindElement(element);
@@ -60,6 +60,8 @@ namespace CrabsWave.Core.Functionalities
                 {
                     LogManager.LogError($"Could not get the element using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
                 }
+            }
+
             return null;
         }
 
@@ -71,6 +73,7 @@ namespace CrabsWave.Core.Functionalities
             var element = CreateElementBy(elementIdentify, elementsType);
             ReadOnlyCollection<IWebElement> elements;
             for (var i = 1; 1 <= attemps; i++)
+            {
                 try
                 {
                     elements = driver.FindElements(element);
@@ -81,6 +84,8 @@ namespace CrabsWave.Core.Functionalities
                 {
                     LogManager.LogError($"Could not get the elements using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
                 }
+            }
+
             return default;
         }
     }

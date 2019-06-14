@@ -1,4 +1,6 @@
-﻿using CrabsWave.Core.Resources;
+﻿using System;
+using CrabsWave.Core.LogsReports;
+using CrabsWave.Core.Resources;
 using OpenQA.Selenium;
 
 namespace CrabsWave.Core.Functionalities
@@ -9,14 +11,28 @@ namespace CrabsWave.Core.Functionalities
         {
             var element = ElementsManager.TryGetElement(driver, identify, elementsType);
             if (element == null) return;
-            element.Click();
+            try
+            {
+                element.Click();
+            }
+            catch (Exception e)
+            {
+                LogManager.LogError($"Could not click at the element: {identify}. ", e);
+            }
         }
 
         public static void ClickFirst(IWebDriver driver, string identify, ElementsType elementsType)
         {
             var elements = ElementsManager.TryGetElements(driver, identify, elementsType);
             if (elements == null || elements.Count <= 0) return;
-            elements[0].Click();
+            try
+            {
+                elements[0].Click();
+            }
+            catch (Exception e)
+            {
+                LogManager.LogError($"Could not click at the first element: {identify}. ", e);
+            }
         }
     }
 }

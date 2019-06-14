@@ -23,7 +23,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 IWebElement element = null;
                 
-                sut.Navigation().GoToUrl(url, out _);
+                sut.GoToUrl(url, out _);
 
                 switch (elementType)
                 {
@@ -34,15 +34,19 @@ namespace CrabsWave.Test.Core.CrawlerTests
                         sut.GetElementByName(identify, out element);
                         break;
                     case ElementsType.TagName:
+                        sut.GetElementByTagName(identify, out element);
                         break;
                     case ElementsType.ClassName:
+                        sut.GetElementByClassName(identify, out element);
                         break;
                     case ElementsType.CssSelector:
                         sut.GetElementByCssSelector(identify, out element);
                         break;
                     case ElementsType.LinkText:
+                        sut.GetElementByLinkText(identify, out element);
                         break;
                     case ElementsType.PartialLinkText:
+                        sut.GetElementByPartialText(identify, out element);
                         break;
                     case ElementsType.XPath:
                         sut.GetElementByXPath(identify, out element);
@@ -61,10 +65,12 @@ namespace CrabsWave.Test.Core.CrawlerTests
         }
 
         public static IEnumerable<object[]> GetElementToFind() => new List<object[]> {
-            new object[] { GoogleUrlBase, "gLFyf", ElementsType.CssSelector },
+            new object[] { GoogleUrlBase, "input", ElementsType.CssSelector },
             new object[] { GoogleUrlBase, "tsf", ElementsType.Id},
             new object[] { GoogleUrlBase, "q", ElementsType.Name},
-            new object[] { GoogleUrlBase, "//*[@id='tsf']", ElementsType.XPath}
+            new object[] { GoogleUrlBase, "//*[@id='tsf']", ElementsType.XPath},
+            new object[] { GoogleUrlBase, "FORM", ElementsType.TagName},
+            new object[] { GoogleUrlBase, "SDkEP", ElementsType.ClassName},
         };
     }
 }

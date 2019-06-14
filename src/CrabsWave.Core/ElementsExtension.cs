@@ -9,7 +9,7 @@ namespace CrabsWave.Core
     {
         public static Crawler GetElementByCssSelector(this Crawler parent, string identify, out IWebElement webElement)
         {
-            webElement = ElementsManager.TryGetElement(parent.Driver, identify, ElementsType.ClassName, true);
+            webElement = ElementsManager.TryGetElement(parent.Driver, identify, ElementsType.CssSelector, true);
             return parent;
         }
 
@@ -40,6 +40,12 @@ namespace CrabsWave.Core
         public static Crawler GetElementByTagName(this Crawler parent, string identify, out IWebElement webElement)
         {
             webElement = ElementsManager.TryGetElement(parent.Driver, identify, ElementsType.TagName, true);
+            return parent;
+        }
+
+        public static Crawler GetElementByClassName(this Crawler parent, string identify, out IWebElement webElement)
+        {
+            webElement = ElementsManager.TryGetElement(parent.Driver, identify, ElementsType.ClassName, true);
             return parent;
         }
 

@@ -1,69 +1,59 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading;
-using CrabsWave.Core.Functionalities.Base;
 using CrabsWave.Core.LogsReports;
 using OpenQA.Selenium;
 
-namespace CrabsWave.Core.Functionalities.Navegation
+namespace CrabsWave.Core.Functionalities
 {
-    public class CrawlerNavigation : BaseForFunctionalityClasses, ICrawlerNavigation
+    public static class NavegationManager
     {
-        public CrawlerNavigation(Crawler crawler, IWebDriver driver) : base(crawler, driver)
-        {
-        }
-
-        public Crawler GoToUrl(string url, out string errorMessage)
+        public static string GoToUrl(IWebDriver driver, string url)
         {
             const int MaxAttemptsAtFive = 5;
             var TwoSecondsToWait = TimeSpan.FromSeconds(2);
-            errorMessage = string.Empty;
 
             if (driver == null)
             {
-                errorMessage = "Could not navigate, the driver was not well initializated.";
-                return crawler;
+                return "Could not navigate, the driver was not well initializated.";
             }
+
+            bool ok;
+            var message = string.Empty;
 
             for (var i = 1; i < MaxAttemptsAtFive; i++)
             {
-                var (ok, message) = DoNavigateToUrl(url);
+                (ok, message) = DoNavigateToUrl(driver, url);
                 if (ok)
                 {
                     driver.Manage().Window.Maximize();
-                    return crawler;
+                    return string.Empty;
                 }
 
                 if (string.IsNullOrEmpty(message))
                 {
-                    SetDefaultWindowSize();
-                    return crawler;
+                    SetDefaultWindowSize(driver);
+                    return string.Empty;
                 }
 
-                errorMessage = message;
                 Thread.Sleep(TwoSecondsToWait);
             }
 
-            return crawler;
+            return message;
         }
 
-        public Crawler NavigateBack() => Execute(() => driver.Navigate().Back());
+        public static void NavigateBack(IWebDriver driver) => driver.Navigate().Back();
 
-        public Crawler GetCurrentUrl(out string url)
+        public static string GetCurrentUrl(IWebDriver driver) => driver.Url;
+
+        public static void RefreshPage(IWebDriver driver) => driver.Navigate().Refresh();
+
+        public static void SwitchToWindow(IWebDriver driver, string windowName) => SwitchTo(driver, windowName);
+
+        public static void SwitchToFrame(IWebDriver driver, IWebElement webElement)
         {
-            url = driver.Url;
-            return crawler;
-        }
+            if (webElement == null) return;
 
-        public Crawler RefreshPage() => Execute(() => driver.Navigate().Refresh());
-
-        public Crawler SwitchToWindow(string windowName) => Execute(() => SwitchTo(windowName));
-
-        public Crawler SwitchToFrame(string frameName) => throw new NotImplementedException();
-
-        public Crawler SwitchToFrame(IWebElement webElement)
-        {
-            if (webElement == null) return crawler;
             try
             {
                 driver.SwitchTo().Frame(webElement);
@@ -72,10 +62,9 @@ namespace CrabsWave.Core.Functionalities.Navegation
             {
                 LogManager.LogError("Could not swith to frame", e);
             }
-            return crawler;
         }
 
-        private (bool, string) DoNavigateToUrl(string url)
+        private static (bool, string) DoNavigateToUrl(IWebDriver driver, string url)
         {
             try
             {
@@ -103,9 +92,9 @@ namespace CrabsWave.Core.Functionalities.Navegation
             }
         }
 
-        private void SetDefaultWindowSize() => driver.Manage().Window.Size = new Size(1680, 1050);
+        private static void SetDefaultWindowSize(IWebDriver driver) => driver.Manage().Window.Size = new Size(1680, 1050);
 
-        private void SwitchTo(string windowsName)
+        private static void SwitchTo(IWebDriver driver, string windowsName)
         {
             if (!string.IsNullOrWhiteSpace(windowsName))
                 driver.SwitchTo().Window(windowsName);

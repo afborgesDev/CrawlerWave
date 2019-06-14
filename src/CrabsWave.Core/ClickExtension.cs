@@ -6,158 +6,158 @@ namespace CrabsWave.Core
 {
     public static class ClickExtension
     {
-        public static Crawler ById(this Crawler parent, string identify)
+        public static Crawler ClickById(this Crawler parent, string identify)
         {
             ClickManager.Click(parent.Driver, identify, ElementsType.Id);
             return parent;
         }
 
-        public static Crawler ByName(this Crawler parent, string identify)
+        public static Crawler ClickByName(this Crawler parent, string identify)
         {
             ClickManager.Click(parent.Driver, identify, ElementsType.Name);
             return parent;
         }
 
-        public static Crawler ByTagName(this Crawler parent, string identify)
+        public static Crawler ClickByTagName(this Crawler parent, string identify)
         {
             ClickManager.Click(parent.Driver, identify, ElementsType.TagName);
             return parent;
         }
 
-        public static Crawler ByClassName(this Crawler parent, string identify)
+        public static Crawler ClickByClassName(this Crawler parent, string identify)
         {
             ClickManager.Click(parent.Driver, identify, ElementsType.ClassName);
             return parent;
         }
 
-        public static Crawler ByCssSelector(this Crawler parent, string identify)
+        public static Crawler ClickByCssSelector(this Crawler parent, string identify)
         {
             ClickManager.Click(parent.Driver, identify, ElementsType.CssSelector);
             return parent;
         }
 
-        public static Crawler ByLinkText(this Crawler parent, string identify)
+        public static Crawler ClickByLinkText(this Crawler parent, string identify)
         {
             ClickManager.Click(parent.Driver, identify, ElementsType.LinkText);
             return parent;
         }
 
-        public static Crawler ByPartialLinkText(this Crawler parent, string identify)
+        public static Crawler ClickByPartialLinkText(this Crawler parent, string identify)
         {
             ClickManager.Click(parent.Driver, identify, ElementsType.PartialLinkText);
             return parent;
         }
 
-        public static Crawler ByXPath(this Crawler parent, string identify)
+        public static Crawler ClickByXPath(this Crawler parent, string identify)
         {
             ClickManager.Click(parent.Driver, identify, ElementsType.XPath);
             return parent;
         }
 
-        public static Crawler ByIdUsingScript(this Crawler parent, string identify)
+        public static Crawler ClickByIdUsingScript(this Crawler parent, string identify)
         {
             throw new NotImplementedException();
             return parent;
         }
 
-        public static Crawler ByNameUsingScript(this Crawler parent, string identify)
+        public static Crawler ClickByNameUsingScript(this Crawler parent, string identify)
         {
             throw new NotImplementedException();
             return parent;
         }
 
-        public static Crawler ByTagNameUsingScript(this Crawler parent, string identify)
+        public static Crawler ClickByTagNameUsingScript(this Crawler parent, string identify)
         {
             throw new NotImplementedException();
             return parent;
         }
 
-        public static Crawler ByClassNameUsingScript(this Crawler parent, string identify)
+        public static Crawler ClickByClassNameUsingScript(this Crawler parent, string identify)
         {
             throw new NotImplementedException();
             return parent;
         }
 
-        public static Crawler ByCssSelectorUsingScript(this Crawler parent, string identify)
+        public static Crawler ClickByCssSelectorUsingScript(this Crawler parent, string identify)
         {
             throw new NotImplementedException();
             return parent;
         }
 
-        public static Crawler ByLinkTextUsingScript(this Crawler parent, string identify)
+        public static Crawler ClickByLinkTextUsingScript(this Crawler parent, string identify)
         {
             throw new NotImplementedException();
             return parent;
         }
 
-        public static Crawler ByPartialLinkTextUsingScript(this Crawler parent, string identify)
+        public static Crawler ClickByPartialLinkTextUsingScript(this Crawler parent, string identify)
         {
             throw new NotImplementedException();
             return parent;
         }
 
-        public static Crawler ByXPathUsingScript(this Crawler parent, string identify)
+        public static Crawler ClickByXPathUsingScript(this Crawler parent, string identify)
         {
             throw new NotImplementedException();
             return parent;
         }
 
-        public static Crawler FirstById(this Crawler parent, string identify)
+        public static Crawler ClickFirstById(this Crawler parent, string identify)
         {
             ClickManager.ClickFirst(parent.Driver, identify, ElementsType.Id);
             return parent;
         }
 
-        public static Crawler FirstByName(this Crawler parent, string identify)
+        public static Crawler ClickFirstByName(this Crawler parent, string identify)
         {
             ClickManager.ClickFirst(parent.Driver, identify, ElementsType.Name);
             return parent;
         }
 
-        public static Crawler FirstByTagName(this Crawler parent, string identify)
+        public static Crawler ClickFirstByTagName(this Crawler parent, string identify)
         {
             ClickManager.ClickFirst(parent.Driver, identify, ElementsType.TagName);
             return parent;
         }
 
-        public static Crawler FirstByClassName(this Crawler parent, string identify)
+        public static Crawler ClickFirstByClassName(this Crawler parent, string identify)
         {
             ClickManager.ClickFirst(parent.Driver, identify, ElementsType.ClassName);
             return parent;
         }
 
-        public static Crawler FirstByCssSelector(this Crawler parent, string identify)
+        public static Crawler ClickFirstByCssSelector(this Crawler parent, string identify)
         {
             ClickManager.ClickFirst(parent.Driver, identify, ElementsType.CssSelector);
             return parent;
         }
 
-        public static Crawler FirstByLinkText(this Crawler parent, string identify)
+        public static Crawler ClickFirstByLinkText(this Crawler parent, string identify)
         {
             ClickManager.ClickFirst(parent.Driver, identify, ElementsType.LinkText);
             return parent;
         }
 
-        public static Crawler FirstByPartialLinkText(this Crawler parent, string identify)
+        public static Crawler ClickFirstByPartialLinkText(this Crawler parent, string identify)
         {
             ClickManager.ClickFirst(parent.Driver, identify, ElementsType.PartialLinkText);
             return parent;
         }
 
-        public static Crawler FirstByXPath(this Crawler parent, string identify)
+        public static Crawler ClickFirstByXPath(this Crawler parent, string identify)
         {
             ClickManager.ClickFirst(parent.Driver, identify, ElementsType.XPath);
             return parent;
         }
 
-        public static Crawler ByIdIfTrue(this Crawler parent, string identify, bool condition)
+        public static Crawler ClickByIdIfTrue(this Crawler parent, string identify, bool condition)
         {
             if (condition)
                 ClickManager.Click(parent.Driver, identify, ElementsType.Id);
             return parent;
         }
 
-        public static Crawler ByNameIfTrue(this Crawler parent, string identify, bool condition)
+        public static Crawler ClickByNameIfTrue(this Crawler parent, string identify, bool condition)
         {
             if (condition)
                 ClickManager.Click(parent.Driver, identify, ElementsType.Name);
@@ -165,7 +165,7 @@ namespace CrabsWave.Core
             return parent;
         }
 
-        public static Crawler ByTagNameIfTrue(this Crawler parent, string identify, bool condition)
+        public static Crawler ClickByTagNameIfTrue(this Crawler parent, string identify, bool condition)
         {
             if (condition)
                 ClickManager.Click(parent.Driver, identify, ElementsType.TagName);
@@ -173,7 +173,7 @@ namespace CrabsWave.Core
             return parent;
         }
 
-        public static Crawler ByClassNameIfTrue(this Crawler parent, string identify, bool condition)
+        public static Crawler ClickByClassNameIfTrue(this Crawler parent, string identify, bool condition)
         {
             if (condition)
                 ClickManager.Click(parent.Driver, identify, ElementsType.ClassName);
@@ -181,7 +181,7 @@ namespace CrabsWave.Core
             return parent;
         }
 
-        public static Crawler ByCssSelectorIfTrue(this Crawler parent, string identify, bool condition)
+        public static Crawler ClickByCssSelectorIfTrue(this Crawler parent, string identify, bool condition)
         {
             if (condition)
                 ClickManager.Click(parent.Driver, identify, ElementsType.CssSelector);
@@ -189,7 +189,7 @@ namespace CrabsWave.Core
             return parent;
         }
 
-        public static Crawler ByLinkTextIfTrue(this Crawler parent, string identify, bool condition)
+        public static Crawler ClickByLinkTextIfTrue(this Crawler parent, string identify, bool condition)
         {
             if (condition)
                 ClickManager.Click(parent.Driver, identify, ElementsType.LinkText);
@@ -197,7 +197,7 @@ namespace CrabsWave.Core
             return parent;
         }
 
-        public static Crawler ByPartialLinkTextIfTrue(this Crawler parent, string identify, bool condition)
+        public static Crawler ClickByPartialLinkTextIfTrue(this Crawler parent, string identify, bool condition)
         {
             if (condition)
                 ClickManager.Click(parent.Driver, identify, ElementsType.PartialLinkText);
@@ -205,7 +205,7 @@ namespace CrabsWave.Core
             return parent;
         }
 
-        public static Crawler ByXPathIfTrue(this Crawler parent, string identify, bool condition)
+        public static Crawler ClickByXPathIfTrue(this Crawler parent, string identify, bool condition)
         {
             if (condition)
                 ClickManager.Click(parent.Driver, identify, ElementsType.XPath);

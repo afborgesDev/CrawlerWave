@@ -17,9 +17,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
             using (var sut = new Crawler(logmoq.Object))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior());
-                sut.Navigation()
-                   .GoToUrl(urlBase, out var errorMessage)
-                   .Navigation()
+                sut.GoToUrl(urlBase, out var errorMessage)
                    .GetCurrentUrl(out var currentUrl);
 
                 errorMessage.Should().BeNullOrEmpty();
@@ -34,25 +32,19 @@ namespace CrabsWave.Test.Core.CrawlerTests
             using (var sut = new Crawler(logmoq.Object))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior());
-                sut.Navigation()
-                   .GoToUrl(urlBase, out var errorMessage)
-                   .Navigation()
+                sut.GoToUrl(urlBase, out var errorMessage)
                    .GetCurrentUrl(out var currentUrl);
 
                 errorMessage.Should().BeNullOrEmpty();
                 currentUrl.Should().ContainAll(urlBase);
 
-                sut.Navigation()
-                   .GoToUrl("https://github.com", out errorMessage)
-                   .Navigation()
+                sut.GoToUrl("https://github.com", out errorMessage)
                    .GetCurrentUrl(out currentUrl);
 
                 errorMessage.Should().BeNullOrEmpty();
                 currentUrl.Should().ContainAll("https://github.com");
 
-                sut.Navigation()
-                   .NavigateBack()
-                   .Navigation()
+                sut.NavigateBack()
                    .GetCurrentUrl(out currentUrl);
 
                 errorMessage.Should().BeNullOrEmpty();
