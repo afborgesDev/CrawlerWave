@@ -56,6 +56,52 @@ namespace CrabsWave.Test.Core.CrawlerTests
             }
         }
 
+        [Theory]
+        [MemberData(nameof(GetElementsToClick))]
+        public void ShouldClickUsingScript(string url, string identify, ElementsType type, bool shouldFail)
+        {
+            var logmoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logmoq.Object))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl(url, out _);
+
+                switch (type)
+                {
+                    case ElementsType.Id:
+                        sut.ClickByIdUsingScript(identify);
+                        break;
+                    case ElementsType.Name:
+                        sut.ClickByNameUsingScript(identify);
+                        break;
+                    case ElementsType.TagName:
+                        sut.ClickByTagNameUsingScript(identify);
+                        break;
+                    case ElementsType.ClassName:
+                        sut.ClickByClassNameUsingScript(identify);
+                        break;
+                    case ElementsType.CssSelector:
+                        sut.ClickByCssSelectorUsingScript(identify);
+                        break;
+                    case ElementsType.LinkText:
+                        sut.ClickByLinkTextUsingScript(identify);
+                        break;
+                    case ElementsType.PartialLinkText:
+                        sut.ClickByPartialLinkTextUsingScript(identify);
+                        break;
+                    default:
+                        sut.ClickByXPathUsingScript(identify);
+                        break;
+                }
+
+                var timesToCheck = Times.Never();
+                if (shouldFail) timesToCheck = Times.AtLeastOnce();
+
+                logmoq.VerifyNearLog(LogLevel.Error, "Could not", timesToCheck);
+            }
+
+        }
+
         public static IEnumerable<object[]> GetElementsToClick() => new List<object[]> {
             new object[] { GoogleBaseUrl, "//*[@id='tsf']/div[2]/div/div[3]/center/input[2]", ElementsType.XPath, false },
             new object[] { GoogleBaseUrl, "btnI", ElementsType.Name, false },

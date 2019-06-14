@@ -31,5 +31,19 @@ namespace CrabsWave.Core.Functionalities.Scripts
                 return string.Empty;
             }
         }
+
+        public static void ExecuteScriptUsingJavaScriptExecutor(IWebDriver driver, string script, params object[] args)
+        {
+            if (string.IsNullOrEmpty(script)) return;
+
+            try
+            {
+                ((IJavaScriptExecutor)driver).ExecuteScript(script, args);
+            }
+            catch (Exception e)
+            {
+                LogManager.LogError("Could not execute javascript using args and JavaScriptExecutor engine", e);
+            }
+        }
     }
 }

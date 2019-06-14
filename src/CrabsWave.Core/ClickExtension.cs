@@ -1,5 +1,4 @@
-﻿using System;
-using CrabsWave.Core.Functionalities;
+﻿using CrabsWave.Core.Functionalities;
 using CrabsWave.Core.Resources;
 
 namespace CrabsWave.Core
@@ -56,49 +55,49 @@ namespace CrabsWave.Core
 
         public static Crawler ClickByIdUsingScript(this Crawler parent, string identify)
         {
-            throw new NotImplementedException();
+            ClickManager.ClickUsingJavaScript(parent.Driver, identify, ElementsType.Id);
             return parent;
         }
 
         public static Crawler ClickByNameUsingScript(this Crawler parent, string identify)
         {
-            throw new NotImplementedException();
+            ClickManager.ClickUsingJavaScript(parent.Driver, identify, ElementsType.Name);
             return parent;
         }
 
         public static Crawler ClickByTagNameUsingScript(this Crawler parent, string identify)
         {
-            throw new NotImplementedException();
+            ClickManager.ClickUsingJavaScript(parent.Driver, identify, ElementsType.TagName);
             return parent;
         }
 
         public static Crawler ClickByClassNameUsingScript(this Crawler parent, string identify)
         {
-            throw new NotImplementedException();
+            ClickManager.ClickUsingJavaScript(parent.Driver, identify, ElementsType.ClassName);
             return parent;
         }
 
         public static Crawler ClickByCssSelectorUsingScript(this Crawler parent, string identify)
         {
-            throw new NotImplementedException();
+            ClickManager.ClickUsingJavaScript(parent.Driver, identify, ElementsType.CssSelector);
             return parent;
         }
 
         public static Crawler ClickByLinkTextUsingScript(this Crawler parent, string identify)
         {
-            throw new NotImplementedException();
+            ClickManager.ClickUsingJavaScript(parent.Driver, identify, ElementsType.LinkText);
             return parent;
         }
 
         public static Crawler ClickByPartialLinkTextUsingScript(this Crawler parent, string identify)
         {
-            throw new NotImplementedException();
+            ClickManager.ClickUsingJavaScript(parent.Driver, identify, ElementsType.PartialLinkText);
             return parent;
         }
 
         public static Crawler ClickByXPathUsingScript(this Crawler parent, string identify)
         {
-            throw new NotImplementedException();
+            ClickManager.ClickUsingJavaScript(parent.Driver, identify, ElementsType.XPath);
             return parent;
         }
 
