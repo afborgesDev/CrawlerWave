@@ -203,7 +203,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 new object[] { LocalUrl, "INPUT", ElementsType.TagName, false},
                 new object[] { LocalUrl, "body > a", ElementsType.CssSelector, false},
                 new object[] { LocalUrl, "btnOne", ElementsType.Id, false},
-                new object[] { LocalUrl, "someClass", ElementsType.ClassName, false }
+                new object[] { LocalUrl, "someClass", ElementsType.ClassName, false },
+                new object[] { LocalUrl, "click to increment", ElementsType.PartialLinkText, false},
         };
 
         public static IEnumerable<object[]> GetElementsToClickWithCondition() => new List<object[]> {
