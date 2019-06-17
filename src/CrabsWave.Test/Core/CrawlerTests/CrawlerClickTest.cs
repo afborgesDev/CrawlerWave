@@ -174,12 +174,15 @@ namespace CrabsWave.Test.Core.CrawlerTests
                         sut.ClickByClassNameIfTrue(identify, condition);
                         break;
                     case ElementsType.CssSelector:
+                        sut.ClickByCssSelectorIfTrue(identify, condition);
                         break;
                     case ElementsType.LinkText:
                         break;
                     case ElementsType.PartialLinkText:
+                        sut.ClickByPartialLinkTextIfTrue(identify, condition);
                         break;
                     default:
+                        sut.ClickByXPathIfTrue(identify, condition);
                         break;
                 }
 
@@ -207,9 +210,15 @@ namespace CrabsWave.Test.Core.CrawlerTests
             new object[] { LocalUrl,  "buttonIncrement", ElementsType.Id, "numberResult", true},
             new object[] { LocalUrl, "buttonIncrement", ElementsType.Name, "numberResult", true},
             new object[] { LocalUrl, "buttonIncrement", ElementsType.ClassName, "numberResult", true},
+            new object[] { LocalUrl, "//*[@id='buttonIncrement']", ElementsType.XPath, "numberResult", true},
+            new object[] { LocalUrl, "#buttonIncrement", ElementsType.CssSelector, "numberResult", true},
+            new object[] { LocalUrl, "click to increment", ElementsType.PartialLinkText, "numberResult", true},
             new object[] { LocalUrl,  "buttonIncrement", ElementsType.Id, "numberResult", false},
             new object[] { LocalUrl, "buttonIncrement", ElementsType.Name, "numberResult", false},
-            new object[] { LocalUrl, "buttonIncrement", ElementsType.ClassName, "numberResult", false}
+            new object[] { LocalUrl, "buttonIncrement", ElementsType.ClassName, "numberResult", false},
+            new object[] { LocalUrl, "//*[@id='buttonIncrement']", ElementsType.XPath, "numberResult", false},
+            new object[] { LocalUrl, "#buttonIncrement", ElementsType.CssSelector, "numberResult", false},
+            new object[] { LocalUrl, "click to increment", ElementsType.PartialLinkText, "numberResult", false}
         };
     }
 }
