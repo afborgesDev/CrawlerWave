@@ -13,5 +13,6 @@
         public const string DisableImlSidePaintingOption = "--disable-impl-side-painting";
         public const string DisableDevShmUsageOption = "--disable-dev-shm-usage";
         public const string ProxyServerOption = "--proxy-server={0}";
+        public const string LineBreak = "\r\n";
     }
 }

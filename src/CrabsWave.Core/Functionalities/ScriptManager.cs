@@ -8,16 +8,6 @@ namespace CrabsWave.Core.Functionalities.Scripts
 {
     internal static class ScriptManager
     {
-        public static void ExecuteScript(IWebDriver driver, string script)
-        {
-            if (driver is ChromeDriver cdriver)
-                cdriver.ExecuteScript(script);
-
-            if (driver is RemoteWebDriver rdriver)
-                rdriver.ExecuteScript(script);
-        }
-
-        public static void ExecuteScript(IWebDriver driver, string script, params object[] args) => ExecuteScript(driver, string.Format(script, args));
 
         public static string ExecuteAndTakeResult(IWebDriver driver, string script)
         {

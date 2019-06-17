@@ -96,5 +96,11 @@ namespace CrabsWave.Core
             webElement = ElementsManager.TryGetElements(parent.Driver, identify, ElementsType.XPath, true);
             return parent;
         }
+
+        public static Crawler GetElementAttributeByName(this Crawler parent, string identify, string attribute, out string attributeValue)
+        {
+            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, ElementsType.Name, attribute);
+            return parent;
+        }
     }
 }

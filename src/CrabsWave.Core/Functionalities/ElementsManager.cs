@@ -88,5 +88,27 @@ namespace CrabsWave.Core.Functionalities
 
             return default;
         }
+
+        public static string TryGetAttribute(IWebDriver driver, string elementIdentify, ElementsType elementsType, string attribute, bool shouldRetryIfFail = true)
+        {
+            var element = TryGetElement(driver, elementIdentify, elementsType, shouldRetryIfFail);
+            if (element == null) return string.Empty;
+            var attemps = DefaultNumberOfAttemptsOnRetry;
+            if (!shouldRetryIfFail) attemps = OneAttempt;
+
+            for (var i = 1; i <= attemps; i++)
+            {
+                try
+                {
+                    return element.GetAttribute(attribute);
+                }
+                catch (Exception e)
+                {
+                    LogManager.LogError($"Could not get the attribute for the element {elementIdentify}", e);
+                }
+            }
+
+            return string.Empty;
+        }
     }
 }
