@@ -9,8 +9,6 @@ namespace CrabsWave.Test.Core.CrawlerTests
 {
     public class CrawlerClickTest
     {
-        private const string GoogleBaseUrl = "https://www.google.com.br";
-
         [Theory]
         [MemberData(nameof(GetElementsToClick))]
         public void ShouldClicElement(string url, string identify, ElementsType type, bool shouldFail)
@@ -146,12 +144,16 @@ namespace CrabsWave.Test.Core.CrawlerTests
             }
         }
 
-        public static IEnumerable<object[]> GetElementsToClick() => new List<object[]> {
-            new object[] { GoogleBaseUrl, "//*[@id='tsf']/div[2]/div/div[3]/center/input[2]", ElementsType.XPath, false },
-            new object[] { GoogleBaseUrl, "btnI", ElementsType.Name, false },
-            new object[] { GoogleBaseUrl, "INPUT", ElementsType.TagName, false},
-            new object[] { GoogleBaseUrl, "//*/div[2]/div/div[3]/center/input[2]" , ElementsType.CssSelector, false},
-            new object[] { GoogleBaseUrl, "gb_70", ElementsType.Id, false}
-        };
+        public static IEnumerable<object[]> GetElementsToClick()
+        {
+            var url = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
+            return new List<object[]> {
+                new object[] { url, "//*[@id='ButtonsToXPath']", ElementsType.XPath, false },
+                new object[] { url, "inputName", ElementsType.Name, false },
+                new object[] { url, "INPUT", ElementsType.TagName, false},
+                new object[] { url, "body > a", ElementsType.CssSelector, false},
+                new object[] { url, "btnOne", ElementsType.Id, false}
+            };
+        }
     }
 }

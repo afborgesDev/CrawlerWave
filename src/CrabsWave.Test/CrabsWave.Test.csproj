@@ -32,4 +32,10 @@
     <ProjectReference Include="..\CrabsWave.Core\CrabsWave.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="PageForUnitTest.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

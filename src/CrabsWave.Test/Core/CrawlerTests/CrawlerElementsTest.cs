@@ -12,7 +12,6 @@ namespace CrabsWave.Test.Core.CrawlerTests
     public class CrawlerElementsTest
     {
         private readonly Mock<ILogger<Crawler>> logmoq = new Mock<ILogger<Crawler>>();
-        private const string GoogleUrlBase = "https://www.google.com.br";
 
         [Theory]
         [MemberData(nameof(GetElementToFind))]
@@ -22,7 +21,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
             using (var sut = CreateAndInitialize())
             {
                 IWebElement element = null;
-                
+
                 sut.GoToUrl(url, out _);
 
                 switch (elementType)
@@ -78,13 +77,16 @@ namespace CrabsWave.Test.Core.CrawlerTests
             return crawler;
         }
 
-        public static IEnumerable<object[]> GetElementToFind() => new List<object[]> {
-            new object[] { GoogleUrlBase, "input", ElementsType.CssSelector },
-            new object[] { GoogleUrlBase, "tsf", ElementsType.Id},
-            new object[] { GoogleUrlBase, "q", ElementsType.Name},
-            new object[] { GoogleUrlBase, "//*[@id='tsf']", ElementsType.XPath},
-            new object[] { GoogleUrlBase, "FORM", ElementsType.TagName},
-            new object[] { GoogleUrlBase, "SDkEP", ElementsType.ClassName},
-        };
+        public static IEnumerable<object[]> GetElementToFind()
+        {
+            var url = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
+            return new List<object[]> {
+                new object[] { url, "//*[@id='ButtonsToXPath']", ElementsType.XPath },
+                new object[] { url, "inputName", ElementsType.Name },
+                new object[] { url, "INPUT", ElementsType.TagName},
+                new object[] { url, "body > a", ElementsType.CssSelector},
+                new object[] { url, "btnOne", ElementsType.Id}
+            };
+        }
     }
 }
