@@ -16,15 +16,9 @@ namespace CrabsWave.Utils.IO
         {
             for (var i = 0; i <= MaxNewSocketPortAttempts; i++)
             {
-                try
-                {
-                    var portUse = GetRandomPortToTry();
-                    if (Array.IndexOf(GetSocketPortsInUse(), portUse) < 0) return portUse;
-                }
-                catch
-                {
-                    Thread.Sleep(TimeSpan.FromSeconds(SecondsToWaitNewPort));
-                }
+                var portUse = GetRandomPortToTry();
+                if (Array.IndexOf(GetSocketPortsInUse(), portUse) < 0) return portUse;
+                Thread.Sleep(TimeSpan.FromSeconds(SecondsToWaitNewPort));
             }
 
             return DefaultInvalidSocketPort;

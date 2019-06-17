@@ -17,6 +17,20 @@
             <button id="ButtonsToXPath">Button to xPath</button>
         </div>
     </div>
+
+    <form>
+        <input type="text" id="numberResult" value="0" />
+        <input type="button" id="buttonIncrement" name="buttonIncrement" class="buttonIncrement"
+            onclick="incrementValue()" value="Increment Value" />
+    </form>
 </body>
+<script>
+    function incrementValue() {
+        var value = parseInt(document.getElementById('numberResult').value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        document.getElementById('numberResult').value = value;
+    }
+</script>
 
 </html>

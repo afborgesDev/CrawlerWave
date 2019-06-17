@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
@@ -9,6 +10,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
 {
     public class CrawlerClickTest
     {
+        private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
+
         [Theory]
         [MemberData(nameof(GetElementsToClick))]
         public void ShouldClicElement(string url, string identify, ElementsType type, bool shouldFail)
@@ -144,16 +147,69 @@ namespace CrabsWave.Test.Core.CrawlerTests
             }
         }
 
-        public static IEnumerable<object[]> GetElementsToClick()
+        [Theory]
+        [MemberData(nameof(GetElementsToClickWithCondition))]
+        public void ShouldClickIfTrue(string url, string identify, ElementsType elements, string idNumberResult, bool condition)
         {
-            var url = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
-            return new List<object[]> {
-                new object[] { url, "//*[@id='ButtonsToXPath']", ElementsType.XPath, false },
-                new object[] { url, "inputName", ElementsType.Name, false },
-                new object[] { url, "INPUT", ElementsType.TagName, false},
-                new object[] { url, "body > a", ElementsType.CssSelector, false},
-                new object[] { url, "btnOne", ElementsType.Id, false}
-            };
+            var logmoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logmoq.Object))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl(url, out _)
+                   .GetElementById(idNumberResult, out var checkElement);
+
+                int.TryParse(checkElement.GetAttribute("value"), out var elementValueBefore);
+
+                switch (elements)
+                {
+                    case ElementsType.Id:
+                        sut.ClickByIdIfTrue(identify, condition);
+                        break;
+                    case ElementsType.Name:
+                        sut.ClickByNameIfTrue(identify, condition);
+                        break;
+                    case ElementsType.TagName:
+                        break;
+                    case ElementsType.ClassName:
+                        sut.ClickByClassNameIfTrue(identify, condition);
+                        break;
+                    case ElementsType.CssSelector:
+                        break;
+                    case ElementsType.LinkText:
+                        break;
+                    case ElementsType.PartialLinkText:
+                        break;
+                    default:
+                        break;
+                }
+
+                sut.GetElementById(idNumberResult, out checkElement);
+
+                int.TryParse(checkElement.GetAttribute("value"), out var elementValueAfter);
+
+                if (condition)
+                    elementValueAfter.Should().BeGreaterThan(elementValueBefore);
+                else
+                    elementValueAfter.Should().Be(elementValueBefore);
+            }
         }
+
+        public static IEnumerable<object[]> GetElementsToClick() => new List<object[]> {
+                new object[] { LocalUrl, "//*[@id='ButtonsToXPath']", ElementsType.XPath, false },
+                new object[] { LocalUrl, "inputName", ElementsType.Name, false },
+                new object[] { LocalUrl, "INPUT", ElementsType.TagName, false},
+                new object[] { LocalUrl, "body > a", ElementsType.CssSelector, false},
+                new object[] { LocalUrl, "btnOne", ElementsType.Id, false},
+                new object[] { LocalUrl, "someClass", ElementsType.ClassName, false }
+        };
+
+        public static IEnumerable<object[]> GetElementsToClickWithCondition() => new List<object[]> {
+            new object[] { LocalUrl,  "buttonIncrement", ElementsType.Id, "numberResult", true},
+            new object[] { LocalUrl, "buttonIncrement", ElementsType.Name, "numberResult", true},
+            new object[] { LocalUrl, "buttonIncrement", ElementsType.ClassName, "numberResult", true},
+            new object[] { LocalUrl,  "buttonIncrement", ElementsType.Id, "numberResult", false},
+            new object[] { LocalUrl, "buttonIncrement", ElementsType.Name, "numberResult", false},
+            new object[] { LocalUrl, "buttonIncrement", ElementsType.ClassName, "numberResult", false}
+        };
     }
 }

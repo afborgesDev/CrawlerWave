@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CrabsWave.Core.ErrorHandler
 {
     [Serializable]
+    [ExcludeFromCodeCoverage]
     public class CrawlerBaseException : Exception
     {
         public CrawlerBaseException() : base()

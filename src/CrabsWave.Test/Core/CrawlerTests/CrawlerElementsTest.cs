@@ -11,7 +11,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
 {
     public class CrawlerElementsTest
     {
-        private readonly Mock<ILogger<Crawler>> logmoq = new Mock<ILogger<Crawler>>();
+        private readonly Mock<ILogger<Crawler>> logmoq = new Mock<ILogger<Crawler>>();        
 
         [Theory]
         [MemberData(nameof(GetElementToFind))]
@@ -85,7 +85,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 new object[] { url, "inputName", ElementsType.Name },
                 new object[] { url, "INPUT", ElementsType.TagName},
                 new object[] { url, "body > a", ElementsType.CssSelector},
-                new object[] { url, "btnOne", ElementsType.Id}
+                new object[] { url, "btnOne", ElementsType.Id},
+                new object[] { url, "someClass", ElementsType.ClassName }
             };
         }
     }
