@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
 using FluentAssertions;
@@ -53,6 +54,49 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 }
 
                 element.Should().NotBeNull();
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(GetElementToFind))]
+        public void ShouldGetElements(string url, string identify, ElementsType elementType)
+        {
+            using (var sut = CreateAndInitialize())
+            {
+                ReadOnlyCollection<IWebElement> elements = null;
+
+                sut.GoToUrl(url, out _);
+
+                switch (elementType)
+                {
+                    case ElementsType.Id:
+                        sut.GetElementsById(identify, out elements);
+                        break;
+                    case ElementsType.Name:
+                        sut.GetElementsByName(identify, out elements);
+                        break;
+                    case ElementsType.TagName:
+                        sut.GetElementsByTagName(identify, out elements);
+                        break;
+                    case ElementsType.ClassName:
+                        sut.GetElementsByClassName(identify, out elements);                            
+                        break;
+                    case ElementsType.CssSelector:
+                        sut.GetElementsByCssSelector(identify, out elements);
+                        break;
+                    case ElementsType.LinkText:
+                        sut.GetElementsByLinkText(identify, out elements);
+                        break;
+                    case ElementsType.PartialLinkText:
+                        sut.GetElementsByPartialText(identify, out elements);
+                        break;
+                    case ElementsType.XPath:
+                        sut.GetElementsByXPath(identify, out elements);
+                        break;
+                }
+
+                elements.Should().NotBeNull();
+                elements.Should().NotBeEmpty();
             }
         }
 

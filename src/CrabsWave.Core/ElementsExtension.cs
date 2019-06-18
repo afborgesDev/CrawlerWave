@@ -61,6 +61,12 @@ namespace CrabsWave.Core
             return parent;
         }
 
+        public static Crawler GetElementsByClassName(this Crawler parent, string identify, out ReadOnlyCollection<IWebElement> webElement)
+        {
+            webElement = ElementsManager.TryGetElements(parent.Driver, identify, ElementsType.ClassName, true);
+            return parent;
+        }
+
         public static Crawler GetElementsById(this Crawler parent, string identify, out ReadOnlyCollection<IWebElement> webElement)
         {
             webElement = ElementsManager.TryGetElements(parent.Driver, identify, ElementsType.Id, true);

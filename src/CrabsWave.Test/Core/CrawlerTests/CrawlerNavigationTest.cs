@@ -26,6 +26,26 @@ namespace CrabsWave.Test.Core.CrawlerTests
         }
 
         [Fact]
+        public void ShouldRefreshPage()
+        {
+            var logmoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logmoq.Object))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl($"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}", out _)
+                   .GetElementById("inputName", out var element);
+
+                element.SendKeys("someInput");
+
+                sut.RefreshPage()
+                   .GetElementById("inputName", out element);
+
+                element.Text.Should().BeNullOrEmpty();
+            }
+        }
+
+
+        [Fact]
         public void ShouldNavigateBack()
         {
             var logmoq = new Mock<ILogger<Crawler>>();
