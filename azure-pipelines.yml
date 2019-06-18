@@ -24,6 +24,7 @@ steps:
       sonar.branch.name=$(Build.SourceBranchName)
       sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/TestResults/Coverage/$(openCoverFileName)
       sonar.cs.vstest.reportsPaths=$(Build.SourcesDirectory)/TestResults/Report/*.trx
+      sonar.cs.xunit.reportsPaths=$(Build.SourcesDirectory)/TestResults/Report/*.trx
 
 - task: DotNetCoreCLI@2
   displayName: Building
