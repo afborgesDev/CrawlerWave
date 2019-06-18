@@ -169,6 +169,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
                         sut.ClickByNameIfTrue(identify, condition);
                         break;
                     case ElementsType.TagName:
+                        sut.ClickByTagNameIfTrue(identify, condition);
                         break;
                     case ElementsType.ClassName:
                         sut.ClickByClassNameIfTrue(identify, condition);
@@ -177,6 +178,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
                         sut.ClickByCssSelectorIfTrue(identify, condition);
                         break;
                     case ElementsType.LinkText:
+                        sut.ClickByLinkTextIfTrue(identify, condition);
                         break;
                     case ElementsType.PartialLinkText:
                         sut.ClickByPartialLinkTextIfTrue(identify, condition);
@@ -197,6 +199,40 @@ namespace CrabsWave.Test.Core.CrawlerTests
             }
         }
 
+        [Fact]
+        public void ShoulConfirmAlert()
+        {
+            var logmoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logmoq.Object))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl(LocalUrl, out _)
+                   .ClickById("clickToAlert")
+                   .ClickAlert(true)
+                   .GetElementById("numberResult", out var elementResult);
+                int.TryParse(elementResult.GetAttribute("value"), out var value);
+
+                value.Should().Be(23);
+            }
+        }
+
+        [Fact]
+        public void ShoulDemissAlert()
+        {
+            var logmoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logmoq.Object))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl(LocalUrl, out _)
+                   .ClickById("clickToAlert")
+                   .ClickAlert(false)
+                   .GetElementById("numberResult", out var elementResult);
+                int.TryParse(elementResult.GetAttribute("value"), out var value);
+
+                value.Should().Be(-1);
+            }
+        }
+
         public static IEnumerable<object[]> GetElementsToClick() => new List<object[]> {
                 new object[] { LocalUrl, "//*[@id='ButtonsToXPath']", ElementsType.XPath, false },
                 new object[] { LocalUrl, "inputName", ElementsType.Name, false },
@@ -205,6 +241,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 new object[] { LocalUrl, "btnOne", ElementsType.Id, false},
                 new object[] { LocalUrl, "someClass", ElementsType.ClassName, false },
                 new object[] { LocalUrl, "click to increment", ElementsType.PartialLinkText, false},
+                new object[] { LocalUrl, "click to increment" , ElementsType.LinkText, false}
         };
 
         public static IEnumerable<object[]> GetElementsToClickWithCondition() => new List<object[]> {
@@ -214,12 +251,16 @@ namespace CrabsWave.Test.Core.CrawlerTests
             new object[] { LocalUrl, "//*[@id='buttonIncrement']", ElementsType.XPath, "numberResult", true},
             new object[] { LocalUrl, "#buttonIncrement", ElementsType.CssSelector, "numberResult", true},
             new object[] { LocalUrl, "click to increment", ElementsType.PartialLinkText, "numberResult", true},
+            new object[] { LocalUrl, "click to increment" , ElementsType.LinkText, "numberResult", true},
+            new object[] { LocalUrl, "P" , ElementsType.TagName, "numberResult", true},
             new object[] { LocalUrl,  "buttonIncrement", ElementsType.Id, "numberResult", false},
             new object[] { LocalUrl, "buttonIncrement", ElementsType.Name, "numberResult", false},
             new object[] { LocalUrl, "buttonIncrement", ElementsType.ClassName, "numberResult", false},
             new object[] { LocalUrl, "//*[@id='buttonIncrement']", ElementsType.XPath, "numberResult", false},
             new object[] { LocalUrl, "#buttonIncrement", ElementsType.CssSelector, "numberResult", false},
-            new object[] { LocalUrl, "click to increment", ElementsType.PartialLinkText, "numberResult", false}
+            new object[] { LocalUrl, "click to increment", ElementsType.PartialLinkText, "numberResult", false},
+            new object[] { LocalUrl, "click to increment" , ElementsType.LinkText, "numberResult", false},
+            new object[] { LocalUrl, "P" , ElementsType.TagName, "numberResult", false}
         };
     }
 }

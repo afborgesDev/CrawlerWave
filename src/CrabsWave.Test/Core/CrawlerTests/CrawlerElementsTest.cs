@@ -86,7 +86,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 new object[] { url, "INPUT", ElementsType.TagName},
                 new object[] { url, "body > a", ElementsType.CssSelector},
                 new object[] { url, "btnOne", ElementsType.Id},
-                new object[] { url, "someClass", ElementsType.ClassName }
+                new object[] { url, "someClass", ElementsType.ClassName },
+                new object[] { url, "click to increment", ElementsType.PartialLinkText},
+                new object[] { url, "click to increment" , ElementsType.LinkText}
             };
         }
     }

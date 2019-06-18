@@ -1,8 +1,6 @@
 ﻿using System;
 using CrabsWave.Core.LogsReports;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Remote;
 
 namespace CrabsWave.Core.Functionalities.Scripts
 {

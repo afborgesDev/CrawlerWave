@@ -23,6 +23,8 @@
         <input type="button" id="buttonIncrement" name="buttonIncrement" class="buttonIncrement"
             onclick="incrementValue()" value="Increment Value" />
         <a onclick="incrementValue()">click to increment</a>
+        <p onclick="incrementValue()">click using parameter</p>
+        <button onclick="return showAlert()" id="clickToAlert">Show alert</button>
     </form>
 </body>
 <script>
@@ -31,6 +33,16 @@
         value = isNaN(value) ? 0 : value;
         value++;
         document.getElementById('numberResult').value = value;
+    };
+
+    function showAlert() {
+        var retVal = confirm("Do you want to continue ?");
+        if (retVal == true) {
+            document.getElementById("numberResult").value = 23;
+        } else {
+            document.getElementById("numberResult").value = -1;
+        }
+        return false;
     }
 </script>
 
