@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using CrabsWave.Utils.IO;
 using FluentAssertions;
 using Xunit;
@@ -14,6 +15,16 @@ namespace CrabsWave.Test.Utils
             var currentDirectory = Directory.GetCurrentDirectory();
             var folderUtilDirectory = FolderUtils.GetAbsolutePath();
             currentDirectory.Should().BeEquivalentTo(folderUtilDirectory);
+        }
+
+        [Fact]
+        public void ShouldGetFileFromOs()
+        {
+            var fileName = FolderUtils.GetFileNameFromOs("fileName");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                fileName.Should().Contain(".exe");
+            else
+                fileName.Should().NotContain(".exe");
         }
 
         [Theory]

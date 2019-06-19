@@ -70,6 +70,6 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 errorMessage.Should().BeNullOrEmpty();
                 currentUrl.Should().ContainAll(urlBase);
             }
-        }
+        }        
     }
 }

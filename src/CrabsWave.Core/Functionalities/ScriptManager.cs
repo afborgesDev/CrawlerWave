@@ -11,7 +11,7 @@ namespace CrabsWave.Core.Functionalities.Scripts
         {
             try
             {
-                return (string)((IJavaScriptExecutor)driver).ExecuteScript(script);
+                return (driver as IJavaScriptExecutor)?.ExecuteScript(script).ToString();
             }
             catch (Exception e)
             {
