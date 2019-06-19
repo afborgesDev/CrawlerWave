@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using CrabsWave.Core.Validations;
 using CrabsWave.Utils.IO;
 using FluentAssertions;
 using Xunit;
@@ -33,6 +34,13 @@ namespace CrabsWave.Test.Utils
         {
             var fileExists = FolderUtils.SafeCheckExecutableExists(fileName, directory);
             fileExists.Should().Be(shoudExists);
+        }
+
+        [Fact]
+        public void ShouldTestWebDriverAvaliable()
+        {
+            var fileName = SeleniumDependencies.GetWebDriverPathAvaliable();
+            fileName.Should().NotBeNullOrWhiteSpace();
         }
 
         public static IEnumerable<object[]> GetExecutableCombinations() => new List<object[]>() {

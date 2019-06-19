@@ -1,5 +1,4 @@
 ﻿using CrabsWave.Core.Functionalities;
-using OpenQA.Selenium;
 
 namespace CrabsWave.Core
 {
@@ -26,18 +25,6 @@ namespace CrabsWave.Core
         public static Crawler RefreshPage(this Crawler parent)
         {
             NavegationManager.RefreshPage(parent.Driver);
-            return parent;
-        }
-
-        public static Crawler SwitchToWindow(this Crawler parent, string windowName)
-        {
-            NavegationManager.SwitchToWindow(parent.Driver, windowName);
-            return parent;
-        }
-
-        public static Crawler SwitchToFrame(this Crawler parent, IWebElement webElement)
-        {
-            NavegationManager.SwitchToFrame(parent.Driver, webElement);
             return parent;
         }
     }

@@ -48,22 +48,6 @@ namespace CrabsWave.Core.Functionalities
 
         public static void RefreshPage(IWebDriver driver) => driver.Navigate().Refresh();
 
-        public static void SwitchToWindow(IWebDriver driver, string windowName) => SwitchTo(driver, windowName);
-
-        public static void SwitchToFrame(IWebDriver driver, IWebElement webElement)
-        {
-            if (webElement == null) return;
-
-            try
-            {
-                driver.SwitchTo().Frame(webElement);
-            }
-            catch (Exception e)
-            {
-                LogManager.LogError("Could not swith to frame", e);
-            }
-        }
-
         private static (bool, string) DoNavigateToUrl(IWebDriver driver, string url)
         {
             try
@@ -93,11 +77,5 @@ namespace CrabsWave.Core.Functionalities
         }
 
         private static void SetDefaultWindowSize(IWebDriver driver) => driver.Manage().Window.Size = new Size(1680, 1050);
-
-        private static void SwitchTo(IWebDriver driver, string windowsName)
-        {
-            if (!string.IsNullOrWhiteSpace(windowsName))
-                driver.SwitchTo().Window(windowsName);
-        }
     }
 }
