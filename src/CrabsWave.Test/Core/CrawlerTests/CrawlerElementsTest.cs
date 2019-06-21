@@ -100,20 +100,6 @@ namespace CrabsWave.Test.Core.CrawlerTests
             }
         }
 
-        [Fact]
-        public void ShouldGetElementAttribute()
-        {
-            var logMoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logMoq.Object))
-            {
-                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
-                   .GoToUrl("https://www.google.com", out _)
-                   .GetElementAttributeByName("q", "title", out var title);
-
-                title.Should().NotBeNullOrWhiteSpace();
-            }
-        }
-
         private Crawler CreateAndInitialize()
         {
             var crawler = new Crawler(logmoq.Object);

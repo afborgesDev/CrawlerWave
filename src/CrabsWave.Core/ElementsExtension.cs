@@ -103,6 +103,48 @@ namespace CrabsWave.Core
             return parent;
         }
 
+        public static Crawler GetElementAttributeById(this Crawler parent, string identify, string attribute, out string attributeValue)
+        {
+            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, ElementsType.Id, attribute);
+            return parent;
+        }
+
+        public static Crawler GetElementAttributeByTagName(this Crawler parent, string identify, string attribute, out string attributeValue)
+        {
+            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, ElementsType.TagName, attribute);
+            return parent;
+        }
+
+        public static Crawler GetElementAttributeByClassName(this Crawler parent, string identify, string attribute, out string attributeValue)
+        {
+            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, ElementsType.ClassName, attribute);
+            return parent;
+        }
+
+        public static Crawler GetElementAttributeByCssSelector(this Crawler parent, string identify, string attribute, out string attributeValue)
+        {
+            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, ElementsType.CssSelector, attribute);
+            return parent;
+        }
+
+        public static Crawler GetElementAttributeByLinkText(this Crawler parent, string identify, string attribute, out string attributeValue)
+        {
+            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, ElementsType.LinkText, attribute);
+            return parent;
+        }
+
+        public static Crawler GetElementAttributeByPartialLinkText(this Crawler parent, string identify, string attribute, out string attributeValue)
+        {
+            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, ElementsType.PartialLinkText, attribute);
+            return parent;
+        }
+
+        public static Crawler GetElementAttributeByXPath(this Crawler parent, string identify, string attribute, out string attributeValue)
+        {
+            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, ElementsType.XPath, attribute);
+            return parent;
+        }
+
         public static Crawler GetElementAttributeByName(this Crawler parent, string identify, string attribute, out string attributeValue)
         {
             attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, ElementsType.Name, attribute);
