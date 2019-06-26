@@ -10,7 +10,21 @@ namespace CrabsWave.Core.Functionalities
     {
         private const string AttributeText = "innerText";
 
-        public static string GetElementText(IWebDriver driver, string identify, ElementsType elementsType) => ElementsManager.TryGetAttribute(driver, identify, elementsType, AttributeText);
+        public static string GetElementInnerText(IWebDriver driver, string identify, ElementsType elementsType) => ElementsManager.TryGetAttribute(driver, identify, elementsType, AttributeText);
+
+        public static string GetElementText(IWebDriver driver, string identify, ElementsType elementsType)
+        {
+            var item = ElementsManager.TryGetElement(driver, identify, elementsType);
+            try
+            {
+                return item.Text;
+            }
+            catch (Exception e)
+            {
+                LogManager.LogError($"Cuold not get element text for element {identify}", e);
+                return string.Empty;
+            }
+        }
 
         public static IList<string> GetTextFromMultipleElementOcurrences(IWebDriver driver, string identify, ElementsType elementsType)
         {

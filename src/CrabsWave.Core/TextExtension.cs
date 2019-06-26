@@ -6,6 +6,12 @@ namespace CrabsWave.Core
 {
     public static class TextExtension
     {
+        public static Crawler ElementInnerText(this Crawler parent, string identify, ElementsType elementsType, out string textValue)
+        {
+            textValue = TextManager.GetElementInnerText(parent.Driver, identify, elementsType);
+            return parent;
+        }
+
         public static Crawler ElementText(this Crawler parent, string identify, ElementsType elementsType, out string textValue)
         {
             textValue = TextManager.GetElementText(parent.Driver, identify, elementsType);

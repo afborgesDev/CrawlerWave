@@ -40,7 +40,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .ElementText(identify, elementsType, out var text);
+                   .ElementInnerText(identify, elementsType, out var text);
 
                 text.Should().Be(expectedValue);
             }
@@ -73,7 +73,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
                    .ClearAndSendKeys(identify, elementsType, textToSend)
-                   .ElementText(identify, elementsType, out var text);
+                   .GetElementAttribute(identify, elementsType, "value", out var text);
 
                 text.Should().Be(textToSend);
             }
