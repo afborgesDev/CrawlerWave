@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
 using FluentAssertions;
@@ -14,48 +12,6 @@ namespace CrabsWave.Test.Core.CrawlerTests
     {
         private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
 
-        [Theory]
-        [MemberData(nameof(GetElementsToTestText))]
-        public static void ShouldGetElementText(string identify, string expectedValue, ElementsType elementsType)
-        {
-            var logMoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logMoq.Object))
-            {
-                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
-                   .GoToUrl(LocalUrl, out _);
-                string text = null;
-                switch (elementsType)
-                {
-                    case ElementsType.Id:
-                        sut.ElementTextById(identify, out text);
-                        break;
-                    case ElementsType.Name:
-                        sut.ElementTextByName(identify, out text);
-                        break;
-                    case ElementsType.TagName:
-                        sut.ElementTextByTagName(identify, out text);
-                        break;
-                    case ElementsType.ClassName:
-                        sut.ElementTextByClassName(identify, out text);
-                        break;
-                    case ElementsType.CssSelector:
-                        sut.ElementTextByCssSelector(identify, out text);
-                        break;
-                    case ElementsType.LinkText:
-                        sut.ElementTextByLinkText(identify, out text);
-                        break;
-                    case ElementsType.PartialLinkText:
-                        sut.ElementTextByPartialLinkText(identify, out text);
-                        break;
-                    default:
-                        sut.ElementTextByXPath(identify, out text);
-                        break;
-                }
-
-                text.Should().Be(expectedValue);
-            }
-        }
-
         public static IEnumerable<object[]> GetElementsToTestText() => new List<object[]> {
             new object[] { "btnOne", "This is a button", ElementsType.Id },
             new object[] { "btnOne", "This is a button", ElementsType.Name },
@@ -66,5 +22,61 @@ namespace CrabsWave.Test.Core.CrawlerTests
             new object[] { "click to increment", "click to increment", ElementsType.PartialLinkText },
             new object[] { "/html/body/form/a[1]", "click to increment", ElementsType.XPath }
         };
+
+        public static IEnumerable<object[]> GetItemsForTestMultipleElements() => new List<object[]> {
+            new object[] { "//*[@class='labels']" , ElementsType.XPath, "This is a label 1"}
+        };
+
+        public static IEnumerable<object[]> GetItemsToClearAndSendKeys() => new List<object[]> {
+            new object[] { "inputName", ElementsType.Id, "This is a test for Send using ID" }
+        };
+
+        [Theory]
+        [MemberData(nameof(GetElementsToTestText))]
+        public void ShouldGetElementText(string identify, string expectedValue, ElementsType elementsType)
+        {
+            var logMoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logMoq.Object))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl(LocalUrl, out _)
+                   .ElementText(identify, elementsType, out var text);
+
+                text.Should().Be(expectedValue);
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(GetItemsForTestMultipleElements))]
+        public void ShouldGetTextFromMultipleElementsOcurrences(string identify, ElementsType elementsType, string textSample)
+        {
+            var logMoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logMoq.Object))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl($"file:///{PageForUnitTestHelper.GetPageForUnitTestWithMultipleItems()}", out _)
+                   .ElementsText(identify, elementsType, out var listOfText);
+
+                listOfText.Should().NotBeNull();
+                listOfText.Should().HaveCountGreaterThan(0);
+                listOfText.Should().ContainEquivalentOf(textSample);
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(GetItemsToClearAndSendKeys))]
+        public void ShouldClearAndSendText(string identify, ElementsType elementsType, string textToSend)
+        {
+            var logMoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logMoq.Object))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl(LocalUrl, out _)
+                   .ClearAndSendKeys(identify, elementsType, textToSend)
+                   .ElementText(identify, elementsType, out var text);
+
+                text.Should().Be(textToSend);
+            }
+        }
     }
 }

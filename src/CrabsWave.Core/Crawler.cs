@@ -11,9 +11,9 @@ namespace CrabsWave.Core
 {
     public class Crawler : IDisposable
     {
+        internal IWebDriver Driver;
         private readonly ILogger<Crawler> Logger;
         private string[] Capabilities;
-        internal IWebDriver Driver;
         private ChromeDriverService Service;
         public bool Ready { get; set; }
 

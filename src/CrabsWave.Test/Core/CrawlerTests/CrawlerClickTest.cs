@@ -20,35 +20,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
             using (var sut = new Crawler(logmoq.Object))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
-                   .GoToUrl(url, out _);
-
-                switch (type)
-                {
-                    case ElementsType.Id:
-                        sut.ClickById(identify);
-                        break;
-                    case ElementsType.Name:
-                        sut.ClickByName(identify);
-                        break;
-                    case ElementsType.TagName:
-                        sut.ClickByTagName(identify);
-                        break;
-                    case ElementsType.ClassName:
-                        sut.ClickByClassName(identify);
-                        break;
-                    case ElementsType.CssSelector:
-                        sut.ClickByCssSelector(identify);
-                        break;
-                    case ElementsType.LinkText:
-                        sut.ClickByLinkText(identify);
-                        break;
-                    case ElementsType.PartialLinkText:
-                        sut.ClickByPartialLinkText(identify);
-                        break;
-                    default:
-                        sut.ClickByXPath(identify);
-                        break;
-                }
+                   .GoToUrl(url, out _)
+                   .Click(identify, type);
 
                 var timesToCheck = Times.Never();
                 if (shouldFail) timesToCheck = Times.AtLeastOnce();
@@ -65,35 +38,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
             using (var sut = new Crawler(logmoq.Object))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
-                   .GoToUrl(url, out _);
-
-                switch (type)
-                {
-                    case ElementsType.Id:
-                        sut.ClickByIdUsingScript(identify);
-                        break;
-                    case ElementsType.Name:
-                        sut.ClickByNameUsingScript(identify);
-                        break;
-                    case ElementsType.TagName:
-                        sut.ClickByTagNameUsingScript(identify);
-                        break;
-                    case ElementsType.ClassName:
-                        sut.ClickByClassNameUsingScript(identify);
-                        break;
-                    case ElementsType.CssSelector:
-                        sut.ClickByCssSelectorUsingScript(identify);
-                        break;
-                    case ElementsType.LinkText:
-                        sut.ClickByLinkTextUsingScript(identify);
-                        break;
-                    case ElementsType.PartialLinkText:
-                        sut.ClickByPartialLinkTextUsingScript(identify);
-                        break;
-                    default:
-                        sut.ClickByXPathUsingScript(identify);
-                        break;
-                }
+                   .GoToUrl(url, out _)
+                   .ClickUsingScript(identify, type);
 
                 var timesToCheck = Times.Never();
                 if (shouldFail) timesToCheck = Times.AtLeastOnce();
@@ -110,35 +56,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
             using (var sut = new Crawler(logmoq.Object))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
-                   .GoToUrl(url, out _);
-
-                switch (type)
-                {
-                    case ElementsType.Id:
-                        sut.ClickFirstById(identify);
-                        break;
-                    case ElementsType.Name:
-                        sut.ClickFirstByName(identify);
-                        break;
-                    case ElementsType.TagName:
-                        sut.ClickFirstByTagName(identify);
-                        break;
-                    case ElementsType.ClassName:
-                        sut.ClickFirstByClassName(identify);
-                        break;
-                    case ElementsType.CssSelector:
-                        sut.ClickFirstByCssSelector(identify);
-                        break;
-                    case ElementsType.LinkText:
-                        sut.ClickFirstByLinkText(identify);
-                        break;
-                    case ElementsType.PartialLinkText:
-                        sut.ClickFirstByPartialLinkText(identify);
-                        break;
-                    default:
-                        sut.ClickFirstByXPath(identify);
-                        break;
-                }
+                   .GoToUrl(url, out _)
+                   .ClickFirst(identify, type);
 
                 var timesToCheck = Times.Never();
                 if (shouldFail) timesToCheck = Times.AtLeastOnce();
@@ -156,39 +75,12 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
-                   .GetElementById(idNumberResult, out var checkElement);
+                   .GetElement(idNumberResult, ElementsType.Id,out var checkElement);
 
                 int.TryParse(checkElement.GetAttribute("value"), out var elementValueBefore);
 
-                switch (elements)
-                {
-                    case ElementsType.Id:
-                        sut.ClickByIdIfTrue(identify, condition);
-                        break;
-                    case ElementsType.Name:
-                        sut.ClickByNameIfTrue(identify, condition);
-                        break;
-                    case ElementsType.TagName:
-                        sut.ClickByTagNameIfTrue(identify, condition);
-                        break;
-                    case ElementsType.ClassName:
-                        sut.ClickByClassNameIfTrue(identify, condition);
-                        break;
-                    case ElementsType.CssSelector:
-                        sut.ClickByCssSelectorIfTrue(identify, condition);
-                        break;
-                    case ElementsType.LinkText:
-                        sut.ClickByLinkTextIfTrue(identify, condition);
-                        break;
-                    case ElementsType.PartialLinkText:
-                        sut.ClickByPartialLinkTextIfTrue(identify, condition);
-                        break;
-                    default:
-                        sut.ClickByXPathIfTrue(identify, condition);
-                        break;
-                }
-
-                sut.GetElementById(idNumberResult, out checkElement);
+                sut.ClickIfTrue(identify, condition, elements)
+                   .GetElement(idNumberResult, ElementsType.Id, out checkElement);
 
                 int.TryParse(checkElement.GetAttribute("value"), out var elementValueAfter);
 
@@ -207,9 +99,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .ClickById("clickToAlert")
+                   .Click("clickToAlert", ElementsType.Id)
                    .ClickAlert(true)
-                   .GetElementById("numberResult", out var elementResult);
+                   .GetElement("numberResult", ElementsType.Id, out var elementResult);
                 int.TryParse(elementResult.GetAttribute("value"), out var value);
 
                 value.Should().Be(23);
@@ -224,9 +116,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .ClickById("clickToAlert")
+                   .Click("clickToAlert", ElementsType.Id)
                    .ClickAlert(false)
-                   .GetElementById("numberResult", out var elementResult);
+                   .GetElement("numberResult", ElementsType.Id, out var elementResult);
                 int.TryParse(elementResult.GetAttribute("value"), out var value);
 
                 value.Should().Be(-1);

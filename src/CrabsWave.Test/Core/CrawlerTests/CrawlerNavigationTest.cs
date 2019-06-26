@@ -1,4 +1,5 @@
 ﻿using CrabsWave.Core;
+using CrabsWave.Core.Resources;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -33,12 +34,12 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl($"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}", out _)
-                   .GetElementById("inputName", out var element);
+                   .GetElement("inputName", ElementsType.Id, out var element);
 
                 element.SendKeys("someInput");
 
                 sut.RefreshPage()
-                   .GetElementById("inputName", out element);
+                   .GetElement("inputName", ElementsType.Id, out element);
 
                 element.Text.Should().BeNullOrEmpty();
             }

@@ -20,36 +20,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
             using (var sut = new Crawler(logMoq.Object))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
-                   .GoToUrl(LocalUrl, out _);
-
-                string value = null;
-                switch (elementsType)
-                {
-                    case ElementsType.Id:
-                        sut.GetElementAttributeById(identify, attribute, out value);
-                        break;
-                    case ElementsType.Name:
-                        sut.GetElementAttributeByName(identify, attribute, out value);
-                        break;
-                    case ElementsType.TagName:
-                        sut.GetElementAttributeByTagName(identify, attribute, out value);
-                        break;
-                    case ElementsType.ClassName:
-                        sut.GetElementAttributeByClassName(identify, attribute, out value);
-                        break;
-                    case ElementsType.CssSelector:
-                        sut.GetElementAttributeByCssSelector(identify, attribute, out value);
-                        break;
-                    case ElementsType.LinkText:
-                        sut.GetElementAttributeByLinkText(identify, attribute, out value);
-                        break;
-                    case ElementsType.PartialLinkText:
-                        sut.GetElementAttributeByPartialLinkText(identify, attribute, out value);
-                        break;                    
-                    default:
-                        sut.GetElementAttributeByXPath(identify, attribute, out value);
-                        break;
-                }
+                   .GoToUrl(LocalUrl, out _)
+                   .GetElementAttribute(identify, elementsType, attribute, out var value);
 
                 value.Should().Be(expectedValue);
             }
@@ -62,7 +34,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
             using (var sut = new Crawler(logMoq.Object))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
-                   .GetElementAttributeById("invalix", "value", out var value);
+                   .GetElementAttribute("invalix", ElementsType.Id, "value", out var value);
                 value.Should().BeNullOrWhiteSpace();
 
             }
