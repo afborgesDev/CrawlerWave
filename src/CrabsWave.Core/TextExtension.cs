@@ -12,12 +12,6 @@ namespace CrabsWave.Core
             return parent;
         }
 
-        public static Crawler ElementText(this Crawler parent, string identify, ElementsType elementsType, out string textValue)
-        {
-            textValue = TextManager.GetElementText(parent.Driver, identify, elementsType);
-            return parent;
-        }
-
         public static Crawler ElementsText(this Crawler parent, string identify, ElementsType elementsType, out IList<string> textValue)
         {
             textValue = TextManager.GetTextFromMultipleElementOcurrences(parent.Driver, identify, elementsType);
