@@ -19,5 +19,19 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 sut.Ready.Should().BeTrue();
             }
         }
+
+        [Fact]
+        public void ShouldNotLog()
+        {
+            var logmoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logmoq.Object))
+            {
+                var behavior = new Behavior() { Verbose = false };
+                sut.Initializate(behavior);
+                behavior.Verbose.Should().BeFalse();
+                logmoq.VerifyLog(LogLevel.Information, "Crawler created, starting to configure", Times.AtLeastOnce());
+                logmoq.VerifyLog(LogLevel.Information, "The Crawler is ready to use.", Times.Never());
+            }
+        }
     }
 }

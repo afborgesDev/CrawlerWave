@@ -30,13 +30,5 @@ namespace CrabsWave.Test.Core
             LogManager.LogError(ExampleMessage);
             logMoq.VerifyLog(LogLevel.Error, ExampleMessage, Times.Once());
         }
-
-        //[Fact]
-        //public void ShouldErrorWithNoInitialization()
-        //{
-        //    Action act = () => LogManager.LogError(ExampleMessage);
-        //    act.Should().ThrowExactly<CrawlerBaseException>()
-        //       .WithMessage("Should initilizate the logger");
-        //}
     }
 }

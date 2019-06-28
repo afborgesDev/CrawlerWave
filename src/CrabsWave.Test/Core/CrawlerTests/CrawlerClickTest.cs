@@ -177,5 +177,22 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 value.Should().Be(-1);
             }
         }
+
+        [Fact]
+        public void ShouldTestClickFirstManager()
+        {
+            var logmoq = new Mock<ILogger<Crawler>>();
+            using (var sut = new Crawler(logmoq.Object))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl(LocalUrl, out _)
+                   .ClickFirst("buttonIncrement-123", ElementsType.Id)
+                   .GetElementAttribute("numberResult", ElementsType.Id, "value", out var elementResult);
+
+                int.TryParse(elementResult, out var value);
+
+                value.Should().Be(0);
+            }
+        }
     }
 }
