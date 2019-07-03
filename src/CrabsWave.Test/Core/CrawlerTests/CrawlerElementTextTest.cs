@@ -78,6 +78,5 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 text.Should().Be(textToSend);
             }
         }
-        
     }
 }

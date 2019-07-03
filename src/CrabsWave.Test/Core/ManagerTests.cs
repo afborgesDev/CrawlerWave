@@ -1,8 +1,4 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using Xunit;
-
-namespace CrabsWave.Test.Core
+﻿namespace CrabsWave.Test.Core
 {
     public class ManagerTests
     {

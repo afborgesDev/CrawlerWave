@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 
 namespace CrabsWave.Core.Functionalities
 {
-    public static class NavegationManager
+    internal static class NavegationManager
     {
         public static string GoToUrl(IWebDriver driver, string url)
         {

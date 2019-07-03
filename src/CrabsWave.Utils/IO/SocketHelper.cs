@@ -25,6 +25,7 @@ namespace CrabsWave.Utils.IO
         }
 
         public static int[] GetSocketPortsInUse() => IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpConnections().Select(s => s.LocalEndPoint.Port).ToArray();
+
         public static int GetRandomPortToTry() => GetRandomPort();
 
         public static int GetRandomPort()

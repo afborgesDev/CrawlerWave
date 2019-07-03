@@ -1,9 +1,11 @@
 ﻿using CrabsWave.Core;
 using CrabsWave.Core.Resources;
+using CrabsWave.Test.TestHelpers;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
+
 
 namespace CrabsWave.Test.Core.CrawlerTests
 {
@@ -54,6 +56,20 @@ namespace CrabsWave.Test.Core.CrawlerTests
                        .ExecuteJavaScript("return document.URL;", out var scriptResult);
 
                 scriptResult.Should().NotBeNullOrWhiteSpace();
+            }
+        }
+
+        [Fact]
+        public void ShouldLogErrorOnExecuteScript()
+        {
+            var testTestOutputHelper = new TestTestOutputHelper();
+            var logFactory = TestLoggerBuilder.Create(configure => configure.SetMinimumLevel(LogLevel.Trace).AddXunit(testTestOutputHelper));
+            var log = logFactory.CreateLogger<Crawler>();
+            using (var crawler = new Crawler(log))
+            {
+                crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                       .ExecuteJavaScript("arguments[0].click();", "myelement");
+                testTestOutputHelper.Output.Should().Contain("Could not execute javascript using args and JavaScriptExecutor engine");
             }
         }
     }

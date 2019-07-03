@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 
 namespace CrabsWave.Core.Functionalities
 {
-    public static class TextManager
+    internal static class TextManager
     {
         private const string AttributeText = "innerText";
 

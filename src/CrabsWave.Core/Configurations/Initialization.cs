@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using CrabsWave.Core.LogsReports;
-using CrabsWave.Core.Validations;
 using CrabsWave.Utils.IO;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;

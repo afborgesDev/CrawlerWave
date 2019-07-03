@@ -34,6 +34,7 @@ namespace CrabsWave.Core.Functionalities
                 case ElementsType.Id:
                     ScriptManager.ExecuteScriptUsingJavaScriptExecutor(driver, $"document.getElementById('{identify}').click();");
                     break;
+
                 default:
                 {
                     var element = ElementsManager.TryGetElement(driver, identify, elementsType, false);

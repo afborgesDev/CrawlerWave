@@ -6,7 +6,6 @@ namespace CrabsWave.Core.Functionalities.Scripts
 {
     internal static class ScriptManager
     {
-
         public static string ExecuteAndTakeResult(IWebDriver driver, string script)
         {
             try
@@ -22,8 +21,6 @@ namespace CrabsWave.Core.Functionalities.Scripts
 
         public static void ExecuteScriptUsingJavaScriptExecutor(IWebDriver driver, string script, params object[] args)
         {
-            if (string.IsNullOrEmpty(script)) return;
-
             try
             {
                 ((IJavaScriptExecutor)driver).ExecuteScript(script, args);

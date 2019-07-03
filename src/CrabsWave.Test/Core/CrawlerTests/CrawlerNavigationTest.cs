@@ -45,7 +45,6 @@ namespace CrabsWave.Test.Core.CrawlerTests
             }
         }
 
-
         [Fact]
         public void ShouldNavigateBack()
         {
@@ -71,6 +70,6 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 errorMessage.Should().BeNullOrEmpty();
                 currentUrl.Should().ContainAll(urlBase);
             }
-        }        
+        }
     }
 }

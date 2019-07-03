@@ -33,7 +33,7 @@ namespace CrabsWave.Test.Utils
         }
 
         [Theory]
-        [InlineData("1;2;3;4", new string[] { "1", "2", "3", "4"})]
+        [InlineData("1;2;3;4", new string[] { "1", "2", "3", "4" })]
         [InlineData("", default)]
         public void ShouldGetValueSplited(string value, string[] expectedReturn)
         {

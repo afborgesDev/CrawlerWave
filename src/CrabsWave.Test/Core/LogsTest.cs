@@ -30,5 +30,13 @@ namespace CrabsWave.Test.Core
             LogManager.LogError(ExampleMessage);
             logMoq.VerifyLog(LogLevel.Error, ExampleMessage, Times.Once());
         }
+
+        [Fact]
+        public void ShouldFailOnCheckAvaliable()
+        {
+            LogManager.Initializate(null, true);
+            Action execution = () => LogManager.LogInformation("this is a test");
+            execution.Should().Throw<CrawlerBaseException>();
+        }
     }
 }
