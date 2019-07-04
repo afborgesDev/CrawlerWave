@@ -69,7 +69,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
                        .ExecuteJavaScript("arguments[0].click();", "myelement");
-                testTestOutputHelper.Output.Should().Contain("Could not execute javascript using args and JavaScriptExecutor engine");
+                testTestOutputHelper.Output.Contains("Could not execute javascript using args and JavaScriptExecutor engine").Should().BeTrue();
             }
         }
     }
