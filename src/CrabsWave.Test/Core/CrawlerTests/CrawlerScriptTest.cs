@@ -5,13 +5,19 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
-
+using Xunit.Abstractions;
 
 namespace CrabsWave.Test.Core.CrawlerTests
 {
     public class CrawlerScriptTest
     {
         private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
+        private readonly ITestOutputHelper testOutput;
+        public CrawlerScriptTest(ITestOutputHelper output)
+        {
+            testOutput = output;
+        }
+
 
         [Fact]
         public void ShouldExecuteScript()
@@ -62,15 +68,32 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldLogErrorOnExecuteScript()
         {
-            var testTestOutputHelper = new TestTestOutputHelper();
-            var logFactory = TestLoggerBuilder.Create(configure => configure.SetMinimumLevel(LogLevel.Trace).AddXunit(testTestOutputHelper));
-            var log = logFactory.CreateLogger<Crawler>();
-            using (var crawler = new Crawler(log))
+            var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
+            using (var crawler = new Crawler(logMoq))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
                        .ExecuteJavaScript("arguments[0].click();", "myelement");
-                testTestOutputHelper.Output.Contains("Could not execute javascript using args and JavaScriptExecutor engine").Should().BeTrue();
+
+                testOutput.WriteLine(logOutPut.Output);
+                logOutPut.Output.Contains("Could not execute javascript using args and JavaScriptExecutor engine").Should().BeTrue();
             }
         }
+
+        [Fact]
+        public void ShouldLogErrorOnExecuteScriptToTakeResult()
+        {
+
+            var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
+            using (var crawler = new Crawler(logMoq))
+            {
+                crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                       .ExecuteJavaScript("arguments[0].click();", out var result);
+
+                testOutput.WriteLine(logOutPut.Output);
+                logOutPut.Output.Contains("Could not execute javascript and take a result").Should().BeTrue();
+            }
+        }
+
+
     }
 }

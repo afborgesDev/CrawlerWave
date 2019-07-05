@@ -29,10 +29,7 @@ namespace CrabsWave.Test.TestHelpers
             _logStart = logStart;
         }
 
-        public ILogger CreateLogger(string categoryName)
-        {
-            return new XunitLogger(_output, categoryName, _minLevel, _logStart);
-        }
+        public ILogger CreateLogger(string categoryName) => new XunitLogger(_output, categoryName, _minLevel, _logStart);
 
         public void Dispose()
         {
@@ -63,8 +60,6 @@ namespace CrabsWave.Test.TestHelpers
                 return;
             }
 
-            // Buffer the message into a single string in order to avoid shearing the message when
-            // running across multiple threads.
             var messageBuilder = new StringBuilder();
 
             var timestamp = _logStart.HasValue ? $"{(DateTimeOffset.UtcNow - _logStart.Value).TotalSeconds.ToString("N3")}s" : DateTimeOffset.UtcNow.ToString("s");

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
+using CrabsWave.Test.TestHelpers;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -24,11 +25,13 @@ namespace CrabsWave.Test.Core.CrawlerTests
         };
 
         public static IEnumerable<object[]> GetItemsForTestMultipleElements() => new List<object[]> {
-            new object[] { "//*[@class='labels']" , ElementsType.XPath, "This is a label 1"}
+            new object[] { "//*[@class='labels']" , ElementsType.XPath, "This is a label 1", false},
+            new object[] { "aWrongXPath -123r" , ElementsType.XPath, "This is a label 1", true}
         };
 
         public static IEnumerable<object[]> GetItemsToClearAndSendKeys() => new List<object[]> {
-            new object[] { "inputName", ElementsType.Id, "This is a test for Send using ID" }
+            new object[] { "inputName", ElementsType.Id, "This is a test for Send using ID", false, "" },
+            new object[] { "someWrongInputName", ElementsType.Id, "this is a test", true, "Cuold not clear and send key for element someWrongInputName" }
         };
 
         [Theory]
@@ -48,7 +51,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         [Theory]
         [MemberData(nameof(GetItemsForTestMultipleElements))]
-        public void ShouldGetTextFromMultipleElementsOcurrences(string identify, ElementsType elementsType, string textSample)
+        public void ShouldGetTextFromMultipleElementsOcurrences(string identify, ElementsType elementsType, string textSample, bool shouldFail)
         {
             var logMoq = new Mock<ILogger<Crawler>>();
             using (var sut = new Crawler(logMoq.Object))
@@ -57,25 +60,33 @@ namespace CrabsWave.Test.Core.CrawlerTests
                    .GoToUrl($"file:///{PageForUnitTestHelper.GetPageForUnitTestWithMultipleItems()}", out _)
                    .ElementsText(identify, elementsType, out var listOfText);
 
-                listOfText.Should().NotBeNull();
-                listOfText.Should().HaveCountGreaterThan(0);
-                listOfText.Should().ContainEquivalentOf(textSample);
+                if (!shouldFail)
+                {
+                    listOfText.Should().NotBeNull();
+                    listOfText.Should().HaveCountGreaterThan(0);
+                    listOfText.Should().ContainEquivalentOf(textSample);
+                }
+                else
+                    listOfText.Should().BeNull();
             }
         }
 
         [Theory]
         [MemberData(nameof(GetItemsToClearAndSendKeys))]
-        public void ShouldClearAndSendText(string identify, ElementsType elementsType, string textToSend)
+        public void ShouldClearAndSendText(string identify, ElementsType elementsType, string textToSend, bool shouldFail, string messageOnFail)
         {
-            var logMoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logMoq.Object))
+            var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
+            using (var sut = new Crawler(logMoq))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
                    .ClearAndSendKeys(identify, elementsType, textToSend)
                    .GetElementAttribute(identify, elementsType, "value", out var text);
 
-                text.Should().Be(textToSend);
+                if (!shouldFail)
+                    text.Should().Be(textToSend);
+                else
+                    logOutPut.Output.Contains(messageOnFail).Should().BeTrue();
             }
         }
     }
