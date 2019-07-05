@@ -1,27 +1,21 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Security.Cryptography;
-using System.Threading;
 
 namespace CrabsWave.Utils.IO
 {
     public static class SocketHelper
     {
-        private const int MaxNewSocketPortAttempts = 10;
-        private const int DefaultInvalidSocketPort = -1;
-        private const int SecondsToWaitNewPort = 5;
-
         public static int GetNewSocketPort()
         {
-            for (var i = 0; i <= MaxNewSocketPortAttempts; i++)
-            {
-                var portUse = GetRandomPortToTry();
-                if (Array.IndexOf(GetSocketPortsInUse(), portUse) < 0) return portUse;
-                Thread.Sleep(TimeSpan.FromSeconds(SecondsToWaitNewPort));
-            }
-
-            return DefaultInvalidSocketPort;
+            var tcpListener = new TcpListener(IPAddress.Loopback, 0);
+            tcpListener.Start();
+            var port = ((IPEndPoint)tcpListener.LocalEndpoint).Port;
+            tcpListener.Stop();
+            return port;
         }
 
         public static int[] GetSocketPortsInUse() => IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpConnections().Select(s => s.LocalEndPoint.Port).ToArray();
