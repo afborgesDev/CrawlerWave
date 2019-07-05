@@ -56,22 +56,10 @@ namespace CrabsWave.Core.Functionalities
                 driver.SwitchTo().Window(driver.CurrentWindowHandle);
                 return (driver.Url.Equals(url), string.Empty);
             }
-            catch (WebDriverTimeoutException e)
-            {
-                var message = $"Could not navigate to url. TimeOut {e.Message}";
-                LogManager.LogError(message);
-                return (false, message);
-            }
-            catch (WebDriverException e)
-            {
-                var message = $"Could not navigate to url. Internal error {e.Message}";
-                LogManager.LogError(message);
-                return (false, message);
-            }
             catch (Exception e)
             {
                 var message = $"Could not navigate to url. Unkonwn error {e.Message}";
-                LogManager.LogError(message);
+                LogManager.LogError(message, e);
                 return (false, message);
             }
         }

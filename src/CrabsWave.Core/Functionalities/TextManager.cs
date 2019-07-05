@@ -15,7 +15,7 @@ namespace CrabsWave.Core.Functionalities
         public static IList<string> GetTextFromMultipleElementOcurrences(IWebDriver driver, string identify, ElementsType elementsType)
         {
             var items = ElementsManager.TryGetElements(driver, identify, elementsType);
-            if (items?.Count <= 0) return default;
+            if (items == null || items.Count <= 0) return default;
 
             var returnList = new List<string>(items.Count);
             foreach (var item in items)

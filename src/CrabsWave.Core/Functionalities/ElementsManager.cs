@@ -72,7 +72,7 @@ namespace CrabsWave.Core.Functionalities
 
             var element = CreateElementBy(elementIdentify, elementsType);
             ReadOnlyCollection<IWebElement> elements;
-            for (var i = 1; 1 <= attemps; i++)
+            for (var i = 1; i <= attemps; i++)
             {
                 try
                 {
