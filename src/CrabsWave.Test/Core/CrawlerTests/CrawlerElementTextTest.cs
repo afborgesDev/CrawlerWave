@@ -6,12 +6,17 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace CrabsWave.Test.Core.CrawlerTests
 {
     public class CrawlerElementTextTest
     {
         private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
+
+        private readonly ITestOutputHelper testOutput;
+
+        public CrawlerElementTextTest(ITestOutputHelper output) => testOutput = output;
 
         public static IEnumerable<object[]> GetElementsToTestText() => new List<object[]> {
             new object[] { "btnOne", "This is a button", ElementsType.Id },
@@ -82,6 +87,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
                    .GoToUrl(LocalUrl, out _)
                    .ClearAndSendKeys(identify, elementsType, textToSend)
                    .GetElementAttribute(identify, elementsType, "value", out var text);
+
+                testOutput.WriteLine(logOutPut.Output);
+                //logOutPut.Output.Contains("Could not execute javascript and take a result").Should().BeTrue();
 
                 if (!shouldFail)
                     text.Should().Be(textToSend);

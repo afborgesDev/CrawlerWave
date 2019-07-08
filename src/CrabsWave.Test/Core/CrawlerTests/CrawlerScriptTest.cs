@@ -13,11 +13,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
     {
         private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
         private readonly ITestOutputHelper testOutput;
-        public CrawlerScriptTest(ITestOutputHelper output)
-        {
-            testOutput = output;
-        }
 
+        public CrawlerScriptTest(ITestOutputHelper output) => testOutput = output;
 
         [Fact]
         public void ShouldExecuteScript()
@@ -84,7 +81,6 @@ namespace CrabsWave.Test.Core.CrawlerTests
         public void ShouldLogErrorOnExecuteScriptToTakeResult()
         {
             var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
-            testOutput.WriteLine($"the logmoq are null?: {logMoq == null}");
             using (var crawler = new Crawler(logMoq))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -94,7 +90,5 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 logOutPut.Output.Contains("Could not execute javascript and take a result").Should().BeTrue();
             }
         }
-
-
     }
 }

@@ -16,6 +16,7 @@ namespace CrabsWave.Core
         private string[] Capabilities;
         private ChromeDriverService Service;
         public bool Ready { get; set; }
+        private bool Verbose { get; set; }
 
         #region IDisposable Support
 
@@ -61,7 +62,8 @@ namespace CrabsWave.Core
 
         public Crawler Initializate(Behavior behavior)
         {
-            LogManager.Instance.Initializate(Logger, behavior.Verbose);
+            Verbose = behavior?.Verbose ?? false;
+            LogManager.Instance.Initializate(Logger, Verbose);
             LogManager.Instance.ForceLogInformation("Crawler created, starting to configure");
             Capabilities = BehaviorBuilder.Build(behavior);
             Ready = false;
@@ -73,14 +75,12 @@ namespace CrabsWave.Core
                 return this;
             }
 
-            LogManager.Instance.LogInformation("is working after create driver.");
             if (!CreateDriver())
             {
                 Logger.LogError("Could not create the driver");
                 return this;
             }
 
-            LogManager.Instance.LogInformation("is working before create driver.");
             Ready = true;
             LogManager.Instance.LogInformation("The Crawler is ready to use.");
             Logger.LogInformation("Successful crab initilization");
@@ -90,8 +90,8 @@ namespace CrabsWave.Core
 
         private bool CreateDriver()
         {
-            LogManager.Instance.LogInformation("Initializing the Driver and service");
             (Driver, Service) = Initialization.Create(Capabilities);
+            LogManager.Instance.Initializate(Logger, Verbose);
             return Driver != null && Service != null;
         }
     }
