@@ -89,7 +89,6 @@ namespace CrabsWave.Test.Core.CrawlerTests
                    .GetElementAttribute(identify, elementsType, "value", out var text);
 
                 testOutput.WriteLine(logOutPut.Output);
-                //logOutPut.Output.Contains("Could not execute javascript and take a result").Should().BeTrue();
 
                 if (!shouldFail)
                     text.Should().Be(textToSend);

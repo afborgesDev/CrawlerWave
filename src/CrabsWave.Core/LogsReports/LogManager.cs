@@ -28,7 +28,6 @@ namespace CrabsWave.Core.LogsReports
         {
             Logger = logger;
             Verbose = verbose;
-            logger?.LogInformation("Logger initialzated");
         }
 
         public void LogInformation(string message)

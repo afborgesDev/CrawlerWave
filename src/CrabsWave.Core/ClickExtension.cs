@@ -7,24 +7,28 @@ namespace CrabsWave.Core
     {
         public static Crawler Click(this Crawler parent, string identify, ElementsType elementsType)
         {
+            parent.RestoreLog();
             ClickManager.Click(parent.Driver, identify, elementsType);
             return parent;
         }
 
         public static Crawler ClickUsingScript(this Crawler parent, string identify, ElementsType elementsType)
         {
+            parent.RestoreLog();
             ClickManager.ClickUsingJavaScript(parent.Driver, identify, elementsType);
             return parent;
         }
 
         public static Crawler ClickFirst(this Crawler parent, string identify, ElementsType elementsType)
         {
+            parent.RestoreLog();
             ClickManager.ClickFirst(parent.Driver, identify, elementsType);
             return parent;
         }
 
         public static Crawler ClickIfTrue(this Crawler parent, string identify, bool condition, ElementsType elementsType)
         {
+            parent.RestoreLog();
             if (condition)
                 ClickManager.Click(parent.Driver, identify, elementsType);
             return parent;
@@ -32,6 +36,7 @@ namespace CrabsWave.Core
 
         public static Crawler ClickAlert(this Crawler parent, bool acept)
         {
+            parent.RestoreLog();
             if (acept)
                 parent.Driver.SwitchTo().Alert().Accept();
             else

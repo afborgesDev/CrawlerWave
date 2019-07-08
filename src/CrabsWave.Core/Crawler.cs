@@ -88,10 +88,12 @@ namespace CrabsWave.Core
             return this;
         }
 
+        public void RestoreLog() => LogManager.Instance.Initializate(Logger, Verbose);
+
         private bool CreateDriver()
         {
             (Driver, Service) = Initialization.Create(Capabilities);
-            LogManager.Instance.Initializate(Logger, Verbose);
+            RestoreLog();
             return Driver != null && Service != null;
         }
     }
