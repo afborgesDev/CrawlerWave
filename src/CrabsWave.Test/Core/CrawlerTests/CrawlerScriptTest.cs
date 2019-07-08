@@ -69,9 +69,10 @@ namespace CrabsWave.Test.Core.CrawlerTests
         public void ShouldLogErrorOnExecuteScript()
         {
             var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
+            testOutput.WriteLine($"the logmoq are null?: {logMoq == null}");
             using (var crawler = new Crawler(logMoq))
             {
-                crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                crawler.Initializate(new CrabsWave.Core.Configurations.Behavior { Verbose = true })
                        .ExecuteJavaScript("arguments[0].click();", "myelement");
 
                 testOutput.WriteLine(logOutPut.Output);
@@ -82,8 +83,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldLogErrorOnExecuteScriptToTakeResult()
         {
-
             var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
+            testOutput.WriteLine($"the logmoq are null?: {logMoq == null}");
             using (var crawler = new Crawler(logMoq))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())

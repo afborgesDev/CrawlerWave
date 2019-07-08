@@ -30,7 +30,7 @@ namespace CrabsWave.Core.Configurations
                 }
                 catch (Exception e)
                 {
-                    LogManager.LogError("Could not create service or driver", e);
+                    LogManager.Instance.LogError("Could not create service or driver", e);
                     Service?.Dispose();
                     Driver?.Dispose();
                     Thread.Sleep(TimeSpan.FromSeconds(3));

@@ -61,26 +61,28 @@ namespace CrabsWave.Core
 
         public Crawler Initializate(Behavior behavior)
         {
-            LogManager.Initializate(Logger, behavior.Verbose);
-            LogManager.ForceLogInformation("Crawler created, starting to configure");
+            LogManager.Instance.Initializate(Logger, behavior.Verbose);
+            LogManager.Instance.ForceLogInformation("Crawler created, starting to configure");
             Capabilities = BehaviorBuilder.Build(behavior);
             Ready = false;
 
-            LogManager.LogInformation("Checking Webdriver dependencies");
+            LogManager.Instance.LogInformation("Checking Webdriver dependencies");
             if (!SeleniumDependencies.CheckLocalWebDriverAvialability())
             {
                 Logger.LogCritical("Could not initilization, missing webdriver");
                 return this;
             }
 
+            LogManager.Instance.LogInformation("is working after create driver.");
             if (!CreateDriver())
             {
                 Logger.LogError("Could not create the driver");
                 return this;
             }
 
+            LogManager.Instance.LogInformation("is working before create driver.");
             Ready = true;
-            LogManager.LogInformation("The Crawler is ready to use.");
+            LogManager.Instance.LogInformation("The Crawler is ready to use.");
             Logger.LogInformation("Successful crab initilization");
 
             return this;
@@ -88,7 +90,7 @@ namespace CrabsWave.Core
 
         private bool CreateDriver()
         {
-            LogManager.LogInformation("Initializing the Driver and service");
+            LogManager.Instance.LogInformation("Initializing the Driver and service");
             (Driver, Service) = Initialization.Create(Capabilities);
             return Driver != null && Service != null;
         }

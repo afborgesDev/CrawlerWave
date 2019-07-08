@@ -59,7 +59,7 @@ namespace CrabsWave.Core.Functionalities
             catch (Exception e)
             {
                 var message = $"Could not navigate to url. Unkonwn error {e.Message}";
-                LogManager.LogError(message, e);
+                LogManager.Instance.LogError(message, e);
                 return (false, message);
             }
         }

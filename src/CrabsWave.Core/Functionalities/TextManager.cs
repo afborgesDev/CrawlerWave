@@ -34,7 +34,7 @@ namespace CrabsWave.Core.Functionalities
             }
             catch (Exception e)
             {
-                LogManager.LogError($"Cuold not clear and send key for element {identify}", e);
+                LogManager.Instance.LogError($"Cuold not clear and send key for element {identify}", e);
             }
         }
     }

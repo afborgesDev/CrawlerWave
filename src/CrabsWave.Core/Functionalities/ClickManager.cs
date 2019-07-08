@@ -23,7 +23,7 @@ namespace CrabsWave.Core.Functionalities
             }
             catch (Exception e)
             {
-                LogManager.LogError($"Could not click at the first element: {identify}. ", e);
+                LogManager.Instance.LogError($"Could not click at the first element: {identify}. ", e);
             }
         }
 

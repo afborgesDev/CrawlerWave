@@ -4,42 +4,58 @@ using Microsoft.Extensions.Logging;
 
 namespace CrabsWave.Core.LogsReports
 {
-    public static class LogManager
+    public class LogManager
     {
-        private static ILogger<Crawler> Logger { get; set; }
-        private static bool Verbose { get; set; }
+        private static readonly object objecLock = new object();
 
-        public static void Initializate(ILogger<Crawler> logger, bool verbose)
+        public static LogManager Instance {
+            get {
+                lock (objecLock)
+                {
+                    if (InternalInstance == null)
+                        InternalInstance = new LogManager();
+
+                    return InternalInstance;
+                }
+            }
+        }
+
+        public ILogger<Crawler> Logger { get; private set; }
+        private static LogManager InternalInstance { get; set; }
+        private bool Verbose { get; set; }
+
+        public void Initializate(ILogger<Crawler> logger, bool verbose)
         {
             Logger = logger;
             Verbose = verbose;
+            logger?.LogInformation("Logger initialzated");
         }
 
-        public static void LogInformation(string message)
+        public void LogInformation(string message)
         {
             if (Verbose)
                 ForceLogInformation(message);
         }
 
-        public static void ForceLogInformation(string message)
+        public void ForceLogInformation(string message)
         {
             CheckLoggerAvaliable();
             Logger.LogInformation(message);
         }
 
-        public static void LogError(string message)
+        public void LogError(string message)
         {
             CheckLoggerAvaliable();
             Logger.LogError(message);
         }
 
-        public static void LogError(string message, Exception ex)
+        public void LogError(string message, Exception ex)
         {
             CheckLoggerAvaliable();
             Logger.LogError(ex, message);
         }
 
-        private static void CheckLoggerAvaliable()
+        private void CheckLoggerAvaliable()
         {
             if (Logger == null)
                 throw new CrawlerBaseException("Should initilizate the logger");

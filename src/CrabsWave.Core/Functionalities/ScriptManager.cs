@@ -10,11 +10,13 @@ namespace CrabsWave.Core.Functionalities.Scripts
         {
             try
             {
+                LogManager.Instance.LogInformation("Starting to run the script");
                 return ((IJavaScriptExecutor)driver).ExecuteScript(script).ToString();
             }
             catch (Exception e)
             {
-                LogManager.LogError("Could not execute javascript and take a result", e);
+                LogManager.Instance.LogInformation("Informatio of error Starting to run the script");
+                LogManager.Instance.LogError("Could not execute javascript and take a result", e);
                 return string.Empty;
             }
         }
@@ -23,11 +25,13 @@ namespace CrabsWave.Core.Functionalities.Scripts
         {
             try
             {
+                LogManager.Instance.LogInformation("Starting to run the script");
                 ((IJavaScriptExecutor)driver).ExecuteScript(script, args);
             }
             catch (Exception e)
             {
-                LogManager.LogError("Could not execute javascript using args and JavaScriptExecutor engine", e);
+                LogManager.Instance.LogInformation("Informatio of error Starting to run the script");
+                LogManager.Instance.LogError("Could not execute javascript using args and JavaScriptExecutor engine", e);
             }
         }
     }

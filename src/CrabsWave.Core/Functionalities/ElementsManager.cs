@@ -58,7 +58,7 @@ namespace CrabsWave.Core.Functionalities
                 }
                 catch (Exception e)
                 {
-                    LogManager.LogError($"Could not get the element using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
+                    LogManager.Instance.LogError($"Could not get the element using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
                 }
             }
 
@@ -82,7 +82,7 @@ namespace CrabsWave.Core.Functionalities
                 }
                 catch (Exception e)
                 {
-                    LogManager.LogError($"Could not get the elements using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
+                    LogManager.Instance.LogError($"Could not get the elements using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
                 }
             }
 
@@ -104,7 +104,7 @@ namespace CrabsWave.Core.Functionalities
                 }
                 catch (Exception e)
                 {
-                    LogManager.LogError($"Could not get the attribute for the element {elementIdentify}", e);
+                    LogManager.Instance.LogError($"Could not get the attribute for the element {elementIdentify}", e);
                 }
             }
 

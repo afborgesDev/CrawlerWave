@@ -17,8 +17,8 @@ namespace CrabsWave.Test.Core
         public void ShouldntWriteLogInformation()
         {
             var loggerMoq = new Mock<ILogger<Crawler>>();
-            LogManager.Initializate(loggerMoq.Object, false);
-            LogManager.LogInformation(ExampleMessage);
+            LogManager.Instance.Initializate(loggerMoq.Object, false);
+            LogManager.Instance.LogInformation(ExampleMessage);
             loggerMoq.VerifyLog(LogLevel.Information, ExampleMessage, Times.Never());
         }
 
@@ -26,16 +26,16 @@ namespace CrabsWave.Test.Core
         public void ShouldLogError()
         {
             var logMoq = new Mock<ILogger<Crawler>>();
-            LogManager.Initializate(logMoq.Object, false);
-            LogManager.LogError(ExampleMessage);
+            LogManager.Instance.Initializate(logMoq.Object, false);
+            LogManager.Instance.LogError(ExampleMessage);
             logMoq.VerifyLog(LogLevel.Error, ExampleMessage, Times.Once());
         }
 
         [Fact]
         public void ShouldFailOnCheckAvaliable()
         {
-            LogManager.Initializate(null, true);
-            Action execution = () => LogManager.LogInformation("this is a test");
+            LogManager.Instance.Initializate(null, true);
+            Action execution = () => LogManager.Instance.LogInformation("this is a test");
             execution.Should().Throw<CrawlerBaseException>();
         }
     }
