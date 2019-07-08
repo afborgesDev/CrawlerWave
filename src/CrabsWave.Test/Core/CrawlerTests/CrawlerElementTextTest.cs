@@ -36,7 +36,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         public static IEnumerable<object[]> GetItemsToClearAndSendKeys() => new List<object[]> {
             new object[] { "inputName", ElementsType.Id, "This is a test for Send using ID", false, "" },
-            new object[] { "someWrongInputName", ElementsType.Id, "this is a test", true, "Cuold not clear and send key for element someWrongInputName" }
+            new object[] { "someWrongInputName", ElementsType.Id, "this is a test", true, "Could not get the element using identify:" }
         };
 
         [Theory]
