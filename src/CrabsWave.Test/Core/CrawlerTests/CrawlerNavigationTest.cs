@@ -1,5 +1,6 @@
 ﻿using CrabsWave.Core;
 using CrabsWave.Core.Resources;
+using CrabsWave.Test.TestHelpers;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -69,6 +70,19 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
                 errorMessage.Should().BeNullOrEmpty();
                 currentUrl.Should().ContainAll(urlBase);
+            }
+        }
+
+        [Fact]
+        public void ShouldFailOnNavigate()
+        {
+            var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
+            using (var crawler = new Crawler(logMoq))
+            {
+                crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                       .GoToUrl("https:// this is. a wrong. ;\\ url", out var errorMesage);
+
+                errorMesage.Should().Contain("Could not navigate to url. Unkonwn error");
             }
         }
     }

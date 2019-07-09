@@ -10,11 +10,11 @@ namespace CrabsWave.Core.Functionalities
     {
         private const string AttributeText = "innerText";
 
-        public static string GetElementInnerText(IWebDriver driver, string identify, ElementsType elementsType) => ElementsManager.TryGetAttribute(driver, identify, elementsType, AttributeText);
+        public static string GetElementInnerText(IWebDriver driver, string identify, ElementsType elementsType, bool shouldRetry = true) => ElementsManager.TryGetAttribute(driver, identify, elementsType, AttributeText, shouldRetry);
 
-        public static IList<string> GetTextFromMultipleElementOcurrences(IWebDriver driver, string identify, ElementsType elementsType)
+        public static IList<string> GetTextFromMultipleElementOcurrences(IWebDriver driver, string identify, ElementsType elementsType, bool shouldRetry = true)
         {
-            var items = ElementsManager.TryGetElements(driver, identify, elementsType);
+            var items = ElementsManager.TryGetElements(driver, identify, elementsType, shouldRetry);
             if (items == null || items.Count <= 0) return default;
 
             var returnList = new List<string>(items.Count);
@@ -24,9 +24,9 @@ namespace CrabsWave.Core.Functionalities
             return returnList;
         }
 
-        public static void ClearAndSendKeys(IWebDriver driver, string identify, ElementsType elementsType, string textToSend)
+        public static void ClearAndSendKeys(IWebDriver driver, string identify, ElementsType elementsType, string textToSend, bool shouldRetry = true)
         {
-            var item = ElementsManager.TryGetElement(driver, identify, elementsType);
+            var item = ElementsManager.TryGetElement(driver, identify, elementsType, shouldRetry);
             try
             {
                 item.Clear();
