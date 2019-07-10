@@ -23,7 +23,7 @@ namespace CrabsWave.Core
         public static Crawler ClearAndSendKeys(this Crawler parent, string identify, ElementsType elementsType, string keys, bool shouldRetry)
         {
             parent.RestoreLog();
-            TextManager.ClearAndSendKeys(parent.Driver, identify, elementsType, keys);
+            TextManager.ClearAndSendKeys(parent.Driver, identify, elementsType, keys, shouldRetry);
             return parent;
         }
     }

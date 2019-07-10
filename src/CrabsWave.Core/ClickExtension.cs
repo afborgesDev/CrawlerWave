@@ -5,32 +5,32 @@ namespace CrabsWave.Core
 {
     public static class ClickExtension
     {
-        public static Crawler Click(this Crawler parent, string identify, ElementsType elementsType)
+        public static Crawler Click(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry)
         {
             parent.RestoreLog();
-            ClickManager.Click(parent.Driver, identify, elementsType);
+            ClickManager.Click(parent.Driver, identify, elementsType, shouldRetry);
             return parent;
         }
 
-        public static Crawler ClickUsingScript(this Crawler parent, string identify, ElementsType elementsType)
+        public static Crawler ClickUsingScript(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry)
         {
             parent.RestoreLog();
-            ClickManager.ClickUsingJavaScript(parent.Driver, identify, elementsType);
+            ClickManager.ClickUsingJavaScript(parent.Driver, identify, elementsType, shouldRetry);
             return parent;
         }
 
-        public static Crawler ClickFirst(this Crawler parent, string identify, ElementsType elementsType)
+        public static Crawler ClickFirst(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry)
         {
             parent.RestoreLog();
-            ClickManager.ClickFirst(parent.Driver, identify, elementsType);
+            ClickManager.ClickFirst(parent.Driver, identify, elementsType, shouldRetry);
             return parent;
         }
 
-        public static Crawler ClickIfTrue(this Crawler parent, string identify, bool condition, ElementsType elementsType)
+        public static Crawler ClickIfTrue(this Crawler parent, string identify, bool condition, ElementsType elementsType, bool shouldRetry)
         {
             parent.RestoreLog();
             if (condition)
-                ClickManager.Click(parent.Driver, identify, elementsType);
+                ClickManager.Click(parent.Driver, identify, elementsType, shouldRetry);
             return parent;
         }
 

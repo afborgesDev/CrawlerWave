@@ -25,7 +25,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
                        .GoToUrl(LocalUrl, out _)
                        .ExecuteJavaScript("document.getElementById(\"buttonIncrement\").click()")
-                       .GetElement("numberResult", ElementsType.Id, out var webElement);
+                       .GetElement("numberResult", ElementsType.Id, true, out var webElement);
 
                 int.TryParse(webElement.GetAttribute("value"), out var value);
                 value.Should().BeGreaterThan(0);
@@ -40,9 +40,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
                        .GoToUrl(LocalUrl, out _)
-                       .GetElement("buttonIncrement", ElementsType.Id, out var buttonIncrement)
+                       .GetElement("buttonIncrement", ElementsType.Id, true, out var buttonIncrement)
                        .ExecuteJavaScript("(arguments[0] || {click:() => ''}).click();", buttonIncrement)
-                       .GetElement("numberResult", ElementsType.Id, out var webElement);
+                       .GetElement("numberResult", ElementsType.Id, true, out var webElement);
 
                 int.TryParse(webElement.GetAttribute("value"), out var value);
                 value.Should().BeGreaterThan(0);

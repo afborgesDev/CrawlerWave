@@ -7,24 +7,24 @@ namespace CrabsWave.Core
 {
     public static class ElementsExtension
     {
-        public static Crawler GetElement(this Crawler parent, string identify, ElementsType elementsType, out IWebElement webElement)
+        public static Crawler GetElement(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry, out IWebElement webElement)
         {
             parent.RestoreLog();
-            webElement = ElementsManager.TryGetElement(parent.Driver, identify, elementsType, true);
+            webElement = ElementsManager.TryGetElement(parent.Driver, identify, elementsType, shouldRetry);
             return parent;
         }
 
-        public static Crawler GetElements(this Crawler parent, string identify, ElementsType elementsType, out ReadOnlyCollection<IWebElement> webElement)
+        public static Crawler GetElements(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry, out ReadOnlyCollection<IWebElement> webElement)
         {
             parent.RestoreLog();
-            webElement = ElementsManager.TryGetElements(parent.Driver, identify, elementsType, true);
+            webElement = ElementsManager.TryGetElements(parent.Driver, identify, elementsType, shouldRetry);
             return parent;
         }
 
-        public static Crawler GetElementAttribute(this Crawler parent, string identify, ElementsType elementsType, string attribute, out string attributeValue)
+        public static Crawler GetElementAttribute(this Crawler parent, string identify, ElementsType elementsType, string attribute, bool shouldRetry, out string attributeValue)
         {
             parent.RestoreLog();
-            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, elementsType, attribute);
+            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, elementsType, attribute, shouldRetry);
             return parent;
         }
     }

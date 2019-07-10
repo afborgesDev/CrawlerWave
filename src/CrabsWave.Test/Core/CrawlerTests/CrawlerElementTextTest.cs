@@ -89,7 +89,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
                    .ClearAndSendKeys(identify, elementsType, textToSend, shouldRetry)
-                   .GetElementAttribute(identify, elementsType, "value", out var text);
+                   .GetElementAttribute(identify, elementsType, "value", shouldRetry, out var text);
 
                 testOutput.WriteLine(logOutPut.Output);
 

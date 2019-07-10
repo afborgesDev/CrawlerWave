@@ -35,12 +35,12 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl($"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}", out _)
-                   .GetElement("inputName", ElementsType.Id, out var element);
+                   .GetElement("inputName", ElementsType.Id, true, out var element);
 
                 element.SendKeys("someInput");
 
                 sut.RefreshPage()
-                   .GetElement("inputName", ElementsType.Id, out element);
+                   .GetElement("inputName", ElementsType.Id, true, out element);
 
                 element.Text.Should().BeNullOrEmpty();
             }
@@ -76,13 +76,24 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldFailOnNavigate()
         {
-            var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
+            var (logMoq, _) = TestLoggerBuilder.Create<Crawler>();
             using (var crawler = new Crawler(logMoq))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
                        .GoToUrl("https:// this is. a wrong. ;\\ url", out var errorMesage);
 
                 errorMesage.Should().Contain("Could not navigate to url. Unkonwn error");
+            }
+        }
+
+        [Fact]
+        public void ShouldFailOnNavigateWithNullDriver()
+        {
+            var (logMoq, _) = TestLoggerBuilder.Create<Crawler>();
+            using (var crawler = new Crawler(logMoq))
+            {
+                crawler.GoToUrl("https:// this is. a wrong. ;\\ url", out var errorMesage);
+                errorMesage.Should().Contain("Could not navigate, the driver was not well initializated.");
             }
         }
     }

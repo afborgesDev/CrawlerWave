@@ -20,7 +20,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
             new object[] { "#buttonIncrement", "name", "buttonIncrement", ElementsType.CssSelector, false},
             new object[] { "click to increment", "name", "linkToIncrement", ElementsType.LinkText, false},
             new object[] { "click to increment", "name", "linkToIncrement", ElementsType.PartialLinkText, false},
-            new object[] { "//*[@id='buttonIncrement']", "name", "buttonIncrement", ElementsType.XPath, false}
+            new object[] { "//*[@id='buttonIncrement']", "name", "buttonIncrement", ElementsType.XPath, false},
+            new object[] { "//*[@id='buttonIncrement']", "invalidAttribute123", null, ElementsType.XPath, true},
+            new object[] { "//*[@id='buttonIncrement']", "invalidAttribute123* \'as-=%78&*$%()'", null, ElementsType.XPath, true}
         };
 
         [Theory]
@@ -32,9 +34,12 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .GetElementAttribute(identify, elementsType, attribute, out var value);
+                   .GetElementAttribute(identify, elementsType, attribute, shouldRetry, out var value);
 
-                value.Should().Be(expectedValue);
+                if (string.IsNullOrEmpty(expectedValue))
+                    value.Should().BeNullOrWhiteSpace();
+                else
+                    value.Should().Be(expectedValue);
             }
         }
 
@@ -45,7 +50,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
             using (var sut = new Crawler(logMoq.Object))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
-                   .GetElementAttribute("invalix", ElementsType.Id, "value", out var value);
+                   .GetElementAttribute("invalix", ElementsType.Id, "value", false, out var value);
                 value.Should().BeNullOrWhiteSpace();
             }
         }

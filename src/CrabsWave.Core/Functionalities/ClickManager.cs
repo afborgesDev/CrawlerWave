@@ -8,15 +8,15 @@ namespace CrabsWave.Core.Functionalities
 {
     internal static class ClickManager
     {
-        public static void Click(IWebDriver driver, string identify, ElementsType elementsType)
+        public static void Click(IWebDriver driver, string identify, ElementsType elementsType, bool shouldRetry)
         {
-            var element = ElementsManager.TryGetElement(driver, identify, elementsType);
+            var element = ElementsManager.TryGetElement(driver, identify, elementsType, shouldRetry);
             element?.Click();
         }
 
-        public static void ClickFirst(IWebDriver driver, string identify, ElementsType elementsType)
+        public static void ClickFirst(IWebDriver driver, string identify, ElementsType elementsType, bool shouldRetry)
         {
-            var elements = ElementsManager.TryGetElements(driver, identify, elementsType);
+            var elements = ElementsManager.TryGetElements(driver, identify, elementsType, shouldRetry);
             try
             {
                 elements[0].Click();
@@ -27,7 +27,7 @@ namespace CrabsWave.Core.Functionalities
             }
         }
 
-        public static void ClickUsingJavaScript(IWebDriver driver, string identify, ElementsType elementsType)
+        public static void ClickUsingJavaScript(IWebDriver driver, string identify, ElementsType elementsType, bool shouldRetry)
         {
             switch (elementsType)
             {
@@ -37,7 +37,7 @@ namespace CrabsWave.Core.Functionalities
 
                 default:
                 {
-                    var element = ElementsManager.TryGetElement(driver, identify, elementsType, false);
+                    var element = ElementsManager.TryGetElement(driver, identify, elementsType, shouldRetry);
                     ScriptManager.ExecuteScriptUsingJavaScriptExecutor(driver, "(arguments[0] || {click:() => ''}).click();", element);
                     break;
                 }
