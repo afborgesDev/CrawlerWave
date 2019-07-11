@@ -27,8 +27,18 @@
         <button onclick="return showAlert()" id="clickToAlert">Show alert</button>
         <a id="newWindow" target="_blank" href="https://www.google.com.br">Click to tab</a>
     </form>
+
+    <select id="select1" name="select1" class="select1">
+        <option value="-1"></option>
+        <option value="first">First Value</option>
+        <option value="second">Second Value</option>
+        <option value="third">Third Value</option>
+        <option value="fourth">Fourth Value</option>
+    </select>
 </body>
+
 <script>
+
     function incrementValue() {
         var value = parseInt(document.getElementById('numberResult').value, 10);
         value = isNaN(value) ? 0 : value;
