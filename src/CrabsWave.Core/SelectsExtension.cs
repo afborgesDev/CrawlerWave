@@ -7,8 +7,8 @@ namespace CrabsWave.Core
     {
         public static Crawler SelectByText(this Crawler parent, string identify, ElementsType elementsType, string textToSelect, bool shouldRetry)
         {
-            parent.RestoreLog();
-            SelectManager.SelectByText(parent.Driver, identify, elementsType, textToSelect, shouldRetry);
+            new SelectManager(parent.CreateLogger(SelectManager.LoggerCategory))
+                .SelectByText(parent, identify, elementsType, textToSelect, shouldRetry);
             return parent;
         }
     }

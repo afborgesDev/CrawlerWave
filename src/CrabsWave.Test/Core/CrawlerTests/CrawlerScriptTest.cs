@@ -1,26 +1,21 @@
-﻿using CrabsWave.Core;
+﻿using System.Linq;
+using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrabsWave.Test.TestHelpers;
+using CrawlerWave.LogTestUtils;
 using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace CrabsWave.Test.Core.CrawlerTests
 {
     public class CrawlerScriptTest
     {
         private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
-        private readonly ITestOutputHelper testOutput;
-
-        public CrawlerScriptTest(ITestOutputHelper output) => testOutput = output;
 
         [Fact]
         public void ShouldExecuteScript()
         {
-            var logMoq = new Mock<ILogger<Crawler>>();
-            using (var crawler = new Crawler(logMoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var crawler = new Crawler(factory))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
                        .GoToUrl(LocalUrl, out _)
@@ -35,8 +30,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldExecuteScriptWithParams()
         {
-            var logMoq = new Mock<ILogger<Crawler>>();
-            using (var crawler = new Crawler(logMoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var crawler = new Crawler(factory))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
                        .GoToUrl(LocalUrl, out _)
@@ -52,8 +47,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldExecuteScriptAndReturn()
         {
-            var logMoq = new Mock<ILogger<Crawler>>();
-            using (var crawler = new Crawler(logMoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var crawler = new Crawler(factory))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
                        .ExecuteJavaScript("return document.URL;", out var scriptResult);
@@ -65,29 +60,30 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldLogErrorOnExecuteScript()
         {
-            var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
-            testOutput.WriteLine($"the logmoq are null?: {logMoq == null}");
-            using (var crawler = new Crawler(logMoq))
+            var (sink, factory) = CreateForTest.Create();
+            using (var crawler = new Crawler(factory))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior { Verbose = true })
                        .ExecuteJavaScript("arguments[0].click();", "myelement");
 
-                testOutput.WriteLine(logOutPut.Output);
-                logOutPut.Output.Contains("Could not execute javascript using args and JavaScriptExecutor engine").Should().BeTrue();
+                sink.Writes.Any(x =>
+                    x.Message.Contains("Could not execute javascript using args and JavaScriptExecutor engine",
+                    System.StringComparison.InvariantCultureIgnoreCase)).Should().BeTrue();
             }
         }
 
         [Fact]
         public void ShouldLogErrorOnExecuteScriptToTakeResult()
         {
-            var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
-            using (var crawler = new Crawler(logMoq))
+            var (sink, factory) = CreateForTest.Create();
+            using (var crawler = new Crawler(factory))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
                        .ExecuteJavaScript("arguments[0].click();", out var result);
 
-                testOutput.WriteLine(logOutPut.Output);
-                logOutPut.Output.Contains("Could not execute javascript and take a result").Should().BeTrue();
+                sink.Writes.Any(x =>
+                    x.Message.Contains("Could not execute javascript and take a result",
+                    System.StringComparison.InvariantCultureIgnoreCase)).Should().BeTrue();
             }
         }
     }

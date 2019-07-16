@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using CrabsWave.Core.LogsReports;
 using CrabsWave.Core.Resources;
-using OpenQA.Selenium;
+using Microsoft.Extensions.Logging;
 
 namespace CrabsWave.Core.Functionalities
 {
-    internal static class TextManager
+    internal class TextManager
     {
+        public const string LoggerCategory = "CrawlerWave.TextManager";
         private const string AttributeText = "innerText";
+        private readonly ILogger Logger;
 
-        public static string GetElementInnerText(IWebDriver driver, string identify, ElementsType elementsType, bool shouldRetry = true) => ElementsManager.TryGetAttribute(driver, identify, elementsType, AttributeText, shouldRetry);
+        public TextManager(ILogger logger) => Logger = logger;
 
-        public static IList<string> GetTextFromMultipleElementOcurrences(IWebDriver driver, string identify, ElementsType elementsType, bool shouldRetry = true)
+        public string GetElementInnerText(Crawler parent, string identify, ElementsType elementsType, bool shouldRetry = true) =>
+            new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                .TryGetAttribute(parent, identify, elementsType, AttributeText, shouldRetry);
+
+        public IList<string> GetTextFromMultipleElementOcurrences(Crawler parent, string identify, ElementsType elementsType, bool shouldRetry = true)
         {
-            var items = ElementsManager.TryGetElements(driver, identify, elementsType, shouldRetry);
+            var items = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                            .TryGetElements(parent, identify, elementsType, shouldRetry);
             if (items == null || items.Count <= 0) return default;
 
             var returnList = new List<string>(items.Count);
@@ -24,9 +30,10 @@ namespace CrabsWave.Core.Functionalities
             return returnList;
         }
 
-        public static void ClearAndSendKeys(IWebDriver driver, string identify, ElementsType elementsType, string textToSend, bool shouldRetry = true)
+        public void ClearAndSendKeys(Crawler parent, string identify, ElementsType elementsType, string textToSend, bool shouldRetry = true)
         {
-            var item = ElementsManager.TryGetElement(driver, identify, elementsType, shouldRetry);
+            var item = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                           .TryGetElement(parent, identify, elementsType, shouldRetry);
             try
             {
                 item.Clear();
@@ -34,7 +41,7 @@ namespace CrabsWave.Core.Functionalities
             }
             catch (Exception e)
             {
-                LogManager.Instance.LogError($"Cuold not clear and send key for element {identify}", e);
+                Logger.LogError($"Cuold not clear and send key for element {identify}", e);
             }
         }
     }

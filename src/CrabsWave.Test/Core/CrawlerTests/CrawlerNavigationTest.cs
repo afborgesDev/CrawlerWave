@@ -1,9 +1,7 @@
 ﻿using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrabsWave.Test.TestHelpers;
+using CrawlerWave.LogTestUtils;
 using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Xunit;
 
 namespace CrabsWave.Test.Core.CrawlerTests
@@ -15,8 +13,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldNavigateToUrl()
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior());
                 sut.GoToUrl(urlBase, out var errorMessage)
@@ -30,8 +28,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldRefreshPage()
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl($"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}", out _)
@@ -49,8 +47,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldNavigateBack()
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior());
                 sut.GoToUrl(urlBase, out var errorMessage)
@@ -76,10 +74,10 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldFailOnNavigate()
         {
-            var (logMoq, _) = TestLoggerBuilder.Create<Crawler>();
-            using (var crawler = new Crawler(logMoq))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
-                crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                        .GoToUrl("https:// this is. a wrong. ;\\ url", out var errorMesage);
 
                 errorMesage.Should().Contain("Could not navigate to url. Unkonwn error");
@@ -89,10 +87,10 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldFailOnNavigateWithNullDriver()
         {
-            var (logMoq, _) = TestLoggerBuilder.Create<Crawler>();
-            using (var crawler = new Crawler(logMoq))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
-                crawler.GoToUrl("https:// this is. a wrong. ;\\ url", out var errorMesage);
+                sut.GoToUrl("https:// this is. a wrong. ;\\ url", out var errorMesage);
                 errorMesage.Should().Contain("Could not navigate, the driver was not well initializated.");
             }
         }

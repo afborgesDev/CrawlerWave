@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using CrabsWave.Core.LogsReports;
 using CrabsWave.Core.Resources;
+using Microsoft.Extensions.Logging;
 using OpenQA.Selenium;
 
 namespace CrabsWave.Core.Functionalities
 {
-    internal static class ElementsManager
+    internal class ElementsManager
     {
+        public const string LoggerCategory = "CrawlerWave.ElementsManager";
         public const int DefaultNumberOfAttemptsOnRetry = 5;
         public const int OneAttempt = 1;
 
-        public static By CreateElementBy(string identify, ElementsType elementsType)
+        private readonly ILogger Logger;
+
+        public ElementsManager(ILogger logger) => Logger = logger;
+
+        public By CreateElementBy(string identify, ElementsType elementsType)
         {
             switch (elementsType)
             {
@@ -41,7 +46,7 @@ namespace CrabsWave.Core.Functionalities
             }
         }
 
-        public static IWebElement TryGetElement(IWebDriver driver, string elementIdentify, ElementsType elementsType, bool shouldRetryIfFail = true)
+        public IWebElement TryGetElement(Crawler parent, string elementIdentify, ElementsType elementsType, bool shouldRetryIfFail = true)
         {
             var attemps = DefaultNumberOfAttemptsOnRetry;
             if (!shouldRetryIfFail) attemps = OneAttempt;
@@ -52,20 +57,20 @@ namespace CrabsWave.Core.Functionalities
             {
                 try
                 {
-                    foundElement = driver.FindElement(element);
+                    foundElement = parent.Driver.FindElement(element);
                     if (foundElement != null)
                         return foundElement;
                 }
                 catch (Exception e)
                 {
-                    LogManager.Instance.LogError($"Could not get the element using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
+                    Logger.LogError($"Could not get the element using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
                 }
             }
 
             return null;
         }
 
-        public static ReadOnlyCollection<IWebElement> TryGetElements(IWebDriver driver, string elementIdentify, ElementsType elementsType, bool shouldRetryIfFail = true)
+        public ReadOnlyCollection<IWebElement> TryGetElements(Crawler parent, string elementIdentify, ElementsType elementsType, bool shouldRetryIfFail = true)
         {
             var attemps = DefaultNumberOfAttemptsOnRetry;
             if (!shouldRetryIfFail) attemps = OneAttempt;
@@ -76,22 +81,22 @@ namespace CrabsWave.Core.Functionalities
             {
                 try
                 {
-                    elements = driver.FindElements(element);
+                    elements = parent.Driver.FindElements(element);
                     if (elements != null)
                         return elements;
                 }
                 catch (Exception e)
                 {
-                    LogManager.Instance.LogError($"Could not get the elements using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
+                    Logger.LogError($"Could not get the elements using identify: {elementIdentify} and type: {elementsType.ToString()} at the attempt: {i}", e);
                 }
             }
 
             return default;
         }
 
-        public static string TryGetAttribute(IWebDriver driver, string elementIdentify, ElementsType elementsType, string attribute, bool shouldRetryIfFail = true)
+        public string TryGetAttribute(Crawler parent, string elementIdentify, ElementsType elementsType, string attribute, bool shouldRetryIfFail = true)
         {
-            var element = TryGetElement(driver, elementIdentify, elementsType, shouldRetryIfFail);
+            var element = TryGetElement(parent, elementIdentify, elementsType, shouldRetryIfFail);
             if (element == null) return string.Empty;
             var attemps = DefaultNumberOfAttemptsOnRetry;
             if (!shouldRetryIfFail) attemps = OneAttempt;
@@ -104,7 +109,7 @@ namespace CrabsWave.Core.Functionalities
                 }
                 catch (Exception e)
                 {
-                    LogManager.Instance.LogError($"Could not get the attribute for the element {elementIdentify}", e);
+                    Logger.LogError($"Could not get the attribute for the element {elementIdentify}", e);
                 }
             }
 

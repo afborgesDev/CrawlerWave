@@ -9,22 +9,22 @@ namespace CrabsWave.Core
     {
         public static Crawler GetElement(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry, out IWebElement webElement)
         {
-            parent.RestoreLog();
-            webElement = ElementsManager.TryGetElement(parent.Driver, identify, elementsType, shouldRetry);
+            webElement = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                             .TryGetElement(parent, identify, elementsType, shouldRetry);
             return parent;
         }
 
         public static Crawler GetElements(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry, out ReadOnlyCollection<IWebElement> webElement)
         {
-            parent.RestoreLog();
-            webElement = ElementsManager.TryGetElements(parent.Driver, identify, elementsType, shouldRetry);
+            webElement = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                         .TryGetElements(parent, identify, elementsType, shouldRetry);
             return parent;
         }
 
         public static Crawler GetElementAttribute(this Crawler parent, string identify, ElementsType elementsType, string attribute, bool shouldRetry, out string attributeValue)
         {
-            parent.RestoreLog();
-            attributeValue = ElementsManager.TryGetAttribute(parent.Driver, identify, elementsType, attribute, shouldRetry);
+            attributeValue = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                                .TryGetAttribute(parent, identify, elementsType, attribute, shouldRetry);
             return parent;
         }
     }

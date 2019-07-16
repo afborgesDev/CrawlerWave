@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading;
-using CrabsWave.Core.LogsReports;
-using OpenQA.Selenium;
+using Microsoft.Extensions.Logging;
 
 namespace CrabsWave.Core.Functionalities
 {
-    internal static class NavegationManager
+    internal class NavegationManager
     {
-        public static string GoToUrl(IWebDriver driver, string url)
+        public const string LoggerCategory = "CrawlerWave.NavegationManager";
+        private readonly ILogger Logger;
+
+        public NavegationManager(ILogger logger) => Logger = logger;
+
+        public string GoToUrl(Crawler parent, string url)
         {
             const int MaxAttemptsAtFive = 5;
             var TwoSecondsToWait = TimeSpan.FromSeconds(2);
 
-            if (driver == null)
+            if (parent.Driver == null)
             {
                 return "Could not navigate, the driver was not well initializated.";
             }
@@ -23,16 +27,16 @@ namespace CrabsWave.Core.Functionalities
 
             for (var i = 1; i < MaxAttemptsAtFive; i++)
             {
-                (ok, message) = DoNavigateToUrl(driver, url);
+                (ok, message) = DoNavigateToUrl(parent, url);
                 if (ok)
                 {
-                    driver.Manage().Window.Maximize();
+                    parent.Driver.Manage().Window.Maximize();
                     return string.Empty;
                 }
 
                 if (string.IsNullOrEmpty(message))
                 {
-                    SetDefaultWindowSize(driver);
+                    SetDefaultWindowSize(parent);
                     return string.Empty;
                 }
 
@@ -42,28 +46,28 @@ namespace CrabsWave.Core.Functionalities
             return message;
         }
 
-        public static void NavigateBack(IWebDriver driver) => driver.Navigate().Back();
+        public void NavigateBack(Crawler parent) => parent.Driver.Navigate().Back();
 
-        public static string GetCurrentUrl(IWebDriver driver) => driver.Url;
+        public string GetCurrentUrl(Crawler parent) => parent.Driver.Url;
 
-        public static void RefreshPage(IWebDriver driver) => driver.Navigate().Refresh();
+        public void RefreshPage(Crawler parent) => parent.Driver.Navigate().Refresh();
 
-        private static (bool, string) DoNavigateToUrl(IWebDriver driver, string url)
+        private static void SetDefaultWindowSize(Crawler parent) => parent.Driver.Manage().Window.Size = new Size(1680, 1050);
+
+        private (bool, string) DoNavigateToUrl(Crawler parent, string url)
         {
             try
             {
-                driver.Navigate().GoToUrl(url);
-                driver.SwitchTo().Window(driver.CurrentWindowHandle);
-                return (driver.Url.Equals(url), string.Empty);
+                parent.Driver.Navigate().GoToUrl(url);
+                parent.Driver.SwitchTo().Window(parent.Driver.CurrentWindowHandle);
+                return (parent.Driver.Url.Equals(url), string.Empty);
             }
             catch (Exception e)
             {
                 var message = $"Could not navigate to url. Unkonwn error {e.Message}";
-                LogManager.Instance.LogError(message, e);
+                Logger.LogError(message, e);
                 return (false, message);
             }
         }
-
-        private static void SetDefaultWindowSize(IWebDriver driver) => driver.Manage().Window.Size = new Size(1680, 1050);
     }
 }

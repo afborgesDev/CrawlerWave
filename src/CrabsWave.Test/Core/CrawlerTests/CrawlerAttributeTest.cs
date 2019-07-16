@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
+using CrawlerWave.LogTestUtils;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -29,8 +30,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetItemsToTestAttribute))]
         public void ShouldGetElementAttribute(string identify, string attribute, string expectedValue, ElementsType elementsType, bool shouldRetry)
         {
-            var logMoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logMoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
@@ -46,8 +47,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldTestAttributeManager()
         {
-            var logMoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logMoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GetElementAttribute("invalix", ElementsType.Id, "value", false, out var value);

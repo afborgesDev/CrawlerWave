@@ -1,33 +1,38 @@
 ﻿using System;
-using CrabsWave.Core.LogsReports;
+using Microsoft.Extensions.Logging;
 using OpenQA.Selenium;
 
 namespace CrabsWave.Core.Functionalities.Scripts
 {
-    internal static class ScriptManager
+    internal class ScriptManager
     {
-        public static string ExecuteAndTakeResult(IWebDriver driver, string script)
+        public const string LoggerCategory = "CrawlerWave.ScriptManager";
+        private readonly ILogger Logger;
+
+        public ScriptManager(ILogger logger) => Logger = logger;
+
+        public string ExecuteAndTakeResult(Crawler parent, string script)
         {
             try
             {
-                return ((IJavaScriptExecutor)driver).ExecuteScript(script).ToString();
+                return ((IJavaScriptExecutor)parent.Driver).ExecuteScript(script).ToString();
             }
             catch (Exception e)
             {
-                LogManager.Instance.LogError("Could not execute javascript and take a result", e);
+                Logger.LogError("Could not execute javascript and take a result", e);
                 return string.Empty;
             }
         }
 
-        public static void ExecuteScriptUsingJavaScriptExecutor(IWebDriver driver, string script, params object[] args)
+        public void ExecuteScriptUsingJavaScriptExecutor(Crawler parent, string script, params object[] args)
         {
             try
             {
-                ((IJavaScriptExecutor)driver).ExecuteScript(script, args);
+                ((IJavaScriptExecutor)parent.Driver).ExecuteScript(script, args);
             }
             catch (Exception e)
             {
-                LogManager.Instance.LogError("Could not execute javascript using args and JavaScriptExecutor engine", e);
+                Logger.LogError("Could not execute javascript using args and JavaScriptExecutor engine", e);
             }
         }
     }

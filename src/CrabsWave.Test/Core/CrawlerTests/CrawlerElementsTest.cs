@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
+using CrawlerWave.LogTestUtils;
 using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Xunit;
 
 namespace CrabsWave.Test.Core.CrawlerTests
 {
     public class CrawlerElementsTest
     {
-        private readonly Mock<ILogger<Crawler>> logmoq = new Mock<ILogger<Crawler>>();
-
         public static IEnumerable<object[]> GetElementToFind()
         {
             var url = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
@@ -57,9 +54,10 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         private Crawler CreateAndInitialize()
         {
-            var crawler = new Crawler(logmoq.Object);
-            crawler.Initializate(new CrabsWave.Core.Configurations.Behavior());
-            return crawler;
+            var (_, factory) = CreateForTest.Create();
+            var sut = new Crawler(factory);
+            sut.Initializate(new CrabsWave.Core.Configurations.Behavior());
+            return sut;
         }
     }
 }

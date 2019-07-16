@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using CrabsWave.Core.LogsReports;
 using CrabsWave.Utils.IO;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -28,9 +27,8 @@ namespace CrabsWave.Core.Configurations
 
                     return (Driver, Service);
                 }
-                catch (Exception e)
+                catch
                 {
-                    LogManager.Instance.LogError("Could not create service or driver", e);
                     Service?.Dispose();
                     Driver?.Dispose();
                     Thread.Sleep(TimeSpan.FromSeconds(3));

@@ -1,44 +1,54 @@
 ﻿using System;
 using CrabsWave.Core.Functionalities.Scripts;
-using CrabsWave.Core.LogsReports;
 using CrabsWave.Core.Resources;
-using OpenQA.Selenium;
+using Microsoft.Extensions.Logging;
 
 namespace CrabsWave.Core.Functionalities
 {
-    internal static class ClickManager
+    internal class ClickManager
     {
-        public static void Click(IWebDriver driver, string identify, ElementsType elementsType, bool shouldRetry)
+        public const string LoggerCategory = "CrawlerWave.TextManager";
+        private readonly ILogger Logger;
+
+        public ClickManager(ILogger logger) => Logger = logger;
+
+        public void Click(Crawler parent, string identify, ElementsType elementsType, bool shouldRetry)
         {
-            var element = ElementsManager.TryGetElement(driver, identify, elementsType, shouldRetry);
+            var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                              .TryGetElement(parent, identify, elementsType, shouldRetry);
             element?.Click();
         }
 
-        public static void ClickFirst(IWebDriver driver, string identify, ElementsType elementsType, bool shouldRetry)
+        public void ClickFirst(Crawler parent, string identify, ElementsType elementsType, bool shouldRetry)
         {
-            var elements = ElementsManager.TryGetElements(driver, identify, elementsType, shouldRetry);
+            var elements = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                               .TryGetElements(parent, identify, elementsType, shouldRetry);
             try
             {
                 elements[0].Click();
             }
             catch (Exception e)
             {
-                LogManager.Instance.LogError($"Could not click at the first element: {identify}. ", e);
+                Logger.LogError($"Could not click at the first element: {identify}. ", e);
             }
         }
 
-        public static void ClickUsingJavaScript(IWebDriver driver, string identify, ElementsType elementsType, bool shouldRetry)
+        public void ClickUsingJavaScript(Crawler parent, string identify, ElementsType elementsType, bool shouldRetry)
         {
             switch (elementsType)
             {
                 case ElementsType.Id:
-                    ScriptManager.ExecuteScriptUsingJavaScriptExecutor(driver, $"document.getElementById('{identify}').click();");
+                    new ScriptManager(parent.CreateLogger(ScriptManager.LoggerCategory))
+                        .ExecuteScriptUsingJavaScriptExecutor(parent, $"document.getElementById('{identify}').click();");
                     break;
 
                 default:
                 {
-                    var element = ElementsManager.TryGetElement(driver, identify, elementsType, shouldRetry);
-                    ScriptManager.ExecuteScriptUsingJavaScriptExecutor(driver, "(arguments[0] || {click:() => ''}).click();", element);
+                    var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                                     .TryGetElement(parent, identify, elementsType, shouldRetry);
+
+                    new ScriptManager(parent.CreateLogger(ScriptManager.LoggerCategory))
+                        .ExecuteScriptUsingJavaScriptExecutor(parent, "(arguments[0] || {click:() => ''}).click();", element);
                     break;
                 }
             }

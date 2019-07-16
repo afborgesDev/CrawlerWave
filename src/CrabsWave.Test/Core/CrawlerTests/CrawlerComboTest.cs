@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrabsWave.Test.TestHelpers;
+using CrawlerWave.LogTestUtils;
 using FluentAssertions;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace CrabsWave.Test.Core.CrawlerTests
 {
     public class CrawlerComboTest
     {
         private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
-        private readonly ITestOutputHelper testOutput;
-
-        public CrawlerComboTest(ITestOutputHelper testOutput) => this.testOutput = testOutput;
 
         public static IEnumerable<object[]> GetSelectOptionsToIdentify => new List<object[]> {
             new object[] { "select1", ElementsType.Id, "First Value", "first", false, false, string.Empty } ,
@@ -28,19 +26,21 @@ namespace CrabsWave.Test.Core.CrawlerTests
         public void ShouldSelectByText(string identify, ElementsType elementsType, string textToSelect,
             string expectedValue, bool shouldRetry, bool shouldFail, string errorMessage)
         {
-            var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
-            using (var sut = new Crawler(logMoq))
+            var (testSink, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
                    .SelectByText(identify, elementsType, textToSelect, shouldRetry)
                    .GetElementAttribute(identify, elementsType, "value", shouldRetry, out var value);
-
-                testOutput.WriteLine(logOutPut.Output);
                 value.Should().Be(expectedValue);
 
                 if (shouldFail)
-                    logOutPut.Output.Should().Contain(errorMessage);
+                {
+                    testSink.Writes.Any(x => x.Message.Contains(errorMessage,
+                                              StringComparison.InvariantCultureIgnoreCase))
+                            .Should().BeTrue();
+                }
             }
         }
     }

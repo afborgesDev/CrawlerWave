@@ -6,22 +6,22 @@ namespace CrabsWave.Core
     {
         public static Crawler ExecuteJavaScript(this Crawler parent, string script)
         {
-            parent.RestoreLog();
-            ScriptManager.ExecuteScriptUsingJavaScriptExecutor(parent.Driver, script);
+            new ScriptManager(parent.CreateLogger(ScriptManager.LoggerCategory))
+                .ExecuteScriptUsingJavaScriptExecutor(parent, script);
             return parent;
         }
 
         public static Crawler ExecuteJavaScript(this Crawler parent, string script, params object[] args)
         {
-            parent.RestoreLog();
-            ScriptManager.ExecuteScriptUsingJavaScriptExecutor(parent.Driver, script, args);
+            new ScriptManager(parent.CreateLogger(ScriptManager.LoggerCategory))
+                .ExecuteScriptUsingJavaScriptExecutor(parent, script, args);
             return parent;
         }
 
         public static Crawler ExecuteJavaScript(this Crawler parent, string script, out string result)
         {
-            parent.RestoreLog();
-            result = ScriptManager.ExecuteAndTakeResult(parent.Driver, script);
+            result = new ScriptManager(parent.CreateLogger(ScriptManager.LoggerCategory))
+                         .ExecuteAndTakeResult(parent, script);
             return parent;
         }
     }

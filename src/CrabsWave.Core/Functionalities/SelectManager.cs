@@ -1,20 +1,25 @@
 ﻿using System;
-using CrabsWave.Core.LogsReports;
 using CrabsWave.Core.Resources;
-using OpenQA.Selenium;
+using Microsoft.Extensions.Logging;
 using OpenQA.Selenium.Support.UI;
 
 namespace CrabsWave.Core.Functionalities
 {
-    public static class SelectManager
+    public class SelectManager
     {
-        public static void SelectByText(IWebDriver driver, string identify, ElementsType elementsType, string textToSelect, bool shouldRetry)
+        public const string LoggerCategory = "CrawlerWave.SelectManager";
+        private readonly ILogger Logger;
+
+        public SelectManager(ILogger logger) => Logger = logger;
+
+        public void SelectByText(Crawler parent, string identify, ElementsType elementsType, string textToSelect, bool shouldRetry)
         {
-            var element = ElementsManager.TryGetElement(driver, identify, elementsType, shouldRetry);
+            var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                              .TryGetElement(parent, identify, elementsType, shouldRetry);
 
             if (element == null)
             {
-                LogManager.Instance.LogError($"Could not find a select with the identify: {identify}");
+                Logger.LogError($"Could not find a select with the identify: {identify}");
                 return;
             }
 
@@ -25,7 +30,7 @@ namespace CrabsWave.Core.Functionalities
             }
             catch (Exception e)
             {
-                LogManager.Instance.LogError($"Could not select element: {identify} by using the text: {textToSelect}", e);
+                Logger.LogError($"Could not select element: {identify} by using the text: {textToSelect}", e);
             }
         }
     }

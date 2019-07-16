@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
+using CrawlerWave.LogTestUtils;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -45,24 +47,21 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         public static IEnumerable<object[]> GetElementsToFailOnClick() => new List<object[]> {
             new object[] { LocalUrl, "sometingWrong", ElementsType.Id, false },
-            //new object[] { LocalUrl, "buttonIncrement", ElementsType.Id, true}
         };
 
         [Theory]
         [MemberData(nameof(GetElementsToClick))]
         public void ShouldClicElement(string url, string identify, ElementsType type, bool shouldFail, bool shouldRetry)
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (testSink, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
                    .Click(identify, type, shouldRetry);
 
-                var timesToCheck = Times.Never();
-                if (shouldFail) timesToCheck = Times.AtLeastOnce();
-
-                logmoq.VerifyNearLog(LogLevel.Error, "Could not", timesToCheck);
+                var logInformation = testSink.Writes.Any(x => x.LogLevel == LogLevel.Error && x.Message.Contains("Could not"));
+                logInformation.Should().Be(shouldFail);
             }
         }
 
@@ -70,17 +69,15 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToClick))]
         public void ShouldClickUsingScript(string url, string identify, ElementsType type, bool shouldFail, bool shouldRetry)
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (testSink, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
                    .ClickUsingScript(identify, type, shouldRetry);
 
-                var timesToCheck = Times.Never();
-                if (shouldFail) timesToCheck = Times.AtLeastOnce();
-
-                logmoq.VerifyNearLog(LogLevel.Error, "Could not", timesToCheck);
+                var logInformation = testSink.Writes.Any(x => x.LogLevel == LogLevel.Error && x.Message.Contains("Could not"));
+                logInformation.Should().Be(shouldFail);
             }
         }
 
@@ -88,17 +85,15 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToClick))]
         public void ShouldClickFirst(string url, string identify, ElementsType type, bool shouldFail, bool shouldRetry)
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (testSink, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
                    .ClickFirst(identify, type, shouldRetry);
 
-                var timesToCheck = Times.Never();
-                if (shouldFail) timesToCheck = Times.AtLeastOnce();
-
-                logmoq.VerifyNearLog(LogLevel.Error, "Could not", timesToCheck);
+                var logInformation = testSink.Writes.Any(x => x.LogLevel == LogLevel.Error && x.Message.Contains("Could not"));
+                logInformation.Should().Be(shouldFail);
             }
         }
 
@@ -106,8 +101,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToClickWithCondition))]
         public void ShouldClickIfTrue(string url, string identify, ElementsType elements, string idNumberResult, bool condition, bool shouldRetry)
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
@@ -131,8 +126,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToFailOnClick))]
         public void ShouldNotClickBecouseCoundFind(string url, string identify, ElementsType elementsType, bool shouldRetry)
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (testSink, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
@@ -141,15 +136,16 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
                 int.TryParse(elementResult, out var value);
                 value.Should().Be(0);
-                logmoq.VerifyNearLog(LogLevel.Error, "Could not click at the", Times.Never());
+                testSink.Writes.Any(x => x.LogLevel == LogLevel.Error && x.Message.Contains("Could not"))
+                        .Should().BeTrue();
             }
         }
 
         [Fact]
         public void ShoulConfirmAlert()
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
@@ -165,8 +161,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShoulDemissAlert()
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
@@ -182,8 +178,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldTestClickFirstManager()
         {
-            var logmoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logmoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)

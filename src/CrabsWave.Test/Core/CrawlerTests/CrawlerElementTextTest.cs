@@ -1,22 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrabsWave.Test.TestHelpers;
+using CrawlerWave.LogTestUtils;
 using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace CrabsWave.Test.Core.CrawlerTests
 {
     public class CrawlerElementTextTest
     {
         private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
-
-        private readonly ITestOutputHelper testOutput;
-
-        public CrawlerElementTextTest(ITestOutputHelper output) => testOutput = output;
 
         public static IEnumerable<object[]> GetElementsToTestText() => new List<object[]> {
             new object[] { "btnOne", "This is a button", ElementsType.Id, true },
@@ -46,12 +40,12 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToTestText))]
         public void ShouldGetElementText(string identify, string expectedValue, ElementsType elementsType, bool shouldRetry)
         {
-            var logMoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logMoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .ElementInnerText(identify, elementsType, shouldRetry,  out var text);
+                   .ElementInnerText(identify, elementsType, shouldRetry, out var text);
 
                 text.Should().Be(expectedValue);
             }
@@ -61,8 +55,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetItemsForTestMultipleElements))]
         public void ShouldGetTextFromMultipleElementsOcurrences(string identify, ElementsType elementsType, string textSample, bool shouldFail, bool shouldRetry)
         {
-            var logMoq = new Mock<ILogger<Crawler>>();
-            using (var sut = new Crawler(logMoq.Object))
+            var (_, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl($"file:///{PageForUnitTestHelper.GetPageForUnitTestWithMultipleItems()}", out _)
@@ -75,7 +69,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
                     listOfText.Should().ContainEquivalentOf(textSample);
                 }
                 else
+                {
                     listOfText.Should().BeNull();
+                }
             }
         }
 
@@ -83,20 +79,23 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetItemsToClearAndSendKeys))]
         public void ShouldClearAndSendText(string identify, ElementsType elementsType, string textToSend, bool shouldRetry, bool shouldFail, string messageOnFail)
         {
-            var (logMoq, logOutPut) = TestLoggerBuilder.Create<Crawler>();
-            using (var sut = new Crawler(logMoq))
+            var (testSink, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
                    .ClearAndSendKeys(identify, elementsType, textToSend, shouldRetry)
                    .GetElementAttribute(identify, elementsType, "value", shouldRetry, out var text);
 
-                testOutput.WriteLine(logOutPut.Output);
-
                 if (!shouldFail)
+                {
                     text.Should().Be(textToSend);
+                }
                 else
-                    logOutPut.Output.Contains(messageOnFail).Should().BeTrue();
+                {
+                    testSink.Writes.Any(x => x.Message.Contains(messageOnFail,
+                                           System.StringComparison.InvariantCultureIgnoreCase)).Should().BeTrue();
+                }
             }
         }
     }

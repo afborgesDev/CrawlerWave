@@ -49,6 +49,8 @@ Generated\ Files/
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
+[Cc]rawler[Ww]ave.[Ll]og[Tt]est[Uu]tils
+[Cc]rawler[Ww]ave.[Ll]og[Tt]est[Uu]tils/
 
 # NUNIT
 *.VisualState.xml
