@@ -22,18 +22,15 @@ namespace CrawlerWave.LogTestUtils.Logger
 
         public ITestSink Sink { get; }
 
-        public bool DisposeCalled { get; private set; }
-
         public ILogger CreateLogger(string categoryName) => new TestLogger(categoryName, Sink, _filter);
 
         #region IDisposable Support
 
-        private bool disposedValue = false;
+        private bool disposedValue;
 
         [ExcludeFromCodeCoverage]
         public void Dispose()
         {
-            DisposeCalled = true;
             Dispose(true);
             GC.SuppressFinalize(this);
         }
