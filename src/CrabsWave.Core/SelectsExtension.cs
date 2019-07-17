@@ -11,5 +11,12 @@ namespace CrabsWave.Core
                 .SelectByText(parent, identify, elementsType, textToSelect, shouldRetry);
             return parent;
         }
+
+        public static Crawler SelectByValue(this Crawler parent, string identify, ElementsType elementsType, string textToSelect, bool shouldRetry)
+        {
+            new SelectManager(parent.CreateLogger(SelectManager.LoggerCategory))
+                .SelectByValue(parent, identify, elementsType, textToSelect, shouldRetry);
+            return parent;
+        }
     }
 }

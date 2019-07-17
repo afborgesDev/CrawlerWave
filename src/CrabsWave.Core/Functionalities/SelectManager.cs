@@ -33,5 +33,27 @@ namespace CrabsWave.Core.Functionalities
                 Logger.LogError($"Could not select element: {identify} by using the text: {textToSelect}", e);
             }
         }
+
+        public void SelectByValue(Crawler parent, string identify, ElementsType elementsType, string valueToSelect, bool shouldRetry)
+        {
+            var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                              .TryGetElement(parent, identify, elementsType, shouldRetry);
+
+            if (element == null)
+            {
+                Logger.LogError($"Could not find a select with the identify: {identify}");
+                return;
+            }
+
+            var selectObject = new SelectElement(element);
+            try
+            {
+                selectObject.SelectByValue(valueToSelect);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError($"Could not select element: {identify} by using the value: {valueToSelect}", e);
+            }
+        }
     }
 }

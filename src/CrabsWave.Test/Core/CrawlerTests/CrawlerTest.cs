@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using CrabsWave.Core;
+﻿using CrabsWave.Core;
 using CrabsWave.Core.Configurations;
 using CrawlerWave.LogTestUtils;
 using FluentAssertions;
-using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace CrabsWave.Test.Core.CrawlerTests
@@ -32,10 +30,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
         //        sut.Initializate(behavior);
         //        behavior.Verbose.Should().BeFalse();
 
-        //        testSink.Writes.Any(x => x.LogLevel == LogLevel.Information
-        //                                 && x.Message.Contains("Crawler created, starting to configure",
-        //                                 System.StringComparison.InvariantCultureIgnoreCase))
-        //                       .Should().BeTrue();
+        // testSink.Writes.Any(x => x.LogLevel == LogLevel.Information && x.Message.Contains("Crawler
+        // created, starting to configure", System.StringComparison.InvariantCultureIgnoreCase)) .Should().BeTrue();
 
         //        testSink.Writes.Any(x => x.LogLevel == LogLevel.Information
         //                                 && x.Message.Contains("The Crawler is ready to use.",
