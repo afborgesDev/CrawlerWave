@@ -31,8 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CrawlerWave.LogTestUtils\CrawlerWave.LogTestUtils.csproj" />
     <ProjectReference Include="..\CrabsWave.Core\CrabsWave.Core.csproj" />
+    <ProjectReference Include="..\CrawlerWave.LogTestUtils\CrawlerWave.LogTestUtils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrabsWave.Test", "src\Crabs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrabsWave.Utils", "src\CrabsWave.Utils\CrabsWave.Utils.csproj", "{711FB8CF-5611-4242-BFDD-59B44F1C9E65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerWave.LogTestUtils", "CrawlerWave.LogTestUtils\CrawlerWave.LogTestUtils.csproj", "{072A5DC3-288F-4A76-B160-1687BBD5F636}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerWave.LogTestUtils", "src\CrawlerWave.LogTestUtils\CrawlerWave.LogTestUtils.csproj", "{6A82E3F4-EAA6-46AD-885F-B820B6528894}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,10 +34,10 @@ Global
 		{711FB8CF-5611-4242-BFDD-59B44F1C9E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{711FB8CF-5611-4242-BFDD-59B44F1C9E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{711FB8CF-5611-4242-BFDD-59B44F1C9E65}.Release|Any CPU.Build.0 = Release|Any CPU
-		{072A5DC3-288F-4A76-B160-1687BBD5F636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{072A5DC3-288F-4A76-B160-1687BBD5F636}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{072A5DC3-288F-4A76-B160-1687BBD5F636}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{072A5DC3-288F-4A76-B160-1687BBD5F636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A82E3F4-EAA6-46AD-885F-B820B6528894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A82E3F4-EAA6-46AD-885F-B820B6528894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A82E3F4-EAA6-46AD-885F-B820B6528894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A82E3F4-EAA6-46AD-885F-B820B6528894}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

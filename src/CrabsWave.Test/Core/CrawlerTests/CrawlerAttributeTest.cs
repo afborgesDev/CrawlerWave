@@ -3,8 +3,6 @@ using CrabsWave.Core;
 using CrabsWave.Core.Resources;
 using CrawlerWave.LogTestUtils;
 using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Xunit;
 
 namespace CrabsWave.Test.Core.CrawlerTests
