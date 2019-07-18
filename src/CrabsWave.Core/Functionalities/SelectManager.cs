@@ -55,5 +55,27 @@ namespace CrabsWave.Core.Functionalities
                 Logger.LogError($"Could not select element: {identify} by using the value: {valueToSelect}", e);
             }
         }
+
+        public void SelectByIndex(Crawler parent, string identify, ElementsType elementsType, int indexToSelect, bool shouldRetry)
+        {
+            var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
+                              .TryGetElement(parent, identify, elementsType, shouldRetry);
+
+            if (element == null)
+            {
+                Logger.LogError($"Could not find a select with the identify: {identify}");
+                return;
+            }
+
+            var selectObject = new SelectElement(element);
+            try
+            {
+                selectObject.SelectByIndex(indexToSelect);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError($"Could not select element: {identify} by using the index: {indexToSelect}", e);
+            }
+        }
     }
 }

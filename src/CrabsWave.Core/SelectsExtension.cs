@@ -18,5 +18,12 @@ namespace CrabsWave.Core
                 .SelectByValue(parent, identify, elementsType, textToSelect, shouldRetry);
             return parent;
         }
+
+        public static Crawler SelectByIndex(this Crawler parent, string identify, ElementsType elementsType, int indexToSelect, bool shouldRetry)
+        {
+            new SelectManager(parent.CreateLogger(SelectManager.LoggerCategory))
+                .SelectByIndex(parent, identify, elementsType, indexToSelect, shouldRetry);
+            return parent;
+        }
     }
 }

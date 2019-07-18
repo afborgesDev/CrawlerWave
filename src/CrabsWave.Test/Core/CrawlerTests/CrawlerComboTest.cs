@@ -29,6 +29,14 @@ namespace CrabsWave.Test.Core.CrawlerTests
             new object[] { "#$select1%¨&", ElementsType.Id, "third2", "", false, true, "Could not find a select with the identify: #$select1%¨&" },
         };
 
+        public static IEnumerable<object[]> GetSelectOptionsByIndexToIdentify => new List<object[]> {
+            new object[] { "select1", ElementsType.Id, 1, "first", false, false, string.Empty },
+            new object[] { "select1", ElementsType.Name, 2, "second", false, false, string.Empty },
+            new object[] { "select1", ElementsType.ClassName, 3, "third", false, false, string.Empty },
+            new object[] { "select1", ElementsType.Id, 50, "-1", false, true, "Could not select element: select1 by using the index: 50" },
+            new object[] { "#$select1%¨&", ElementsType.Id, -1, "", false, true, "Could not find a select with the identify: #$select1%¨&" },
+        };
+
         [Theory]
         [MemberData(nameof(GetSelectOptionsToIdentify))]
         public void ShouldSelectByText(string identify, ElementsType elementsType, string textToSelect,
@@ -62,6 +70,28 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
                    .SelectByValue(identify, elementsType, valueToSelect, shouldRetry)
+                   .GetElementAttribute(identify, elementsType, "value", shouldRetry, out var value);
+
+                value.Should().Be(expectedValue);
+                if (shouldFail)
+                {
+                    testSink.Writes.Any(x => x.Message.Contains(errorMessage,
+                                              StringComparison.InvariantCultureIgnoreCase))
+                            .Should().BeTrue();
+                }
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(GetSelectOptionsByIndexToIdentify))]
+        public void ShouldSelectByIndex(string identify, ElementsType elementsType, int indexToSelect, string expectedValue, bool shouldRetry, bool shouldFail, string errorMessage)
+        {
+            var (testSink, factory) = CreateForTest.Create();
+            using (var sut = new Crawler(factory))
+            {
+                sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
+                   .GoToUrl(LocalUrl, out _)
+                   .SelectByIndex(identify, elementsType, indexToSelect, shouldRetry)
                    .GetElementAttribute(identify, elementsType, "value", shouldRetry, out var value);
 
                 value.Should().Be(expectedValue);
