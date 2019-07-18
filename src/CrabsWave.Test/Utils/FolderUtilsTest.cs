@@ -18,10 +18,10 @@ namespace CrabsWave.Test.Utils
         };
 
         public static IEnumerable<object[]> GetWrongFileNameExamples() => new List<object[]> {
-            new object[] { ":!@#!@)(#*$&%", "_!@#!@)(#_$&%" },
-            new object[] { "fil:ena:e", "fil_ena_e" },
-            new object[] { "filename", "filename" },
-            new object[] { "", "" }
+            new object[] { ":!@#!@)(#*$&%" },
+            new object[] { "fil:ena:e" },
+            new object[] { "filename" },
+            new object[] { "" }
         };
 
         [Fact]
@@ -56,14 +56,14 @@ namespace CrabsWave.Test.Utils
             var fileName = SeleniumDependencies.GetWebDriverPathAvaliable();
             fileName.Should().NotBeNullOrWhiteSpace();
         }
-        
+
         [Theory]
         [MemberData(nameof(GetWrongFileNameExamples))]
-        public void ShouldValidateFileName(string wrongFileName, string expectedValue)
+        public void ShouldValidateFileName(string wrongFileName)
         {
+            var invalidCharsForPlatform = string.Join(" ", Path.GetInvalidFileNameChars()).Split(" ");
             var fileName = FolderUtils.ReplaceInvalidFileNameChars(wrongFileName);
-            fileName.Should().BeEquivalentTo(expectedValue);
+            fileName.Should().NotContainAny(invalidCharsForPlatform);
         }
-       
     }
 }
