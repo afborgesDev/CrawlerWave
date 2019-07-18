@@ -40,13 +40,13 @@ namespace CrabsWave.Utils.IO
             extension = extension.Replace(".", string.Empty).ToLower();
 
             if (string.IsNullOrWhiteSpace(extension))
-                return $".{DefaultScreenShotExtension}";
+                return DefaultScreenShotExtension;
 
             
             if (Array.IndexOf(SupportedScreenShotExtensions, extension) < 0)
-                return $".{DefaultScreenShotExtension}";
+                return DefaultScreenShotExtension;
 
-            return $".{extension}";
+            return extension;
         }
     }
 }
