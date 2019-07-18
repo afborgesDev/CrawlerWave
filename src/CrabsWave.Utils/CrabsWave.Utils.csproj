@@ -6,4 +6,8 @@
     <ProjectGuid>711fb8cf-5611-4242-bfdd-59b44f1c9e65</ProjectGuid>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+  </ItemGroup>
+
 </Project>

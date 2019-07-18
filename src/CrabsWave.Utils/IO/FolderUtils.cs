@@ -24,5 +24,7 @@ namespace CrabsWave.Utils.IO
 
             return fileName;
         }
+
+        public static string ReplaceInvalidFileNameChars(string fileName) => string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
     }
 }

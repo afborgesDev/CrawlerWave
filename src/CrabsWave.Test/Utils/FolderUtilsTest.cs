@@ -10,6 +10,20 @@ namespace CrabsWave.Test.Utils
 {
     public class FolderUtilsTest
     {
+        public static IEnumerable<object[]> GetExecutableCombinations() => new List<object[]>() {
+            new object[]{ "", "", false },
+            new object[]{ ".exe", "", false},
+            new object[]{ "", Directory.GetCurrentDirectory(), false},
+            new object[]{ ".exe", Directory.GetCurrentDirectory(), false},
+        };
+
+        public static IEnumerable<object[]> GetWrongFileNameExamples() => new List<object[]> {
+            new object[] { ":!@#!@)(#*$&%", "_!@#!@)(#_$&%" },
+            new object[] { "fil:ena:e", "fil_ena_e" },
+            new object[] { "filename", "filename" },
+            new object[] { "", "" }
+        };
+
         [Fact]
         public void ShouldResultCurrentDirectory()
         {
@@ -42,12 +56,14 @@ namespace CrabsWave.Test.Utils
             var fileName = SeleniumDependencies.GetWebDriverPathAvaliable();
             fileName.Should().NotBeNullOrWhiteSpace();
         }
-
-        public static IEnumerable<object[]> GetExecutableCombinations() => new List<object[]>() {
-            new object[]{ "", "", false },
-            new object[]{ ".exe", "", false},
-            new object[]{ "", Directory.GetCurrentDirectory(), false},
-            new object[]{ ".exe", Directory.GetCurrentDirectory(), false},
-        };
+        
+        [Theory]
+        [MemberData(nameof(GetWrongFileNameExamples))]
+        public void ShouldValidateFileName(string wrongFileName, string expectedValue)
+        {
+            var fileName = FolderUtils.ReplaceInvalidFileNameChars(wrongFileName);
+            fileName.Should().BeEquivalentTo(expectedValue);
+        }
+       
     }
 }
