@@ -10,6 +10,18 @@ namespace CrabsWave.Utils.IO
         private const string ScreenshotNameTemplate = "ScreenShot_{0}_{1}.{2}";
         private const string DatetimeWithSecondsStrFormat = "ddMMyyyyHHmmss";
 
+        public static MemoryStream Base64ToMemoryStream(string base64)
+        {
+            if (string.IsNullOrWhiteSpace(base64))
+                return null;
+
+            var buffer = new Span<byte>(new byte[base64.Length]);
+            if (Convert.TryFromBase64String(base64, buffer, out _))
+                return new MemoryStream(buffer.ToArray());
+
+            return null;
+        }
+
         public static string BitmapToBase64(Bitmap bitmap, ImageFormat imageFormat)
         {
             if (bitmap == null) return string.Empty;

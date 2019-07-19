@@ -5,12 +5,11 @@ using OpenQA.Selenium.Support.UI;
 
 namespace CrabsWave.Core.Functionalities
 {
-    public class SelectManager
+    internal class SelectManager : BaseManager
     {
-        public const string LoggerCategory = "CrawlerWave.SelectManager";
-        private readonly ILogger Logger;
-
-        public SelectManager(ILogger logger) => Logger = logger;
+        public SelectManager(ILogger logger) : base("CrawlerWave.SelectManager", logger)
+        {
+        }
 
         public void SelectByText(Crawler parent, WebElementType webElementType, string textToSelect, bool shouldRetry)
         {

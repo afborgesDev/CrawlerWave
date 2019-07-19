@@ -6,16 +6,14 @@ using OpenQA.Selenium;
 
 namespace CrabsWave.Core.Functionalities
 {
-    internal class ElementsManager
+    internal class ElementsManager : BaseManager
     {
-        //TODO: Change that for a constructor initialization
-        public const string LoggerCategory = "CrawlerWave.ElementsManager";
         public const int DefaultNumberOfAttemptsOnRetry = 5;
         public const int OneAttempt = 1;
 
-        private readonly ILogger Logger;
-
-        public ElementsManager(ILogger logger) => Logger = logger;
+        public ElementsManager(ILogger logger) : base("CrawlerWave.ElementsManager", logger)
+        {
+        }
 
         public IWebElement TryGetElement(Crawler parent, WebElementType webElementType, bool shouldRetryIfFail = true)
         {

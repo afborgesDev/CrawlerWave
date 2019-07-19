@@ -5,12 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace CrabsWave.Core.Functionalities
 {
-    internal class NavegationManager
+    internal class NavegationManager : BaseManager
     {
-        public const string LoggerCategory = "CrawlerWave.NavegationManager";
-        private readonly ILogger Logger;
-
-        public NavegationManager(ILogger logger) => Logger = logger;
+        public NavegationManager(ILogger logger) : base("CrawlerWave.NavegationManager", logger)
+        {
+        }
 
         public string GoToUrl(Crawler parent, string url)
         {

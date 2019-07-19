@@ -4,12 +4,11 @@ using OpenQA.Selenium;
 
 namespace CrabsWave.Core.Functionalities.Scripts
 {
-    internal class ScriptManager
+    internal class ScriptManager : BaseManager
     {
-        public const string LoggerCategory = "CrawlerWave.ScriptManager";
-        private readonly ILogger Logger;
-
-        public ScriptManager(ILogger logger) => Logger = logger;
+        public ScriptManager(ILogger logger) : base("CrawlerWave.ScriptManager", logger)
+        {
+        }
 
         public string ExecuteAndTakeResult(Crawler parent, string script)
         {

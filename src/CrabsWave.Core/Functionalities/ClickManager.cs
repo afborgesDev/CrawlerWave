@@ -5,12 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace CrabsWave.Core.Functionalities
 {
-    internal class ClickManager
+    internal class ClickManager : BaseManager
     {
-        public const string LoggerCategory = "CrawlerWave.TextManager";
-        private readonly ILogger Logger;
-
-        public ClickManager(ILogger logger) => Logger = logger;
+        public ClickManager(ILogger logger) : base("CrawlerWave.TextManager", logger)
+        {
+        }
 
         public void Click(Crawler parent, WebElementType webElementType, bool shouldRetry)
         {

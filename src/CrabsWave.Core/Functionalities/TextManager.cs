@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 
 namespace CrabsWave.Core.Functionalities
 {
-    internal class TextManager
+    internal class TextManager : BaseManager
     {
-        public const string LoggerCategory = "CrawlerWave.TextManager";
         private const string AttributeText = "innerText";
-        private readonly ILogger Logger;
 
-        public TextManager(ILogger logger) => Logger = logger;
+        public TextManager(ILogger logger) : base("CrawlerWave.TextManager", logger)
+        {
+        }
 
         public string GetElementInnerText(Crawler parent, WebElementType webElementType, bool shouldRetry = true) =>
             new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))

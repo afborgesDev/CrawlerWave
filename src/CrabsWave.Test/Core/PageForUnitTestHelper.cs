@@ -17,5 +17,7 @@ namespace CrabsWave.Test.Core
             if (File.Exists(file)) return file;
             return string.Empty;
         }
+
+        public static string GetUrlForUniTestFile() => $"file:///{GetPageForUniTestFilePath()}";
     }
 }
