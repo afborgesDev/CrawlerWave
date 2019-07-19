@@ -13,14 +13,14 @@ namespace CrabsWave.Core.Functionalities
 
         public TextManager(ILogger logger) => Logger = logger;
 
-        public string GetElementInnerText(Crawler parent, string identify, ElementsType elementsType, bool shouldRetry = true) =>
+        public string GetElementInnerText(Crawler parent, WebElementType webElementType, bool shouldRetry = true) =>
             new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                .TryGetAttribute(parent, identify, elementsType, AttributeText, shouldRetry);
+                .TryGetAttribute(parent, webElementType, AttributeText, shouldRetry);
 
-        public IList<string> GetTextFromMultipleElementOcurrences(Crawler parent, string identify, ElementsType elementsType, bool shouldRetry = true)
+        public IList<string> GetTextFromMultipleElementOcurrences(Crawler parent, WebElementType webElementType, bool shouldRetry = true)
         {
             var items = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                            .TryGetElements(parent, identify, elementsType, shouldRetry);
+                            .TryGetElements(parent, webElementType, shouldRetry);
             if (items == null || items.Count <= 0) return default;
 
             var returnList = new List<string>(items.Count);
@@ -30,10 +30,10 @@ namespace CrabsWave.Core.Functionalities
             return returnList;
         }
 
-        public void ClearAndSendKeys(Crawler parent, string identify, ElementsType elementsType, string textToSend, bool shouldRetry = true)
+        public void ClearAndSendKeys(Crawler parent, WebElementType webElementType, string textToSend, bool shouldRetry = true)
         {
             var item = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                           .TryGetElement(parent, identify, elementsType, shouldRetry);
+                           .TryGetElement(parent, webElementType, shouldRetry);
             try
             {
                 item.Clear();
@@ -41,7 +41,7 @@ namespace CrabsWave.Core.Functionalities
             }
             catch (Exception e)
             {
-                Logger.LogError($"Cuold not clear and send key for element {identify}", e);
+                Logger.LogError($"Cuold not clear and send key for element {webElementType.Identify}", e);
             }
         }
     }

@@ -6,24 +6,24 @@ namespace CrabsWave.Core
 {
     public static class TextExtension
     {
-        public static Crawler ElementInnerText(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry, out string textValue)
+        public static Crawler ElementInnerText(this Crawler parent, WebElementType webElementType, bool shouldRetry, out string textValue)
         {
             textValue = new TextManager(parent.CreateLogger(TextManager.LoggerCategory))
-                            .GetElementInnerText(parent, identify, elementsType, shouldRetry);
+                            .GetElementInnerText(parent, webElementType, shouldRetry);
             return parent;
         }
 
-        public static Crawler ElementsText(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry, out IList<string> textValue)
+        public static Crawler ElementsText(this Crawler parent, WebElementType webElementType, bool shouldRetry, out IList<string> textValue)
         {
             textValue = new TextManager(parent.CreateLogger(TextManager.LoggerCategory))
-                            .GetTextFromMultipleElementOcurrences(parent, identify, elementsType, shouldRetry);
+                            .GetTextFromMultipleElementOcurrences(parent, webElementType, shouldRetry);
             return parent;
         }
 
-        public static Crawler ClearAndSendKeys(this Crawler parent, string identify, ElementsType elementsType, string keys, bool shouldRetry)
+        public static Crawler ClearAndSendKeys(this Crawler parent, WebElementType webElementType, string keys, bool shouldRetry)
         {
             new TextManager(parent.CreateLogger(TextManager.LoggerCategory))
-                .ClearAndSendKeys(parent, identify, elementsType, keys, shouldRetry);
+                .ClearAndSendKeys(parent, webElementType, keys, shouldRetry);
             return parent;
         }
     }

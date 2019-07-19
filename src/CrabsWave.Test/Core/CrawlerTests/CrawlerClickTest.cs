@@ -5,7 +5,6 @@ using CrabsWave.Core.Resources;
 using CrawlerWave.LogTestUtils;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Moq;
 using Xunit;
 
 namespace CrabsWave.Test.Core.CrawlerTests
@@ -15,50 +14,50 @@ namespace CrabsWave.Test.Core.CrawlerTests
         private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
 
         public static IEnumerable<object[]> GetElementsToClick() => new List<object[]> {
-                new object[] { LocalUrl, "//*[@id='ButtonsToXPath']", ElementsType.XPath, false, true },
-                new object[] { LocalUrl, "inputName", ElementsType.Name, false, true },
-                new object[] { LocalUrl, "INPUT", ElementsType.TagName, false, true },
-                new object[] { LocalUrl, "body > a", ElementsType.CssSelector, false, true },
-                new object[] { LocalUrl, "btnOne", ElementsType.Id, false, true },
-                new object[] { LocalUrl, "someClass", ElementsType.ClassName, false, true },
-                new object[] { LocalUrl, "click to increment", ElementsType.PartialLinkText, false, true },
-                new object[] { LocalUrl, "click to increment" , ElementsType.LinkText, false, true }
+                new object[] { LocalUrl, WebElementType.XPath("//*[@id='ButtonsToXPath']"), false, true },
+                new object[] { LocalUrl, WebElementType.Name("inputName"), false, true },
+                new object[] { LocalUrl, WebElementType.TagName("INPUT"), false, true },
+                new object[] { LocalUrl, WebElementType.CssSelector("body > a"), false, true },
+                new object[] { LocalUrl, WebElementType.Id("btnOne"), false, true },
+                new object[] { LocalUrl, WebElementType.ClassName("someClass"), false, true },
+                new object[] { LocalUrl, WebElementType.PartialLinkText("click to increment"), false, true },
+                new object[] { LocalUrl, WebElementType.LinkText("click to increment" ), false, true }
         };
 
         public static IEnumerable<object[]> GetElementsToClickWithCondition() => new List<object[]> {
-            new object[] { LocalUrl,  "buttonIncrement", ElementsType.Id, "numberResult", true, true},
-            new object[] { LocalUrl, "buttonIncrement", ElementsType.Name, "numberResult", true, true},
-            new object[] { LocalUrl, "buttonIncrement", ElementsType.ClassName, "numberResult", true, true},
-            new object[] { LocalUrl, "//*[@id='buttonIncrement']", ElementsType.XPath, "numberResult", true, true},
-            new object[] { LocalUrl, "#buttonIncrement", ElementsType.CssSelector, "numberResult", true, true},
-            new object[] { LocalUrl, "click to increment", ElementsType.PartialLinkText, "numberResult", true, true},
-            new object[] { LocalUrl, "click to increment" , ElementsType.LinkText, "numberResult", true, true},
-            new object[] { LocalUrl, "P" , ElementsType.TagName, "numberResult", true, true},
-            new object[] { LocalUrl, "buttonIncrement", ElementsType.Id, "numberResult", false, true},
-            new object[] { LocalUrl, "buttonIncrement", ElementsType.Name, "numberResult", false, true},
-            new object[] { LocalUrl, "buttonIncrement", ElementsType.ClassName, "numberResult", false, true},
-            new object[] { LocalUrl, "//*[@id='buttonIncrement']", ElementsType.XPath, "numberResult", false, true},
-            new object[] { LocalUrl, "#buttonIncrement", ElementsType.CssSelector, "numberResult", false, true},
-            new object[] { LocalUrl, "click to increment", ElementsType.PartialLinkText, "numberResult", false, true},
-            new object[] { LocalUrl, "click to increment" , ElementsType.LinkText, "numberResult", false, true},
-            new object[] { LocalUrl, "P" , ElementsType.TagName, "numberResult", false, true },
-            new object[] { LocalUrl, "P" , ElementsType.TagName, "numberResult", false, false }
+            new object[] { LocalUrl, WebElementType.Id("buttonIncrement"), "numberResult", true, true},
+            new object[] { LocalUrl, WebElementType.Name("buttonIncrement"), "numberResult", true, true},
+            new object[] { LocalUrl, WebElementType.ClassName("buttonIncrement"), "numberResult", true, true},
+            new object[] { LocalUrl, WebElementType.XPath("//*[@id='buttonIncrement']"), "numberResult", true, true},
+            new object[] { LocalUrl, WebElementType.CssSelector("#buttonIncrement"), "numberResult", true, true},
+            new object[] { LocalUrl, WebElementType.PartialLinkText("click to increment"), "numberResult", true, true},
+            new object[] { LocalUrl, WebElementType.LinkText("click to increment" ), "numberResult", true, true},
+            new object[] { LocalUrl, WebElementType.TagName("P" ), "numberResult", true, true},
+            new object[] { LocalUrl, WebElementType.Id("buttonIncrement"), "numberResult", false, true},
+            new object[] { LocalUrl, WebElementType.Name("buttonIncrement"), "numberResult", false, true},
+            new object[] { LocalUrl, WebElementType.ClassName("buttonIncrement"), "numberResult", false, true},
+            new object[] { LocalUrl, WebElementType.XPath("//*[@id='buttonIncrement']"), "numberResult", false, true},
+            new object[] { LocalUrl, WebElementType.CssSelector("#buttonIncrement"), "numberResult", false, true},
+            new object[] { LocalUrl, WebElementType.PartialLinkText("click to increment"), "numberResult", false, true},
+            new object[] { LocalUrl, WebElementType.LinkText("click to increment" ), "numberResult", false, true},
+            new object[] { LocalUrl, WebElementType.TagName("P" ), "numberResult", false, true },
+            new object[] { LocalUrl, WebElementType.TagName("P" ), "numberResult", false, false }
         };
 
         public static IEnumerable<object[]> GetElementsToFailOnClick() => new List<object[]> {
-            new object[] { LocalUrl, "sometingWrong", ElementsType.Id, false },
+            new object[] { LocalUrl, WebElementType.Id("sometingWrong"), false },
         };
 
         [Theory]
         [MemberData(nameof(GetElementsToClick))]
-        public void ShouldClicElement(string url, string identify, ElementsType type, bool shouldFail, bool shouldRetry)
+        public void ShouldClicElement(string url, WebElementType webElementType, bool shouldFail, bool shouldRetry)
         {
             var (testSink, factory) = CreateForTest.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
-                   .Click(identify, type, shouldRetry);
+                   .Click(webElementType, shouldRetry);
 
                 var logInformation = testSink.Writes.Any(x => x.LogLevel == LogLevel.Error && x.Message.Contains("Could not"));
                 logInformation.Should().Be(shouldFail);
@@ -67,14 +66,14 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         [Theory]
         [MemberData(nameof(GetElementsToClick))]
-        public void ShouldClickUsingScript(string url, string identify, ElementsType type, bool shouldFail, bool shouldRetry)
+        public void ShouldClickUsingScript(string url, WebElementType webElementType, bool shouldFail, bool shouldRetry)
         {
             var (testSink, factory) = CreateForTest.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
-                   .ClickUsingScript(identify, type, shouldRetry);
+                   .ClickUsingScript(webElementType, shouldRetry);
 
                 var logInformation = testSink.Writes.Any(x => x.LogLevel == LogLevel.Error && x.Message.Contains("Could not"));
                 logInformation.Should().Be(shouldFail);
@@ -83,14 +82,14 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         [Theory]
         [MemberData(nameof(GetElementsToClick))]
-        public void ShouldClickFirst(string url, string identify, ElementsType type, bool shouldFail, bool shouldRetry)
+        public void ShouldClickFirst(string url, WebElementType webElementType, bool shouldFail, bool shouldRetry)
         {
             var (testSink, factory) = CreateForTest.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
-                   .ClickFirst(identify, type, shouldRetry);
+                   .ClickFirst(webElementType, shouldRetry);
 
                 var logInformation = testSink.Writes.Any(x => x.LogLevel == LogLevel.Error && x.Message.Contains("Could not"));
                 logInformation.Should().Be(shouldFail);
@@ -99,19 +98,19 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         [Theory]
         [MemberData(nameof(GetElementsToClickWithCondition))]
-        public void ShouldClickIfTrue(string url, string identify, ElementsType elements, string idNumberResult, bool condition, bool shouldRetry)
+        public void ShouldClickIfTrue(string url, WebElementType webElementType, string idNumberResult, bool condition, bool shouldRetry)
         {
             var (_, factory) = CreateForTest.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
-                   .GetElement(idNumberResult, ElementsType.Id, shouldRetry, out var checkElement);
+                   .GetElement(webElementType, shouldRetry, out var checkElement);
 
                 int.TryParse(checkElement.GetAttribute("value"), out var elementValueBefore);
 
-                sut.ClickIfTrue(identify, condition, elements, shouldRetry)
-                   .GetElement(idNumberResult, ElementsType.Id, shouldRetry, out checkElement);
+                sut.ClickIfTrue(webElementType, condition, shouldRetry)
+                   .GetElement(WebElementType.Id(idNumberResult), shouldRetry, out checkElement);
 
                 int.TryParse(checkElement.GetAttribute("value"), out var elementValueAfter);
 
@@ -124,15 +123,15 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         [Theory]
         [MemberData(nameof(GetElementsToFailOnClick))]
-        public void ShouldNotClickBecouseCoundFind(string url, string identify, ElementsType elementsType, bool shouldRetry)
+        public void ShouldNotClickBecouseCoundFind(string url, WebElementType webElementType, bool shouldRetry)
         {
             var (testSink, factory) = CreateForTest.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(url, out _)
-                   .Click(identify, elementsType, shouldRetry)
-                   .GetElementAttribute("numberResult", ElementsType.Id, "value", shouldRetry, out var elementResult);
+                   .Click(webElementType, shouldRetry)
+                   .GetElementAttribute(WebElementType.Id("numberResult"), "value", shouldRetry, out var elementResult);
 
                 int.TryParse(elementResult, out var value);
                 value.Should().Be(0);
@@ -149,9 +148,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .Click("clickToAlert", ElementsType.Id, false)
+                   .Click(WebElementType.Id("clickToAlert"), false)
                    .ClickAlert(true)
-                   .GetElement("numberResult", ElementsType.Id, true, out var elementResult);
+                   .GetElement(WebElementType.Id("numberResult"), true, out var elementResult);
                 int.TryParse(elementResult.GetAttribute("value"), out var value);
 
                 value.Should().Be(23);
@@ -166,9 +165,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .Click("clickToAlert", ElementsType.Id, false)
+                   .Click(WebElementType.Id("clickToAlert"), false)
                    .ClickAlert(false)
-                   .GetElement("numberResult", ElementsType.Id, true, out var elementResult);
+                   .GetElement(WebElementType.Id("numberResult"), true, out var elementResult);
                 int.TryParse(elementResult.GetAttribute("value"), out var value);
 
                 value.Should().Be(-1);
@@ -183,8 +182,8 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .ClickFirst("buttonIncrement-123", ElementsType.Id, false)
-                   .GetElementAttribute("numberResult", ElementsType.Id, "value", false, out var elementResult);
+                   .ClickFirst(WebElementType.Id("buttonIncrement-123"), false)
+                   .GetElementAttribute(WebElementType.Id("numberResult"), "value", false, out var elementResult);
 
                 int.TryParse(elementResult, out var value);
 

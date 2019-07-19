@@ -13,39 +13,39 @@ namespace CrabsWave.Test.Core.CrawlerTests
         private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
 
         public static IEnumerable<object[]> GetElementsToTestText() => new List<object[]> {
-            new object[] { "btnOne", "This is a button", ElementsType.Id, true },
-            new object[] { "btnOne", "This is a button", ElementsType.Name, true },
-            new object[] { "P", "click using parameter", ElementsType.TagName, true },
-            new object[] { "someClass", "This is a link with class", ElementsType.ClassName, true },
-            new object[] { "body > a", "This is a link with class", ElementsType.CssSelector, true },
-            new object[] { "click to increment", "click to increment", ElementsType.LinkText, true },
-            new object[] { "click to increment", "click to increment", ElementsType.PartialLinkText, true },
-            new object[] { "/html/body/form/a[1]", "click to increment", ElementsType.XPath, true },
-            new object[] { "btnOne", "This is a button", ElementsType.Id, false }
+            new object[] { WebElementType.Id("btnOne"), "This is a button", true },
+            new object[] { WebElementType.Name("btnOne"), "This is a button", true },
+            new object[] { WebElementType.TagName("P"), "click using parameter", true },
+            new object[] { WebElementType.ClassName("someClass"), "This is a link with class", true },
+            new object[] { WebElementType.CssSelector("body > a"), "This is a link with class", true },
+            new object[] { WebElementType.LinkText("click to increment"), "click to increment", true },
+            new object[] { WebElementType.PartialLinkText("click to increment"), "click to increment", true },
+            new object[] { WebElementType.XPath("/html/body/form/a[1]"), "click to increment", true },
+            new object[] { WebElementType.Id("btnOne"), "This is a button", false }
         };
 
         public static IEnumerable<object[]> GetItemsForTestMultipleElements() => new List<object[]> {
-            new object[] { "//*[@class='labels']" , ElementsType.XPath, "This is a label 1", false, true},
-            new object[] { "aWrongXPath -123r" , ElementsType.XPath, "This is a label 1", true, true},
-            new object[] { "aWrongXPath -123r" , ElementsType.XPath, "This is a label 1", true, false}
+            new object[] { WebElementType.XPath("//*[@class='labels']"), "This is a label 1", false, true},
+            new object[] { WebElementType.XPath("aWrongXPath -123r"), "This is a label 1", true, true},
+            new object[] { WebElementType.XPath("aWrongXPath -123r"), "This is a label 1", true, false}
         };
 
         public static IEnumerable<object[]> GetItemsToClearAndSendKeys() => new List<object[]> {
-            new object[] { "inputName", ElementsType.Id, "This is a test for Send using ID", false, false, "" },
-            new object[] { "someWrongInputName", ElementsType.Id, "this is a test", false, true, "Could not get the element using identify:" },
-            new object[] { "someWrongInputName", ElementsType.Id, "this is a test", true, true, "Could not get the element using identify:" }
+            new object[] { WebElementType.Id("inputName"), "This is a test for Send using ID", false, false, "" },
+            new object[] { WebElementType.Id("someWrongInputName"), "this is a test", false, true, "Could not get the element using identify:" },
+            new object[] { WebElementType.Id("someWrongInputName"), "this is a test", true, true, "Could not get the element using identify:" }
         };
 
         [Theory]
         [MemberData(nameof(GetElementsToTestText))]
-        public void ShouldGetElementText(string identify, string expectedValue, ElementsType elementsType, bool shouldRetry)
+        public void ShouldGetElementText(WebElementType webElementType, string expectedValue, bool shouldRetry)
         {
             var (_, factory) = CreateForTest.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .ElementInnerText(identify, elementsType, shouldRetry, out var text);
+                   .ElementInnerText(webElementType, shouldRetry, out var text);
 
                 text.Should().Be(expectedValue);
             }
@@ -53,14 +53,14 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         [Theory]
         [MemberData(nameof(GetItemsForTestMultipleElements))]
-        public void ShouldGetTextFromMultipleElementsOcurrences(string identify, ElementsType elementsType, string textSample, bool shouldFail, bool shouldRetry)
+        public void ShouldGetTextFromMultipleElementsOcurrences(WebElementType webElementType, string textSample, bool shouldFail, bool shouldRetry)
         {
             var (_, factory) = CreateForTest.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl($"file:///{PageForUnitTestHelper.GetPageForUnitTestWithMultipleItems()}", out _)
-                   .ElementsText(identify, elementsType, shouldRetry, out var listOfText);
+                   .ElementsText(webElementType, shouldRetry, out var listOfText);
 
                 if (!shouldFail)
                 {
@@ -77,15 +77,15 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         [Theory]
         [MemberData(nameof(GetItemsToClearAndSendKeys))]
-        public void ShouldClearAndSendText(string identify, ElementsType elementsType, string textToSend, bool shouldRetry, bool shouldFail, string messageOnFail)
+        public void ShouldClearAndSendText(WebElementType webElementType, string textToSend, bool shouldRetry, bool shouldFail, string messageOnFail)
         {
             var (testSink, factory) = CreateForTest.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .ClearAndSendKeys(identify, elementsType, textToSend, shouldRetry)
-                   .GetElementAttribute(identify, elementsType, "value", shouldRetry, out var text);
+                   .ClearAndSendKeys(webElementType, textToSend, shouldRetry)
+                   .GetElementAttribute(webElementType, "value", shouldRetry, out var text);
 
                 if (!shouldFail)
                 {

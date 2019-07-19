@@ -12,14 +12,14 @@ namespace CrabsWave.Core.Functionalities
 
         public SelectManager(ILogger logger) => Logger = logger;
 
-        public void SelectByText(Crawler parent, string identify, ElementsType elementsType, string textToSelect, bool shouldRetry)
+        public void SelectByText(Crawler parent, WebElementType webElementType, string textToSelect, bool shouldRetry)
         {
             var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                              .TryGetElement(parent, identify, elementsType, shouldRetry);
+                              .TryGetElement(parent, webElementType, shouldRetry);
 
             if (element == null)
             {
-                Logger.LogError($"Could not find a select with the identify: {identify}");
+                Logger.LogError($"Could not find a select with the identify: {webElementType.Identify}");
                 return;
             }
 
@@ -30,18 +30,18 @@ namespace CrabsWave.Core.Functionalities
             }
             catch (Exception e)
             {
-                Logger.LogError($"Could not select element: {identify} by using the text: {textToSelect}", e);
+                Logger.LogError($"Could not select element: {webElementType.Identify} by using the text: {textToSelect}", e);
             }
         }
 
-        public void SelectByValue(Crawler parent, string identify, ElementsType elementsType, string valueToSelect, bool shouldRetry)
+        public void SelectByValue(Crawler parent, WebElementType webElementType, string valueToSelect, bool shouldRetry)
         {
             var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                              .TryGetElement(parent, identify, elementsType, shouldRetry);
+                              .TryGetElement(parent, webElementType, shouldRetry);
 
             if (element == null)
             {
-                Logger.LogError($"Could not find a select with the identify: {identify}");
+                Logger.LogError($"Could not find a select with the identify: {webElementType.Identify}");
                 return;
             }
 
@@ -52,18 +52,18 @@ namespace CrabsWave.Core.Functionalities
             }
             catch (Exception e)
             {
-                Logger.LogError($"Could not select element: {identify} by using the value: {valueToSelect}", e);
+                Logger.LogError($"Could not select element: {webElementType.Identify} by using the value: {valueToSelect}", e);
             }
         }
 
-        public void SelectByIndex(Crawler parent, string identify, ElementsType elementsType, int indexToSelect, bool shouldRetry)
+        public void SelectByIndex(Crawler parent, WebElementType webElementType, int indexToSelect, bool shouldRetry)
         {
             var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                              .TryGetElement(parent, identify, elementsType, shouldRetry);
+                              .TryGetElement(parent, webElementType, shouldRetry);
 
             if (element == null)
             {
-                Logger.LogError($"Could not find a select with the identify: {identify}");
+                Logger.LogError($"Could not find a select with the identify: {webElementType.Identify}");
                 return;
             }
 
@@ -74,7 +74,7 @@ namespace CrabsWave.Core.Functionalities
             }
             catch (Exception e)
             {
-                Logger.LogError($"Could not select element: {identify} by using the index: {indexToSelect}", e);
+                Logger.LogError($"Could not select element: {webElementType.Identify} by using the index: {indexToSelect}", e);
             }
         }
     }

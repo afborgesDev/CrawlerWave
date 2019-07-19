@@ -12,28 +12,28 @@ namespace CrabsWave.Test.Core.CrawlerTests
         private static readonly string LocalUrl = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
 
         public static IEnumerable<object[]> GetItemsToTestAttribute() => new List<object[]> {
-            new object[] { "numberResult", "value", "0", ElementsType.Id, false},
-            new object[] { "numberResult", "value", "0", ElementsType.Name, false},
-            new object[] { "P", "name", "paragraph", ElementsType.TagName, false},
-            new object[] { "someClass", "name", "linkWithClass", ElementsType.ClassName, false},
-            new object[] { "#buttonIncrement", "name", "buttonIncrement", ElementsType.CssSelector, false},
-            new object[] { "click to increment", "name", "linkToIncrement", ElementsType.LinkText, false},
-            new object[] { "click to increment", "name", "linkToIncrement", ElementsType.PartialLinkText, false},
-            new object[] { "//*[@id='buttonIncrement']", "name", "buttonIncrement", ElementsType.XPath, false},
-            new object[] { "//*[@id='buttonIncrement']", "invalidAttribute123", null, ElementsType.XPath, true},
-            new object[] { "//*[@id='buttonIncrement']", "invalidAttribute123* \'as-=%78&*$%()'", null, ElementsType.XPath, true}
+            new object[] { WebElementType.Id("numberResult"), "value", "0", false},
+            new object[] { WebElementType.Name("numberResult"), "value", "0", false},
+            new object[] { WebElementType.TagName("P"), "name", "paragraph", false},
+            new object[] { WebElementType.ClassName("someClass"), "name", "linkWithClass", false},
+            new object[] { WebElementType.CssSelector("#buttonIncrement"), "name", "buttonIncrement", false},
+            new object[] { WebElementType.LinkText("click to increment"), "name", "linkToIncrement", false},
+            new object[] { WebElementType.PartialLinkText("click to increment"), "name", "linkToIncrement", false},
+            new object[] { WebElementType.XPath("//*[@id='buttonIncrement']"), "name", "buttonIncrement", false},
+            new object[] { WebElementType.XPath("//*[@id='buttonIncrement']"), "invalidAttribute123", null, true},
+            new object[] { WebElementType.XPath("//*[@id='buttonIncrement']"), "invalidAttribute123* \'as-=%78&*$%()'", null, true}
         };
 
         [Theory]
         [MemberData(nameof(GetItemsToTestAttribute))]
-        public void ShouldGetElementAttribute(string identify, string attribute, string expectedValue, ElementsType elementsType, bool shouldRetry)
+        public void ShouldGetElementAttribute(WebElementType webElementType, string attribute, string expectedValue, bool shouldRetry)
         {
             var (_, factory) = CreateForTest.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(LocalUrl, out _)
-                   .GetElementAttribute(identify, elementsType, attribute, shouldRetry, out var value);
+                   .GetElementAttribute(webElementType, attribute, shouldRetry, out var value);
 
                 if (string.IsNullOrEmpty(expectedValue))
                     value.Should().BeNullOrWhiteSpace();
@@ -49,7 +49,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
-                   .GetElementAttribute("invalix", ElementsType.Id, "value", false, out var value);
+                   .GetElementAttribute(WebElementType.Id("invalix"), "value", false, out var value);
                 value.Should().BeNullOrWhiteSpace();
             }
         }

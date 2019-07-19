@@ -5,33 +5,33 @@ namespace CrabsWave.Core
 {
     public static class ClickExtension
     {
-        public static Crawler Click(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry)
+        public static Crawler Click(this Crawler parent, WebElementType webElementType, bool shouldRetry)
         {
             new ClickManager(parent.CreateLogger(ClickManager.LoggerCategory))
-                .Click(parent, identify, elementsType, shouldRetry);
+                .Click(parent, webElementType, shouldRetry);
             return parent;
         }
 
-        public static Crawler ClickUsingScript(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry)
+        public static Crawler ClickUsingScript(this Crawler parent, WebElementType webElementType, bool shouldRetry)
         {
             new ClickManager(parent.CreateLogger(ClickManager.LoggerCategory))
-                .ClickUsingJavaScript(parent, identify, elementsType, shouldRetry);
+                .ClickUsingJavaScript(parent, webElementType, shouldRetry);
             return parent;
         }
 
-        public static Crawler ClickFirst(this Crawler parent, string identify, ElementsType elementsType, bool shouldRetry)
+        public static Crawler ClickFirst(this Crawler parent, WebElementType webElementType, bool shouldRetry)
         {
             new ClickManager(parent.CreateLogger(ClickManager.LoggerCategory))
-                .ClickFirst(parent, identify, elementsType, shouldRetry);
+                .ClickFirst(parent, webElementType, shouldRetry);
             return parent;
         }
 
-        public static Crawler ClickIfTrue(this Crawler parent, string identify, bool condition, ElementsType elementsType, bool shouldRetry)
+        public static Crawler ClickIfTrue(this Crawler parent, WebElementType webElementType, bool condition, bool shouldRetry)
         {
             if (condition)
             {
                 new ClickManager(parent.CreateLogger(ClickManager.LoggerCategory))
-                    .Click(parent, identify, elementsType, shouldRetry);
+                    .Click(parent, webElementType, shouldRetry);
             }
 
             return parent;
