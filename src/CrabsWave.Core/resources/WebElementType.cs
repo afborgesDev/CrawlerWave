@@ -2,6 +2,7 @@
 
 namespace CrabsWave.Core.Resources
 {
+    //Change to supporte the ShouldRetry here
     public class WebElementType
     {
         public readonly string Identify;

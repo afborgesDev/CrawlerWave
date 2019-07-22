@@ -21,7 +21,7 @@
     <form>
         <input type="text" id="numberResult" name="numberResult" value="0" />
         <input type="button" id="buttonIncrement" name="buttonIncrement" class="buttonIncrement"
-               onclick="incrementValue()" value="Increment Value" />
+            onclick="incrementValue()" value="Increment Value" />
         <a onclick="incrementValue()" name="linkToIncrement">click to increment</a>
         <p onclick="incrementValue()" name="paragraph">click using parameter</p>
         <button onclick="return showAlert()" id="clickToAlert">Show alert</button>
@@ -35,9 +35,18 @@
         <option value="third">Third Value</option>
         <option value="fourth">Fourth Value</option>
     </select>
+
+    <input type="text" id="textToMouse" onmouseover="changeOnMouseOver()" value="0" />
 </body>
 
 <script>
+
+    function changeOnMouseOver() {
+        var value = parseInt(document.getElementById("textToMouse").value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        document.getElementById("textToMouse").value = value;
+    };
 
     function incrementValue() {
         var value = parseInt(document.getElementById('numberResult').value, 10);
@@ -56,4 +65,5 @@
         return false;
     }
 </script>
+
 </html>

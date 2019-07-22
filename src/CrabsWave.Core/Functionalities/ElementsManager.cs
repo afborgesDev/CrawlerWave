@@ -10,10 +10,12 @@ namespace CrabsWave.Core.Functionalities
     {
         public const int DefaultNumberOfAttemptsOnRetry = 5;
         public const int OneAttempt = 1;
-
+        //Todo: Add convert to get attribute and get text
         public ElementsManager(ILogger logger) : base("CrawlerWave.ElementsManager", logger)
         {
         }
+
+        public static ElementsManager New(Crawler parent) => new ElementsManager(parent.CreateLogger(LoggerCategory));
 
         public IWebElement TryGetElement(Crawler parent, WebElementType webElementType, bool shouldRetryIfFail = true)
         {

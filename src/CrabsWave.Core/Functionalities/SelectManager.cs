@@ -13,8 +13,7 @@ namespace CrabsWave.Core.Functionalities
 
         public void SelectByText(Crawler parent, WebElementType webElementType, string textToSelect, bool shouldRetry)
         {
-            var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                              .TryGetElement(parent, webElementType, shouldRetry);
+            var element = ElementsManager.New(parent).TryGetElement(parent, webElementType, shouldRetry);
 
             if (element == null)
             {
@@ -35,8 +34,7 @@ namespace CrabsWave.Core.Functionalities
 
         public void SelectByValue(Crawler parent, WebElementType webElementType, string valueToSelect, bool shouldRetry)
         {
-            var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                              .TryGetElement(parent, webElementType, shouldRetry);
+            var element = ElementsManager.New(parent).TryGetElement(parent, webElementType, shouldRetry);
 
             if (element == null)
             {
@@ -57,8 +55,7 @@ namespace CrabsWave.Core.Functionalities
 
         public void SelectByIndex(Crawler parent, WebElementType webElementType, int indexToSelect, bool shouldRetry)
         {
-            var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                              .TryGetElement(parent, webElementType, shouldRetry);
+            var element = ElementsManager.New(parent).TryGetElement(parent, webElementType, shouldRetry);
 
             if (element == null)
             {
