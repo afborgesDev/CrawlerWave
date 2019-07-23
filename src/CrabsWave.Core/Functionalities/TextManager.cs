@@ -13,14 +13,14 @@ namespace CrabsWave.Core.Functionalities
         {
         }
 
-        public string GetElementInnerText(Crawler parent, WebElementType webElementType, bool shouldRetry = true) =>
-            new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                .TryGetAttribute(parent, webElementType, AttributeText, shouldRetry);
+        public static TextManager New(Crawler parent) => new TextManager(parent.CreateLogger(LoggerCategory));
 
-        public IList<string> GetTextFromMultipleElementOcurrences(Crawler parent, WebElementType webElementType, bool shouldRetry = true)
+        public string GetElementInnerText(Crawler parent, WebElementType webElementType) =>
+            ElementsManager.New(parent).TryGetAttribute(parent, webElementType, AttributeText);
+
+        public IList<string> GetTextFromMultipleElementOcurrences(Crawler parent, WebElementType webElementType)
         {
-            var items = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                            .TryGetElements(parent, webElementType, shouldRetry);
+            var items = ElementsManager.New(parent).TryGetElements(parent, webElementType);
             if (items == null || items.Count <= 0) return default;
 
             var returnList = new List<string>(items.Count);
@@ -30,10 +30,10 @@ namespace CrabsWave.Core.Functionalities
             return returnList;
         }
 
-        public void ClearAndSendKeys(Crawler parent, WebElementType webElementType, string textToSend, bool shouldRetry = true)
+        public void ClearAndSendKeys(Crawler parent, WebElementType webElementType, string textToSend)
         {
-            var item = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                           .TryGetElement(parent, webElementType, shouldRetry);
+            var item = ElementsManager.New(parent).TryGetElement(parent, webElementType);
+
             try
             {
                 item.Clear();

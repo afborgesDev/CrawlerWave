@@ -11,17 +11,16 @@ namespace CrabsWave.Core.Functionalities
         {
         }
 
-        public void Click(Crawler parent, WebElementType webElementType, bool shouldRetry)
+        public static ClickManager New(Crawler parent) => new ClickManager(parent.CreateLogger(LoggerCategory));
+        public void Click(Crawler parent, WebElementType webElementType)
         {
-            var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                              .TryGetElement(parent, webElementType, shouldRetry);
+            var element = ElementsManager.New(parent).TryGetElement(parent, webElementType);
             element?.Click();
         }
 
-        public void ClickFirst(Crawler parent, WebElementType webElementType, bool shouldRetry)
+        public void ClickFirst(Crawler parent, WebElementType webElementType)
         {
-            var elements = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                               .TryGetElements(parent, webElementType, shouldRetry);
+            var elements = ElementsManager.New(parent).TryGetElements(parent, webElementType);
             try
             {
                 elements[0].Click();
@@ -32,22 +31,18 @@ namespace CrabsWave.Core.Functionalities
             }
         }
 
-        public void ClickUsingJavaScript(Crawler parent, WebElementType webElementType, bool shouldRetry)
+        public void ClickUsingJavaScript(Crawler parent, WebElementType webElementType)
         {
             switch (webElementType.ElementType)
             {
                 case ElementsType.Id:
-                    new ScriptManager(parent.CreateLogger(ScriptManager.LoggerCategory))
-                        .ExecuteScriptUsingJavaScriptExecutor(parent, $"document.getElementById('{webElementType.Identify}').click();");
+                    ScriptManager.New(parent).ExecuteScriptUsingJavaScriptExecutor(parent, $"document.getElementById('{webElementType.Identify}').click();");
                     break;
 
                 default:
                 {
-                    var element = new ElementsManager(parent.CreateLogger(ElementsManager.LoggerCategory))
-                                     .TryGetElement(parent, webElementType, shouldRetry);
-
-                    new ScriptManager(parent.CreateLogger(ScriptManager.LoggerCategory))
-                        .ExecuteScriptUsingJavaScriptExecutor(parent, "(arguments[0] || {click:() => ''}).click();", element);
+                    var element = ElementsManager.New(parent).TryGetElement(parent, webElementType);
+                    ScriptManager.New(parent).ExecuteScriptUsingJavaScriptExecutor(parent, "(arguments[0] || {click:() => ''}).click();", element);
                     break;
                 }
             }

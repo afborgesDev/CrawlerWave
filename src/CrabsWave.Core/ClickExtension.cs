@@ -5,34 +5,28 @@ namespace CrabsWave.Core
 {
     public static class ClickExtension
     {
-        public static Crawler Click(this Crawler parent, WebElementType webElementType, bool shouldRetry)
+        public static Crawler Click(this Crawler parent, WebElementType webElementType)
         {
-            new ClickManager(parent.CreateLogger(ClickManager.LoggerCategory))
-                .Click(parent, webElementType, shouldRetry);
+            ClickManager.New(parent).Click(parent, webElementType);
             return parent;
         }
 
-        public static Crawler ClickUsingScript(this Crawler parent, WebElementType webElementType, bool shouldRetry)
+        public static Crawler ClickUsingScript(this Crawler parent, WebElementType webElementType)
         {
-            new ClickManager(parent.CreateLogger(ClickManager.LoggerCategory))
-                .ClickUsingJavaScript(parent, webElementType, shouldRetry);
+            ClickManager.New(parent).ClickUsingJavaScript(parent, webElementType);
             return parent;
         }
 
-        public static Crawler ClickFirst(this Crawler parent, WebElementType webElementType, bool shouldRetry)
+        public static Crawler ClickFirst(this Crawler parent, WebElementType webElementType)
         {
-            new ClickManager(parent.CreateLogger(ClickManager.LoggerCategory))
-                .ClickFirst(parent, webElementType, shouldRetry);
+            ClickManager.New(parent).ClickFirst(parent, webElementType);
             return parent;
         }
 
-        public static Crawler ClickIfTrue(this Crawler parent, WebElementType webElementType, bool condition, bool shouldRetry)
+        public static Crawler ClickIfTrue(this Crawler parent, WebElementType webElementType, bool condition)
         {
             if (condition)
-            {
-                new ClickManager(parent.CreateLogger(ClickManager.LoggerCategory))
-                    .Click(parent, webElementType, shouldRetry);
-            }
+                ClickManager.New(parent).Click(parent, webElementType);
 
             return parent;
         }

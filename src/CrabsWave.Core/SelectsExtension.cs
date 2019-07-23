@@ -5,24 +5,21 @@ namespace CrabsWave.Core
 {
     public static class SelectsExtension
     {
-        public static Crawler SelectByText(this Crawler parent, WebElementType webElementType, string textToSelect, bool shouldRetry)
+        public static Crawler SelectByText(this Crawler parent, WebElementType webElementType, string textToSelect)
         {
-            new SelectManager(parent.CreateLogger(SelectManager.LoggerCategory))
-                .SelectByText(parent, webElementType, textToSelect, shouldRetry);
+            SelectManager.New(parent).SelectByText(parent, webElementType, textToSelect);
             return parent;
         }
 
-        public static Crawler SelectByValue(this Crawler parent, WebElementType webElementType, string textToSelect, bool shouldRetry)
+        public static Crawler SelectByValue(this Crawler parent, WebElementType webElementType, string textToSelect)
         {
-            new SelectManager(parent.CreateLogger(SelectManager.LoggerCategory))
-                .SelectByValue(parent, webElementType, textToSelect, shouldRetry);
+            SelectManager.New(parent).SelectByValue(parent, webElementType, textToSelect);
             return parent;
         }
 
-        public static Crawler SelectByIndex(this Crawler parent, WebElementType webElementType, int indexToSelect, bool shouldRetry)
+        public static Crawler SelectByIndex(this Crawler parent, WebElementType webElementType, int indexToSelect)
         {
-            new SelectManager(parent.CreateLogger(SelectManager.LoggerCategory))
-                .SelectByIndex(parent, webElementType, indexToSelect, shouldRetry);
+            SelectManager.New(parent).SelectByIndex(parent, webElementType, indexToSelect);
             return parent;
         }
     }

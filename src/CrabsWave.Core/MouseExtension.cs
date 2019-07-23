@@ -5,15 +5,15 @@ namespace CrabsWave.Core
 {
     public static class MouseExtension
     {
-        public static Crawler MouseMove(this Crawler parent, WebElementType webElementType, bool shouldRetry)
+        public static Crawler MouseMove(this Crawler parent, WebElementType webElementType)
         {
-            MouseManager.New(parent).MoveTo(parent, webElementType, shouldRetry, false);
+            MouseManager.New(parent).MoveTo(parent, webElementType, false);
             return parent;
         }
 
-        public static Crawler MouseMoveAndClick(this Crawler parent, WebElementType webElementType, bool shouldRetry)
+        public static Crawler MouseMoveAndClick(this Crawler parent, WebElementType webElementType)
         {
-            MouseManager.New(parent).MoveTo(parent, webElementType, shouldRetry, true);
+            MouseManager.New(parent).MoveTo(parent, webElementType, true);
             return parent;
         }
     }

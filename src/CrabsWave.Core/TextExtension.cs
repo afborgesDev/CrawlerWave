@@ -8,22 +8,19 @@ namespace CrabsWave.Core
     {
         public static Crawler ElementInnerText(this Crawler parent, WebElementType webElementType, bool shouldRetry, out string textValue)
         {
-            textValue = new TextManager(parent.CreateLogger(TextManager.LoggerCategory))
-                            .GetElementInnerText(parent, webElementType, shouldRetry);
+            textValue = TextManager.New(parent).GetElementInnerText(parent, webElementType);
             return parent;
         }
 
-        public static Crawler ElementsText(this Crawler parent, WebElementType webElementType, bool shouldRetry, out IList<string> textValue)
+        public static Crawler ElementsText(this Crawler parent, WebElementType webElementType, out IList<string> textValue)
         {
-            textValue = new TextManager(parent.CreateLogger(TextManager.LoggerCategory))
-                            .GetTextFromMultipleElementOcurrences(parent, webElementType, shouldRetry);
+            textValue = TextManager.New(parent).GetTextFromMultipleElementOcurrences(parent, webElementType);
             return parent;
         }
 
-        public static Crawler ClearAndSendKeys(this Crawler parent, WebElementType webElementType, string keys, bool shouldRetry)
+        public static Crawler ClearAndSendKeys(this Crawler parent, WebElementType webElementType, string keys)
         {
-            new TextManager(parent.CreateLogger(TextManager.LoggerCategory))
-                .ClearAndSendKeys(parent, webElementType, keys, shouldRetry);
+            TextManager.New(parent).ClearAndSendKeys(parent, webElementType, keys);
             return parent;
         }
     }

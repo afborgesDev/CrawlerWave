@@ -12,9 +12,9 @@ namespace CrabsWave.Core.Functionalities
 
         public static MouseManager New(Crawler parent) => new MouseManager(parent.CreateLogger(LoggerCategory));
 
-        public void MoveTo(Crawler parent, WebElementType webElementType, bool shouldRetry, bool shouldClick)
+        public void MoveTo(Crawler parent, WebElementType webElementType, bool shouldClick)
         {
-            var element = ElementsManager.New(parent).TryGetElement(parent, webElementType, shouldRetry);
+            var element = ElementsManager.New(parent).TryGetElement(parent, webElementType);
             if (element == null) return;
 
             var action = new Actions(parent.Driver);

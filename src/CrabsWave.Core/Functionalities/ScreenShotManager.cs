@@ -11,7 +11,7 @@ namespace CrabsWave.Core.Functionalities
         {
         }
 
-        public static ScreenShotManager Create(Crawler parent) => new ScreenShotManager(parent.CreateLogger(LoggerCategory));
+        public static ScreenShotManager New(Crawler parent) => new ScreenShotManager(parent.CreateLogger(LoggerCategory));
 
         public MemoryStream ScreenShotToStream(Crawler parent) => ImageUtils.Base64ToMemoryStream(ScreenShotToBase64(parent));
 

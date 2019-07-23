@@ -6,29 +6,25 @@ namespace CrabsWave.Core
     {
         public static Crawler GoToUrl(this Crawler parent, string url, out string errorMessage)
         {
-            errorMessage = new NavegationManager(parent.CreateLogger(NavegationManager.LoggerCategory))
-                              .GoToUrl(parent, url);
+            errorMessage = NavegationManager.New(parent).GoToUrl(parent, url);
             return parent;
         }
 
         public static Crawler NavigateBack(this Crawler parent)
         {
-            new NavegationManager(parent.CreateLogger(NavegationManager.LoggerCategory))
-                .NavigateBack(parent);
+            NavegationManager.New(parent).NavigateBack(parent);
             return parent;
         }
 
         public static Crawler GetCurrentUrl(this Crawler parent, out string url)
         {
-            url = new NavegationManager(parent.CreateLogger(NavegationManager.LoggerCategory))
-                  .GetCurrentUrl(parent);
+            url = NavegationManager.New(parent).GetCurrentUrl(parent);
             return parent;
         }
 
         public static Crawler RefreshPage(this Crawler parent)
         {
-            new NavegationManager(parent.CreateLogger(NavegationManager.LoggerCategory))
-                .RefreshPage(parent);
+            NavegationManager.New(parent).RefreshPage(parent);
             return parent;
         }
     }

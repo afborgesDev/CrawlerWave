@@ -18,7 +18,6 @@ namespace CrabsWave.Core.Functionalities
 
         private readonly ElementsType[] AllowedWebElementTypeToRemove = new ElementsType[] { ElementsType.Id, ElementsType.ClassName };
 
-
         //Todo: Add convert to get attribute and get text
         public ElementsManager(ILogger logger) : base("CrawlerWave.ElementsManager", logger)
         {
@@ -26,16 +25,16 @@ namespace CrabsWave.Core.Functionalities
 
         public static ElementsManager New(Crawler parent) => new ElementsManager(parent.CreateLogger(LoggerCategory));
 
-        public IWebElement TryGetElement(Crawler parent, WebElementType webElementType, bool shouldRetryIfFail = true)
+        public IWebElement TryGetElement(Crawler parent, WebElementType webElementType)
         {
-            var attemps = DefaultNumberOfAttemptsOnRetry;
-            if (!shouldRetryIfFail) attemps = OneAttempt;
-
             if (webElementType == null)
             {
                 Logger.LogError("WebElementType should not be null");
                 return null;
             }
+
+            var attemps = DefaultNumberOfAttemptsOnRetry;
+            if (!webElementType.ShouldRetry) attemps = OneAttempt;
 
             IWebElement foundElement;
             for (var i = 1; i <= attemps; i++)
@@ -55,10 +54,16 @@ namespace CrabsWave.Core.Functionalities
             return null;
         }
 
-        public ReadOnlyCollection<IWebElement> TryGetElements(Crawler parent, WebElementType webElementType, bool shouldRetryIfFail = true)
+        public ReadOnlyCollection<IWebElement> TryGetElements(Crawler parent, WebElementType webElementType)
         {
+            if (webElementType == null)
+            {
+                Logger.LogError("WebElementType should not be null");
+                return default;
+            }
+
             var attemps = DefaultNumberOfAttemptsOnRetry;
-            if (!shouldRetryIfFail) attemps = OneAttempt;
+            if (!webElementType.ShouldRetry) attemps = OneAttempt;
 
             ReadOnlyCollection<IWebElement> elements;
             for (var i = 1; i <= attemps; i++)
@@ -78,12 +83,12 @@ namespace CrabsWave.Core.Functionalities
             return default;
         }
 
-        public string TryGetAttribute(Crawler parent, WebElementType webElementType, string attribute, bool shouldRetryIfFail = true)
+        public string TryGetAttribute(Crawler parent, WebElementType webElementType, string attribute)
         {
-            var element = TryGetElement(parent, webElementType, shouldRetryIfFail);
+            var element = TryGetElement(parent, webElementType);
             if (element == null) return string.Empty;
             var attemps = DefaultNumberOfAttemptsOnRetry;
-            if (!shouldRetryIfFail) attemps = OneAttempt;
+            if (!webElementType.ShouldRetry) attemps = OneAttempt;
 
             for (var i = 1; i <= attemps; i++)
             {
@@ -102,7 +107,6 @@ namespace CrabsWave.Core.Functionalities
 
         public void RemoveElement(Crawler parent, WebElementType webElement)
         {
-
             if (webElement == null)
             {
                 Logger.LogInformation("An ID or ClassName are required to remove an element");
@@ -115,7 +119,7 @@ namespace CrabsWave.Core.Functionalities
                 return;
             }
 
-            var element = TryGetElement(parent, webElement, false);
+            var element = TryGetElement(parent, webElement);
             if (element == null) return;
 
             if (webElement.ElementType == ElementsType.Id)

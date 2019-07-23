@@ -11,6 +11,8 @@ namespace CrabsWave.Core.Functionalities
         {
         }
 
+        public static NavegationManager New(Crawler parent) => new NavegationManager(parent.CreateLogger(LoggerCategory));
+
         public string GoToUrl(Crawler parent, string url)
         {
             const int MaxAttemptsAtFive = 5;
