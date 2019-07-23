@@ -10,6 +10,8 @@ namespace CrabsWave.Core.Functionalities.Scripts
         {
         }
 
+        public static ScriptManager New(Crawler parent) => new ScriptManager(parent.CreateLogger(LoggerCategory));
+
         public string ExecuteAndTakeResult(Crawler parent, string script)
         {
             try

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using CrabsWave.Core.Functionalities.Scripts;
 using CrabsWave.Core.Resources;
 using Microsoft.Extensions.Logging;
 using OpenQA.Selenium;
@@ -8,8 +10,15 @@ namespace CrabsWave.Core.Functionalities
 {
     internal class ElementsManager : BaseManager
     {
-        public const int DefaultNumberOfAttemptsOnRetry = 5;
-        public const int OneAttempt = 1;
+        internal const int DefaultNumberOfAttemptsOnRetry = 5;
+        internal const int OneAttempt = 1;
+
+        internal const string ScriptRemoveElementUsingId = "document.getElementById('{0}').remove();";
+        internal const string ScriptRemoveElementUsingClassName = "document.getElementsByClassName('{0}')[0].remove();";
+
+        private readonly ElementsType[] AllowedWebElementTypeToRemove = new ElementsType[] { ElementsType.Id, ElementsType.ClassName };
+
+
         //Todo: Add convert to get attribute and get text
         public ElementsManager(ILogger logger) : base("CrawlerWave.ElementsManager", logger)
         {
@@ -33,7 +42,7 @@ namespace CrabsWave.Core.Functionalities
                 }
                 catch (Exception e)
                 {
-                    Logger.LogError($"Could not get the element using identify: {webElementType.Identify} and type: {webElementType.ElementType.ToString()} at the attempt: {i}", e);
+                    Logger.LogError($"Could not get the element using identify: {webElementType?.Identify} and type: {webElementType?.ElementType.ToString()} at the attempt: {i}", e);
                 }
             }
 
@@ -83,6 +92,34 @@ namespace CrabsWave.Core.Functionalities
             }
 
             return string.Empty;
+        }
+
+        public void RemoveElement(Crawler parent, WebElementType webElement)
+        {
+
+            if (webElement == null)
+            {
+                Logger.LogInformation("An ID or ClassName are required to remove an element");
+                return;
+            }
+
+            if (!AllowedWebElementTypeToRemove.Contains(webElement.ElementType))
+            {
+                Logger.LogInformation("The WebElementType should be a ID or ClassName");
+                return;
+            }
+
+            var element = TryGetElement(parent, webElement, false);
+            if (element == null) return;
+
+            if (webElement.ElementType == ElementsType.Id)
+            {
+                ScriptManager.New(parent).ExecuteScriptUsingJavaScriptExecutor(parent, string.Format(ScriptRemoveElementUsingId, webElement.Identify));
+                return;
+            }
+
+            if (webElement.ElementType == ElementsType.ClassName)
+                ScriptManager.New(parent).ExecuteScriptUsingJavaScriptExecutor(parent, string.Format(ScriptRemoveElementUsingClassName, webElement.Identify));
         }
     }
 }
