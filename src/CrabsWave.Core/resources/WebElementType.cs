@@ -1,8 +1,10 @@
-﻿using OpenQA.Selenium;
+﻿using System.Diagnostics;
+using OpenQA.Selenium;
 
 namespace CrabsWave.Core.Resources
 {
     //Change to supporte the ShouldRetry here
+    [DebuggerDisplay("ElementType = {ElementType}, Identify = {Identify}")]
     public class WebElementType
     {
         public readonly string Identify;
