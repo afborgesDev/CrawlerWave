@@ -13,26 +13,26 @@ namespace CrabsWave.Test.Core.CrawlerTests
         {
             var url = $"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}";
             return new List<object[]> {
-                new object[] { url, WebElementType.XPath("//*[@id='ButtonsToXPath']"), true },
-                new object[] { url, WebElementType.Name("inputName"), true },
-                new object[] { url, WebElementType.TagName("INPUT"), true},
-                new object[] { url, WebElementType.CssSelector("body > a"), true},
-                new object[] { url, WebElementType.Id("btnOne"), true},
-                new object[] { url, WebElementType.ClassName("someClass"), true },
-                new object[] { url, WebElementType.PartialLinkText("click to increment"), true},
-                new object[] { url, WebElementType.LinkText("click to increment" ), true},
-                new object[] { url, WebElementType.LinkText("click to increment" ), false}
+                new object[] { url, WebElementType.XPath("//*[@id='ButtonsToXPath']", true) },
+                new object[] { url, WebElementType.Name("inputName", true),},
+                new object[] { url, WebElementType.TagName("INPUT", true)},
+                new object[] { url, WebElementType.CssSelector("body > a", true)},
+                new object[] { url, WebElementType.Id("btnOne", true)},
+                new object[] { url, WebElementType.ClassName("someClass", true)},
+                new object[] { url, WebElementType.PartialLinkText("click to increment", true)},
+                new object[] { url, WebElementType.LinkText("click to increment", true)},
+                new object[] { url, WebElementType.LinkText("click to increment", false)}
             };
         }
 
         [Theory]
         [MemberData(nameof(GetElementToFind))]
-        public void ShouldFindObject(string url, WebElementType webElementType, bool shouldRetry)
+        public void ShouldFindObject(string url, WebElementType webElementType)
         {
             using (var sut = CreateAndInitialize())
             {
                 sut.GoToUrl(url, out _)
-                   .GetElement(webElementType, shouldRetry, out var element);
+                   .GetElement(webElementType, out var element);
 
                 element.Should().NotBeNull();
             }
@@ -40,12 +40,12 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         [Theory]
         [MemberData(nameof(GetElementToFind))]
-        public void ShouldGetElements(string url, WebElementType webElementType, bool shouldRetry)
+        public void ShouldGetElements(string url, WebElementType webElementType)
         {
             using (var sut = CreateAndInitialize())
             {
                 sut.GoToUrl(url, out _)
-                   .GetElements(webElementType, shouldRetry, out var elements);
+                   .GetElements(webElementType, out var elements);
 
                 elements.Should().NotBeNull();
                 elements.Should().NotBeEmpty();

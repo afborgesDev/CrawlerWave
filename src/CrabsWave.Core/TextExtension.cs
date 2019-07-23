@@ -6,7 +6,7 @@ namespace CrabsWave.Core
 {
     public static class TextExtension
     {
-        public static Crawler ElementInnerText(this Crawler parent, WebElementType webElementType, bool shouldRetry, out string textValue)
+        public static Crawler ElementInnerText(this Crawler parent, WebElementType webElementType, out string textValue)
         {
             textValue = TextManager.New(parent).GetElementInnerText(parent, webElementType);
             return parent;

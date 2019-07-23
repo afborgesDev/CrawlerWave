@@ -19,7 +19,6 @@ namespace CrabsWave.Test.Core.CrawlerTests
             new object[] { WebElementType.Id("buttonIncrement123"), WebElementType.Id("numberResult"), false}
         };
 
-
         [Theory]
         [MemberData(nameof(GetElementsToMouseMove))]
         public void MouseShouldMove(WebElementType webElementType, bool shouldMove)
@@ -29,9 +28,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(PageForUnitTestHelper.GetUrlForUniTestFile(), out _)
-                   .GetElementAttribute(webElementType, "value", false, out var beforeValue)
-                   .MouseMove(webElementType, false)
-                   .GetElementAttribute(webElementType, "value", false, out var afterValue);
+                   .GetElementAttribute(webElementType, "value", out var beforeValue)
+                   .MouseMove(webElementType)
+                   .GetElementAttribute(webElementType, "value", out var afterValue);
 
                 int.TryParse(beforeValue, out var beforeInt);
                 int.TryParse(afterValue, out var afterInt);
@@ -58,9 +57,9 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(PageForUnitTestHelper.GetUrlForUniTestFile(), out _)
-                   .GetElementAttribute(checkElement, "value", false, out var beforeValue)
-                   .MouseMoveAndClick(webElementType, false)
-                   .GetElementAttribute(checkElement, "value", false, out var afterValue);
+                   .GetElementAttribute(checkElement, "value", out var beforeValue)
+                   .MouseMoveAndClick(webElementType)
+                   .GetElementAttribute(checkElement, "value", out var afterValue);
 
                 int.TryParse(beforeValue, out var beforeInt);
                 int.TryParse(afterValue, out var afterInt);

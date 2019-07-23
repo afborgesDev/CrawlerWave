@@ -12,6 +12,7 @@ namespace CrabsWave.Core.Functionalities
         }
 
         public static ClickManager New(Crawler parent) => new ClickManager(parent.CreateLogger(LoggerCategory));
+
         public void Click(Crawler parent, WebElementType webElementType)
         {
             var element = ElementsManager.New(parent).TryGetElement(parent, webElementType);

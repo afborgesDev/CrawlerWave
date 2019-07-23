@@ -33,12 +33,12 @@ namespace CrabsWave.Test.Core.CrawlerTests
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl($"file:///{PageForUnitTestHelper.GetPageForUniTestFilePath()}", out _)
-                   .GetElement(WebElementType.Id("inputName"), true, out var element);
+                   .GetElement(WebElementType.Id("inputName", true), out var element);
 
                 element.SendKeys("someInput");
 
                 sut.RefreshPage()
-                   .GetElement(WebElementType.Id("inputName"), true, out element);
+                   .GetElement(WebElementType.Id("inputName", true), out element);
 
                 element.Text.Should().BeNullOrEmpty();
             }

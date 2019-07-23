@@ -30,7 +30,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
                    .GoToUrl(PageForUnitTestHelper.GetUrlForUniTestFile(), out _)
                    .RemoveElement(webElementType)
-                   .GetElement(webElementType, false, out var element);
+                   .GetElement(webElementType, out var element);
 
                 if (shouldRemove)
                 {

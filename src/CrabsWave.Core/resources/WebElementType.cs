@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 namespace CrabsWave.Core.Resources
 {
     //Change to supporte the ShouldRetry here
-    [DebuggerDisplay("ElementType = {ElementType}, Identify = {Identify}")]
+    [DebuggerDisplay("ElementType = {ElementType}, Identify = {Identify}, ShouldRetry = {ShouldRetry}")]
     public class WebElementType
     {
         public readonly string Identify;
