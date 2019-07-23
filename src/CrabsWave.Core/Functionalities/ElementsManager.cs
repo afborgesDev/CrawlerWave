@@ -31,6 +31,12 @@ namespace CrabsWave.Core.Functionalities
             var attemps = DefaultNumberOfAttemptsOnRetry;
             if (!shouldRetryIfFail) attemps = OneAttempt;
 
+            if (webElementType == null)
+            {
+                Logger.LogError("WebElementType should not be null");
+                return null;
+            }
+
             IWebElement foundElement;
             for (var i = 1; i <= attemps; i++)
             {
@@ -42,7 +48,7 @@ namespace CrabsWave.Core.Functionalities
                 }
                 catch (Exception e)
                 {
-                    Logger.LogError($"Could not get the element using identify: {webElementType?.Identify} and type: {webElementType?.ElementType.ToString()} at the attempt: {i}", e);
+                    Logger.LogError($"Could not get the element using identify: {webElementType.Identify} and type: {webElementType.ElementType.ToString()} at the attempt: {i}", e);
                 }
             }
 
