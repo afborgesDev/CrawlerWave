@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Xunit;
 
@@ -23,7 +23,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToMouseMove))]
         public void MouseShouldMove(WebElementType webElementType, bool shouldMove)
         {
-            var (_, logMoq) = CreateForTest.Create();
+            var (_, logMoq) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(logMoq))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -52,7 +52,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementToMoveAndClick))]
         public void MouseShouldClick(WebElementType webElementType, WebElementType checkElement, bool shouldMove)
         {
-            var (_, logMoq) = CreateForTest.Create();
+            var (_, logMoq) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(logMoq))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())

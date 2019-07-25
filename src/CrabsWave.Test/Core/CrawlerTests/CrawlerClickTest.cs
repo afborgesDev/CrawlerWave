@@ -2,7 +2,7 @@
 using System.Linq;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -52,7 +52,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToClick))]
         public void ShouldClicElement(string url, WebElementType webElementType, bool shouldFail)
         {
-            var (testSink, factory) = CreateForTest.Create();
+            var (testSink, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -68,7 +68,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToClick))]
         public void ShouldClickUsingScript(string url, WebElementType webElementType, bool shouldFail)
         {
-            var (testSink, factory) = CreateForTest.Create();
+            var (testSink, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -84,7 +84,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToClick))]
         public void ShouldClickFirst(string url, WebElementType webElementType, bool shouldFail)
         {
-            var (testSink, factory) = CreateForTest.Create();
+            var (testSink, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -100,7 +100,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToClickWithCondition))]
         public void ShouldClickIfTrue(string url, WebElementType webElementType, string idNumberResult, bool condition)
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -125,7 +125,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToFailOnClick))]
         public void ShouldNotClickBecouseCoundFind(string url, WebElementType webElementType)
         {
-            var (testSink, factory) = CreateForTest.Create();
+            var (testSink, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -143,7 +143,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShoulConfirmAlert()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -160,7 +160,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShoulDemissAlert()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -177,7 +177,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldTestClickFirstManager()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())

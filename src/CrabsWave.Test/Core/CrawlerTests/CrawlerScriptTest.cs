@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Xunit;
 
@@ -14,7 +14,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldExecuteScript()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var crawler = new Crawler(factory))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -30,7 +30,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldExecuteScriptWithParams()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var crawler = new Crawler(factory))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -47,7 +47,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldExecuteScriptAndReturn()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var crawler = new Crawler(factory))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -60,7 +60,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldLogErrorOnExecuteScript()
         {
-            var (sink, factory) = CreateForTest.Create();
+            var (sink, factory) = LogTestHelperInitialization.Create();
             using (var crawler = new Crawler(factory))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior { Verbose = true })
@@ -75,7 +75,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldLogErrorOnExecuteScriptToTakeResult()
         {
-            var (sink, factory) = CreateForTest.Create();
+            var (sink, factory) = LogTestHelperInitialization.Create();
             using (var crawler = new Crawler(factory))
             {
                 crawler.Initializate(new CrabsWave.Core.Configurations.Behavior())

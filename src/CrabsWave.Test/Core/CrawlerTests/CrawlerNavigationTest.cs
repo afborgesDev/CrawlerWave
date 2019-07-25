@@ -1,6 +1,6 @@
 ﻿using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Xunit;
 
@@ -13,7 +13,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldNavigateToUrl()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior());
@@ -28,7 +28,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldRefreshPage()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -47,7 +47,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldNavigateBack()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior());
@@ -74,7 +74,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldFailOnNavigate()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -87,7 +87,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldFailOnNavigateWithNullDriver()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.GoToUrl("https:// this is. a wrong. ;\\ url", out var errorMesage);

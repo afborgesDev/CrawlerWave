@@ -1,6 +1,6 @@
 ﻿using CrabsWave.Core;
 using CrabsWave.Core.Configurations;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Xunit;
 
@@ -11,7 +11,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldInitializateCrawler()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new Behavior());
@@ -19,11 +19,11 @@ namespace CrabsWave.Test.Core.CrawlerTests
             }
         }
 
-        //TODO: Need to come with this code back
+        //Need to come with this code back
         //[Fact]
         //public void ShouldNotLog()
         //{
-        //    var (testSink, factory) = CreateForTest.Create();
+        //    var (testSink, factory) = LogTestHelperInitialization.Create();
         //    using (var sut = new Crawler(factory))
         //    {
         //        var behavior = new Behavior() { Verbose = false };

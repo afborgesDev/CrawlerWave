@@ -2,7 +2,7 @@
 using System.Linq;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Xunit;
 
@@ -40,7 +40,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementsToTestText))]
         public void ShouldGetElementText(WebElementType webElementType, string expectedValue)
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -55,7 +55,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetItemsForTestMultipleElements))]
         public void ShouldGetTextFromMultipleElementsOcurrences(WebElementType webElementType, string textSample, bool shouldFail)
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -79,7 +79,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetItemsToClearAndSendKeys))]
         public void ShouldClearAndSendText(WebElementType webElementType, string textToSend, bool shouldFail, string messageOnFail)
         {
-            var (testSink, factory) = CreateForTest.Create();
+            var (testSink, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())

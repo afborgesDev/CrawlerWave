@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using CrabsWave.Core;
 using CrabsWave.Utils.IO;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Xunit;
 
@@ -12,7 +12,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldTakeScreenShotAsStream()
         {
-            var (_, logger) = CreateForTest.Create();
+            var (_, logger) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(logger))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -26,7 +26,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldTakeScreenShotAsBase64()
         {
-            var (_, logger) = CreateForTest.Create();
+            var (_, logger) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(logger))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -41,7 +41,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         public void ShouldTakeScreenShotFromFile()
         {
             const string fileName = "myTestFileName.png";
-            var (_, logger) = CreateForTest.Create();
+            var (_, logger) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(logger))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())

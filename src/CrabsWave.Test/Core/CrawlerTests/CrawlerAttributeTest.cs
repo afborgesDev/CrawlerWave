@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Xunit;
 
@@ -28,7 +28,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetItemsToTestAttribute))]
         public void ShouldGetElementAttribute(WebElementType webElementType, string attribute, string expectedValue)
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -45,7 +45,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [Fact]
         public void ShouldTestAttributeManager()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())

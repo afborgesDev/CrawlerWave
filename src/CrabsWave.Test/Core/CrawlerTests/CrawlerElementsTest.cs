@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Xunit;
 
@@ -54,7 +54,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
 
         private Crawler CreateAndInitialize()
         {
-            var (_, factory) = CreateForTest.Create();
+            var (_, factory) = LogTestHelperInitialization.Create();
             var sut = new Crawler(factory);
             sut.Initializate(new CrabsWave.Core.Configurations.Behavior());
             return sut;

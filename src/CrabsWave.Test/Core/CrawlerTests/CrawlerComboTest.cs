@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Xunit;
 
@@ -42,7 +42,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         public void ShouldSelectByText(WebElementType webElementType, string textToSelect,
             string expectedValue, bool shouldFail, string errorMessage)
         {
-            var (testSink, factory) = CreateForTest.Create();
+            var (testSink, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -65,7 +65,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         public void ShouldSelectByValue(WebElementType webElementType, string valueToSelect, string expectedValue,
             bool shouldFail, string errorMessage)
         {
-            var (testSink, factory) = CreateForTest.Create();
+            var (testSink, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
@@ -88,7 +88,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         public void ShouldSelectByIndex(WebElementType webElementType, int indexToSelect, string expectedValue,
             bool shouldFail, string errorMessage)
         {
-            var (testSink, factory) = CreateForTest.Create();
+            var (testSink, factory) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(factory))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())

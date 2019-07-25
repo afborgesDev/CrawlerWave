@@ -2,7 +2,7 @@
 using System.Linq;
 using CrabsWave.Core;
 using CrabsWave.Core.Resources;
-using CrawlerWave.LogTestUtils;
+using CrawlerWave.LogTestHelper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -24,7 +24,7 @@ namespace CrabsWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementToRemove))]
         public void ShouldRemoveElement(WebElementType webElementType, bool shouldRemove, LogLevel logLevel, string logMessage)
         {
-            var (logSilk, logMoq) = CreateForTest.Create();
+            var (logSilk, logMoq) = LogTestHelperInitialization.Create();
             using (var sut = new Crawler(logMoq))
             {
                 sut.Initializate(new CrabsWave.Core.Configurations.Behavior())
