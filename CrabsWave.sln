@@ -3,16 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrabsWave.Core", "src\CrabsWave.Core\CrabsWave.Core.csproj", "{F9EEA055-7ADF-4217-81E9-259C847F3868}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerWave.Core", "src\CrawlerWave.Core\CrawlerWave.Core.csproj", "{F9EEA055-7ADF-4217-81E9-259C847F3868}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{60327620-C699-4690-A630-7C1826C432C5}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrabsWave.Test", "src\CrabsWave.Test\CrabsWave.Test.csproj", "{E6E07FE9-4BA9-4E71-82E1-BE0A400F39D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerWave.Test", "src\CrawlerWave.Test\CrawlerWave.Test.csproj", "{E6E07FE9-4BA9-4E71-82E1-BE0A400F39D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrabsWave.Utils", "src\CrabsWave.Utils\CrabsWave.Utils.csproj", "{711FB8CF-5611-4242-BFDD-59B44F1C9E65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerWave.Utils", "src\CrawlerWave.Utils\CrawlerWave.Utils.csproj", "{711FB8CF-5611-4242-BFDD-59B44F1C9E65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
