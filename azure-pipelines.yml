@@ -49,7 +49,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'src/CrabsWave.Test/'
+    SourceFolder: 'src/CrawlerWave.Test/'
     Contents: '$(openCoverFileName)'
     TargetFolder: '$(Build.SourcesDirectory)/TestResults/Coverage/'
     OverWrite: true
@@ -57,7 +57,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'src/CrabsWave.Test/'
+    SourceFolder: 'src/CrawlerWave.Test/'
     Contents: '*.trx'
     TargetFolder: '$(Build.SourcesDirectory)/TestResults/Report/'
     OverWrite: true
