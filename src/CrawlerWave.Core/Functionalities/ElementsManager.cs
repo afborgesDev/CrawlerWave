@@ -17,7 +17,6 @@ namespace CrawlerWave.Core.Functionalities
 
         private readonly ElementsType[] AllowedWebElementTypeToRemove = new ElementsType[] { ElementsType.Id, ElementsType.ClassName };
 
-        //Todo: Add convert to get attribute and get text
         public ElementsManager(ILogger logger) : base("CrawlerWave.ElementsManager", logger)
         {
         }
