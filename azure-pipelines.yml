@@ -63,6 +63,25 @@ steps:
     OverWrite: true
   displayName: 'copying tests report'
 
+- task: DotNetCoreCLI@2
+  displayName: Packing
+  continueOnError: false
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.Core/*.csproj'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: NuGetCommand@2
+  displayName: Publish nuget package
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'CrawlerWaveNugetConnection'
+    verbosityPush: 'Normal'    
+
 - task: SonarCloudAnalyze@1
   displayName: Runing SonarCloudAnalyze
 
