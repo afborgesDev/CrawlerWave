@@ -5,6 +5,8 @@ A fluent Lib to wrap selenium and other utilities for a web crawler.
 |---|
 |[![Build Status](https://afborgesdev.visualstudio.com/Crawler%20Wave/_apis/build/status/afborgesDev.CrawlerWave?branchName=master)](https://afborgesdev.visualstudio.com/Crawler%20Wave/_build/latest?definitionId=1&branchName=master)|
 
+[![NuGet](https://img.shields.io/nuget/v/CrawlerWave.Core?maxAge=86400)](https://www.nuget.org/packages/CrawlerWave.Core/)
+
 | Metrics                                                                                                                                                                                    |                                                                                                                                                                                                         |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=afborgesDev_CrawlerWave&metric=bugs)](https://sonarcloud.io/dashboard?id=afborgesDev_CrawlerWave)                        | [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=afborgesDev_CrawlerWave&metric=code_smells)](https://sonarcloud.io/dashboard?id=afborgesDev_CrawlerWave)                       |
