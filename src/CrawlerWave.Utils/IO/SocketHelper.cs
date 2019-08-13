@@ -24,12 +24,14 @@ namespace CrawlerWave.Utils.IO
 
         public static int GetRandomPort()
         {
-            var provider = new RNGCryptoServiceProvider();
-            var byteArrayNumber = new byte[5];
-            provider.GetBytes(byteArrayNumber);
-            var number = BitConverter.ToInt32(byteArrayNumber, 0);
-            if (number < 0) number *= -1;
-            return int.Parse(number.ToString().Substring(0, 5));
+            using (var provider = new RNGCryptoServiceProvider())
+            {
+                var byteArrayNumber = new byte[5];
+                provider.GetBytes(byteArrayNumber);
+                var number = BitConverter.ToInt32(byteArrayNumber, 0);
+                if (number < 0) number *= -1;
+                return int.Parse(number.ToString().Substring(0, 5));
+            }
         }
     }
 }
