@@ -14,11 +14,11 @@ namespace CrawlerWave.Core.Functionalities
 
         public static ScreenShotManager New(Crawler parent) => new(parent.CreateLogger(LoggerCategory));
 
-        public static MemoryStream ScreenShotToStream(Crawler parent) => ImageUtils.Base64ToMemoryStream(ScreenShotToBase64(parent));
+        public MemoryStream ScreenShotToStream(Crawler parent) => ImageUtils.Base64ToMemoryStream(ScreenShotToBase64(parent));
 
-        public static string ScreenShotToBase64(Crawler parent) => parent.Driver.TakeScreenshot().AsBase64EncodedString;
+        public string ScreenShotToBase64(Crawler parent) => parent.Driver.TakeScreenshot().AsBase64EncodedString;
 
-        public static void ScreenShotToFile(Crawler parent, SuportedImageTypes imageType, string fileName = "")
+        public void ScreenShotToFile(Crawler parent, SuportedImageTypes imageType, string fileName = "")
         {
             if (string.IsNullOrEmpty(fileName))
                 fileName = ImageUtils.GetRamdomNametoScreenshot(imageType);
