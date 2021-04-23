@@ -13,8 +13,8 @@ namespace CrawlerWave.Utils.IO
             ImageFormat = imageFormat;
         }
 
-        public static SuportedImageTypes JPG => new SuportedImageTypes("jpg", ImageFormat.Jpeg);
-        public static SuportedImageTypes PNG => new SuportedImageTypes("png", ImageFormat.Png);
+        public static SuportedImageTypes JPG => new("jpg", ImageFormat.Jpeg);
+        public static SuportedImageTypes PNG => new("png", ImageFormat.Png);
         public static SuportedImageTypes Default => PNG;
     }
 }

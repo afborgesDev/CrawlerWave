@@ -32,7 +32,7 @@ namespace CrawlerWave.Utils.IO
         {
             if (bitmap == null) return null;
 
-            imageFormat = imageFormat ?? SuportedImageTypes.Default.ImageFormat;
+            imageFormat ??= SuportedImageTypes.Default.ImageFormat;
             var result = new MemoryStream();
             bitmap.Save(result, imageFormat);
             return result;
@@ -40,7 +40,7 @@ namespace CrawlerWave.Utils.IO
 
         public static string GetRamdomNametoScreenshot(SuportedImageTypes extension, string hashCode = "")
         {
-            extension = extension ?? SuportedImageTypes.Default;
+            extension ??= SuportedImageTypes.Default;
             hashCode = ValidadeHashCode(hashCode);
 
             return string.Format(ScreenshotNameTemplate, hashCode,
