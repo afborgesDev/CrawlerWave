@@ -10,7 +10,7 @@ namespace CrawlerWave.Core.Functionalities
         {
         }
 
-        public static MouseManager New(Crawler parent) => new MouseManager(parent.CreateLogger(LoggerCategory));
+        public static MouseManager New(Crawler parent) => new(parent.CreateLogger(LoggerCategory));
 
         public void MoveTo(Crawler parent, WebElementType webElementType, bool shouldClick)
         {

@@ -4,6 +4,7 @@ using CrawlerWave.Core.Resources;
 
 namespace CrawlerWave.Core.Configurations
 {
+    //TODO: Should revisit this class seems it can be simplified | maybe now start using yml
     public static class BehaviorBuilder
     {
         public static string[] Build(Behavior behavior) => GetBooleanPropertiesAttribues(behavior ?? new Behavior()).ToArray();

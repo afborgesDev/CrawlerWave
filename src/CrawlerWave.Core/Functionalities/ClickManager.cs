@@ -4,13 +4,14 @@ using Microsoft.Extensions.Logging;
 
 namespace CrawlerWave.Core.Functionalities
 {
+    //TODO: Should revisit this class seems it can be simplified
     internal class ClickManager : BaseManager
     {
         public ClickManager(ILogger logger) : base("CrawlerWave.TextManager", logger)
         {
         }
 
-        public static ClickManager New(Crawler parent) => new ClickManager(parent.CreateLogger(LoggerCategory));
+        public static ClickManager New(Crawler parent) => new(parent.CreateLogger(LoggerCategory));
 
         public void Click(Crawler parent, WebElementType webElementType)
         {

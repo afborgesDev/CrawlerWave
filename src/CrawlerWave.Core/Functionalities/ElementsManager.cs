@@ -45,7 +45,7 @@ namespace CrawlerWave.Core.Functionalities
                 }
                 catch (Exception e)
                 {
-                    Logger.LogError($"Could not get the element using identify: {webElementType.Identify} and type: {webElementType.ElementType.ToString()} at the attempt: {i}", e);
+                    Logger.LogError($"Could not get the element using identify: {webElementType.Identify} and type: {webElementType.ElementType} at the attempt: {i}", e);
                 }
             }
 
@@ -74,7 +74,7 @@ namespace CrawlerWave.Core.Functionalities
                 }
                 catch (Exception e)
                 {
-                    Logger.LogError($"Could not get the elements using identify: {webElementType.Identify} and type: {webElementType.ElementType.ToString()} at the attempt: {i}", e);
+                    Logger.LogError($"Could not get the elements using identify: {webElementType.Identify} and type: {webElementType.ElementType} at the attempt: {i}", e);
                 }
             }
 

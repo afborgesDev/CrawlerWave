@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CrawlerWave.Core.Functionalities
 {
+    //TODO: Should revisit this class seems it can be simplified
     internal class NavegationManager : BaseManager
     {
         public NavegationManager(ILogger logger) : base("CrawlerWave.NavegationManager", logger)
