@@ -1,14 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-
+    <TargetFramework>net5.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <LangVersion>7.3</LangVersion>
     <PublishChromeDriver>true</PublishChromeDriver>
     <ProjectGuid>e6e07fe9-4ba9-4e71-82e1-be0a400f39d1</ProjectGuid>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="coverlet.msbuild" Version="2.6.3">
       <PrivateAssets>all</PrivateAssets>
