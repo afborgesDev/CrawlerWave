@@ -3,7 +3,7 @@ A fluent Lib to wrap selenium and other utilities for a web crawler.
 
 |Pipeline|
 |---|
-|[![.NET](https://github.com/afborgesDev/CrawlerWave/actions/workflows/dotnet.yml/badge.svg)](https://github.com/afborgesDev/CrawlerWave/actions/workflows/dotnet.yml)|
+|[![.NET](https://github.com/afborgesDev/CrawlerWave/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/afborgesDev/CrawlerWave/actions/workflows/dotnet.yml)|
 
 [![NuGet](https://img.shields.io/nuget/v/CrawlerWave.Core?maxAge=86400)](https://www.nuget.org/packages/CrawlerWave.Core/)
 
