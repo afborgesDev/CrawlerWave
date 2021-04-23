@@ -15,8 +15,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment:
-      MSBUILDSINGLELOADCONTEXT:1
 
     steps:
     - uses: actions/checkout@v2
