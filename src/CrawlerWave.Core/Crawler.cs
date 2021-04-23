@@ -20,7 +20,7 @@ namespace CrawlerWave.Core
 
         #region IDisposable Support
 
-        private bool disposedValue = false;
+        private bool disposedValue;
 
         [ExcludeFromCodeCoverage]
         public void Dispose()

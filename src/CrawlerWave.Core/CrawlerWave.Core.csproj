@@ -21,6 +21,10 @@
           - Release the experimental version of the package
       ]]>
     </PackageReleaseNotes>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

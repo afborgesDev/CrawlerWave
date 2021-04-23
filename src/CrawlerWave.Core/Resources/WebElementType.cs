@@ -6,10 +6,10 @@ namespace CrawlerWave.Core.Resources
     [DebuggerDisplay("ElementType = {ElementType}, Identify = {Identify}, ShouldRetry = {ShouldRetry}")]
     public class WebElementType
     {
-        public readonly string Identify;
-        public readonly ElementsType ElementType;
-        public readonly By ByElement;
-        public readonly bool ShouldRetry;
+        public string Identify { get; private set; }
+        public ElementsType ElementType { get; private set; }
+        public By ByElement { get; private set; }
+        public bool ShouldRetry { get; private set; }
 
         protected WebElementType(string identify, ElementsType elementType, By seleniumObject, bool shouldRetry = false)
         {
