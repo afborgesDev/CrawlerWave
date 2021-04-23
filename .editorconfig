@@ -1,8 +1,7 @@
 #reference guide
 #https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2019
 
-root = true
-
+root=true
 [*.cs]
 
 indent_style = space
@@ -18,7 +17,7 @@ dotnet_style_predefined_type_for_member_access = true:suggestion
 dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
 
 #Style - qualification options
-dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_field = true:error
 dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_qualification_for_method = false:error
 dotnet_style_qualification_for_event = false:error
@@ -109,3 +108,26 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false:warnin
 #Wrapping options
 csharp_preserve_single_line_blocks = true:suggestion
 csharp_preserve_single_line_statements = true:warning
+
+dotnet_code_quality.CA1303.severity = none
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = none
+
+# CA1819: Properties should not return arrays
+dotnet_diagnostic.CA1819.severity = none
+
+# CA2227: Collection properties should be read only
+dotnet_diagnostic.CA2227.severity = none
+
+# CA1308: Normalize strings to uppercase
+dotnet_diagnostic.CA1308.severity = none
+
+# Default severity for analyzer diagnostics with category 'Style'
+dotnet_analyzer_diagnostic.category-Style.severity = none
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+
+# CA1056: Uri properties should not be strings
+dotnet_diagnostic.CA1056.severity = none

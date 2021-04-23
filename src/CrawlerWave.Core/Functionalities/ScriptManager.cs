@@ -10,7 +10,7 @@ namespace CrawlerWave.Core.Functionalities
         {
         }
 
-        public static ScriptManager New(Crawler parent) => new ScriptManager(parent.CreateLogger(LoggerCategory));
+        public static ScriptManager New(Crawler parent) => new(parent.CreateLogger(LoggerCategory));
 
         public string ExecuteAndTakeResult(Crawler parent, string script)
         {

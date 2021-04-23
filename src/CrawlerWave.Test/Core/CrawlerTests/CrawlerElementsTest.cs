@@ -30,27 +30,23 @@ namespace CrawlerWave.Test.Core.CrawlerTests
         [MemberData(nameof(GetElementToFind))]
         public void ShouldFindObject(string url, WebElementType webElementType)
         {
-            using (var sut = CreateAndInitialize())
-            {
-                sut.GoToUrl(url, out _)
+            using var sut = CreateAndInitialize();
+            _ = sut.GoToUrl(url, out _)
                    .GetElement(webElementType, out var element);
 
-                element.Should().NotBeNull();
-            }
+            element.Should().NotBeNull();
         }
 
         [Theory]
         [MemberData(nameof(GetElementToFind))]
         public void ShouldGetElements(string url, WebElementType webElementType)
         {
-            using (var sut = CreateAndInitialize())
-            {
-                sut.GoToUrl(url, out _)
-                   .GetElements(webElementType, out var elements);
+            using var sut = CreateAndInitialize();
+            sut.GoToUrl(url, out _)
+               .GetElements(webElementType, out var elements);
 
-                elements.Should().NotBeNull();
-                elements.Should().NotBeEmpty();
-            }
+            elements.Should().NotBeNull();
+            elements.Should().NotBeEmpty();
         }
 
         private Crawler CreateAndInitialize()

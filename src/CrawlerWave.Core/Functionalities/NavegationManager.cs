@@ -12,7 +12,7 @@ namespace CrawlerWave.Core.Functionalities
         {
         }
 
-        public static NavegationManager New(Crawler parent) => new NavegationManager(parent.CreateLogger(LoggerCategory));
+        public static NavegationManager New(Crawler parent) => new(parent.CreateLogger(LoggerCategory));
 
         public string GoToUrl(Crawler parent, string url)
         {

@@ -13,7 +13,7 @@ namespace CrawlerWave.Core.Functionalities
         {
         }
 
-        public static TextManager New(Crawler parent) => new TextManager(parent.CreateLogger(LoggerCategory));
+        public static TextManager New(Crawler parent) => new(parent.CreateLogger(LoggerCategory));
 
         public string GetElementInnerText(Crawler parent, WebElementType webElementType) =>
             ElementsManager.New(parent).TryGetAttribute(parent, webElementType, AttributeText);
@@ -21,7 +21,7 @@ namespace CrawlerWave.Core.Functionalities
         public IList<string> GetTextFromMultipleElementOcurrences(Crawler parent, WebElementType webElementType)
         {
             var items = ElementsManager.New(parent).TryGetElements(parent, webElementType);
-            if (items == null || items.Count <= 0) return default;
+            if (items is null || items.Count <= 0) return default;
 
             var returnList = new List<string>(items.Count);
             foreach (var item in items)
