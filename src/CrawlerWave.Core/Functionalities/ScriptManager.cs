@@ -1,40 +1,40 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using OpenQA.Selenium;
 
-namespace CrawlerWave.Core.Functionalities
+namespace CrawlerWave.Core.Functionalities;
+
+internal class ScriptManager : BaseManager
 {
-    internal class ScriptManager : BaseManager
+    private const string LoggerCategoryName = "CrawlerWave.ScriptManager";
+
+    public ScriptManager(ILogger logger) : base(LoggerCategoryName, logger)
     {
-        public ScriptManager(ILogger logger) : base("CrawlerWave.ScriptManager", logger)
+    }
+
+    public static ScriptManager New(Crawler parent) => new(parent.CreateLogger(LoggerCategoryName));
+
+    public string ExecuteAndTakeResult(Crawler parent, string script)
+    {
+        try
         {
+            return ((IJavaScriptExecutor)parent.Driver).ExecuteScript(script).ToString();
         }
-
-        public static ScriptManager New(Crawler parent) => new(parent.CreateLogger(LoggerCategory));
-
-        public string ExecuteAndTakeResult(Crawler parent, string script)
+        catch (Exception e)
         {
-            try
-            {
-                return ((IJavaScriptExecutor)parent.Driver).ExecuteScript(script).ToString();
-            }
-            catch (Exception e)
-            {
-                Logger.LogError("Could not execute javascript and take a result", e);
-                return string.Empty;
-            }
+            Logger.LogError("Could not execute javascript and take a result", e);
+            return string.Empty;
         }
+    }
 
-        public void ExecuteScriptUsingJavaScriptExecutor(Crawler parent, string script, params object[] args)
+    public void ExecuteScriptUsingJavaScriptExecutor(Crawler parent, string script, params object[] args)
+    {
+        try
         {
-            try
-            {
-                ((IJavaScriptExecutor)parent.Driver).ExecuteScript(script, args);
-            }
-            catch (Exception e)
-            {
-                Logger.LogError("Could not execute javascript using args and JavaScriptExecutor engine", e);
-            }
+            ((IJavaScriptExecutor)parent.Driver).ExecuteScript(script, args);
+        }
+        catch (Exception e)
+        {
+            Logger.LogError("Could not execute javascript using args and JavaScriptExecutor engine", e);
         }
     }
 }

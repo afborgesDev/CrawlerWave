@@ -131,3 +131,6 @@ dotnet_diagnostic.CA1031.severity = none
 
 # CA1056: Uri properties should not be strings
 dotnet_diagnostic.CA1056.severity = none
+
+# Default severity for analyzer diagnostics with category 'Interoperability'
+dotnet_analyzer_diagnostic.category-Interoperability.severity = none

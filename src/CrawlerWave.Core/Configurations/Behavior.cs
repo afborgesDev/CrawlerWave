@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using CrawlerWave.Core.Resources;
 
 namespace CrawlerWave.Core.Configurations
@@ -32,7 +31,7 @@ namespace CrawlerWave.Core.Configurations
         public bool DevShmUsageDisabled { get; set; } = true;
 
         [CapabilitieOption(Constants.ProxyServerOption, true)]
-        public string Proxy { get; set; }
+        public string? Proxy { get; set; }
 
         public bool Verbose { get; set; } = true;
 

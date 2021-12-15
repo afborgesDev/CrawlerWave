@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CrawlerWave.Utils.IO
+﻿namespace CrawlerWave.Utils.IO
 {
     public static class EnvironmentVariablesUtil
     {

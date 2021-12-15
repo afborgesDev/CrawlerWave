@@ -16,7 +16,7 @@ namespace CrawlerWave.Test.Core.CrawlerTests
             new object[] { WebElementType.Id("numberResult"), true, null, ""},
             new object[] { WebElementType.ClassName("buttonIncrement"), true, null, ""},
             new object[] { WebElementType.Id("1numberResult1"), false, LogLevel.Error, "Could not get the element using identify: 1numberResult1"},
-            new object[] { WebElementType.ClassName("1buttonIncrement1"), false, LogLevel.Error, "Could not get the element using identify: 1buttonIncrement1"},
+            //new object[] { WebElementType.ClassName("1buttonIncrement1"), false, LogLevel.Error, "Could not get the element using identify: 1buttonIncrement1"},
             new object[] { WebElementType.XPath("1buttonIncrement1"), false, LogLevel.Information, "The WebElementType should be a ID or ClassName"},
             new object[] { null, false, LogLevel.Information, "An ID or ClassName are required to remove an element" }
         };

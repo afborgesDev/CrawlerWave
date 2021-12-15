@@ -2,7 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+	<Nullable>true</Nullable>
     <ProjectGuid>f9eea055-7adf-4217-81e9-259c847f3868</ProjectGuid>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Alexandre Borges</Authors>
@@ -14,11 +15,13 @@
     <PackageTags>WebCrawler Selenium Crawler Headless</PackageTags>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <FileVersion>0.0.0.0</FileVersion>
-    <Version>0.0.0.1</Version>
+    <Version>0.0.0.2</Version>
     <PackageReleaseNotes>
       <![CDATA[
         --- 0.0.0.1 ---
           - Release the experimental version of the package
+        --- 0.0.0.2 ---
+          - Migration to .net 6
       ]]>
     </PackageReleaseNotes>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -32,10 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Selenium.Support" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="90.0.4430.2400" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Selenium.Support" Version="4.1.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="96.0.4664.4500" />
   </ItemGroup>
 
   <ItemGroup>
