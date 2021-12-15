@@ -60,7 +60,7 @@ namespace CrawlerWave.Test.Utils
                 image.Should().NotBeNull();
         }
 
-        [Theory]
+        [TheoryIgnoreOnLinuxRunnerAttribute]
         [MemberData(nameof(GetBitMapExample))]
         public void ShouldReturnBase64FromBitmap(Bitmap bitmap, SuportedImageTypes suportedImageTypes, bool shouldFail)
         {
@@ -72,7 +72,7 @@ namespace CrawlerWave.Test.Utils
                 image.Should().NotBeNullOrEmpty();
         }
 
-        [Theory]
+        [TheoryIgnoreOnLinuxRunnerAttribute]
         [MemberData(nameof(GetBase64ToExample))]
         public void ShoudConvertToMemoryStreamTheBase64(string base64, bool shouldConvert)
         {
