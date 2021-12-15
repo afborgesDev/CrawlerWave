@@ -48,7 +48,7 @@ namespace CrawlerWave.Test.Utils
                 fileName.Should().Contain(extensionValue.FileExtension);
         }
 
-        [Theory]
+        [TheoryIgnoreOnLinuxRunnerAttribute]
         [MemberData(nameof(GetBitMapExample))]
         public void ShouldReturnMemoryStreamFromBitmap(Bitmap bitmap, SuportedImageTypes suportedImageTypes, bool shouldFail)
         {
