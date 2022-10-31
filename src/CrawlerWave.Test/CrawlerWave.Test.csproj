@@ -7,7 +7,7 @@
     <ProjectGuid>e6e07fe9-4ba9-4e71-82e1-be0a400f39d1</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="coverlet.msbuild" Version="3.1.0">
+    <PackageReference Include="coverlet.msbuild" Version="3.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
